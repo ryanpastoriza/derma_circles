@@ -1,0 +1,53 @@
+/*    */
+.bottom-bordered-textfield {
+	border: 0;
+	outline: 0;
+	background: transparent;
+	padding: 0;
+	border-bottom: 1px solid #006dd9;
+}
+
+.bordered-form-element {
+	outline: 0;
+	background: transparent;
+	padding: 0;
+	border: 1px solid #006dd9;
+}
+
+.base-color-blue {
+	color: #006dd9!important;
+}
+
+
+/*  Spacer  */
+.spacer-sm {
+	margin-top: 10px;	
+}
+
+.spacer-md {
+	margin-top: 20px;	
+}
+
+.spacer-lg {
+	margin-top: 30px;	
+}
+
+
+
+/* adjustments on navigation */
+/*.main-header .navbar {
+	margin-left: 100px;
+}
+
+.main-header .logo {
+	width: 100px;
+}
+
+.main-sidebar {
+	width: 100px;
+}
+
+.content-wrapper, .main-footer {
+	margin-left: 100px;
+}*/
+
