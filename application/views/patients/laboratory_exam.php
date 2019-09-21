@@ -1,49 +1,3 @@
-<style type="text/css">
-  input[type="file"] {
-    display: block;
-  }
-  .imageThumb {
-    max-height: 75px;
-    border: 2px solid;
-    padding: 1px;
-    cursor: pointer;
-  }
-  .pip {
-    display: inline-block;
-    margin: 10px 10px 0 0;
-  }
-  .remove {
-    display: block;
-    background: #444;
-    border: 1px solid black;
-    color: white;
-    text-align: center;
-    cursor: pointer;
-  }
-  .remove:hover {
-    background: white;
-    color: black;
-  }
-  
-  ul.lab-image-list {
-    list-style: none;
-  }
-
-  .lab-image-list li {
-    cursor: pointer;
-  }
-
-  .lab-image-list li:hover {
-    color: #006dd9;
-  }
-
-  .remove-laboratory-image {
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-</style>
-
 <div class="row">
 
   <div class="col-sm-12">
@@ -54,12 +8,6 @@
 
     <div class="col-sm-12 spacer-sm">
       
-      <?php
-        // echo '<pre>';
-        // var_export($laboratory);
-        // echo '</pre>';
-      ?>
-
       <table id="tbl-laboratory-exam" class="table table-bordered">
           
         <thead>
@@ -165,7 +113,7 @@
               
               <div class="field" align="left">
                 <label>Upload Image</label>
-                <input type="file" id="files" class="btn btn-sm btn-default flat" name="laboratory_files[]" multiple />
+                <input type="file" id="laboratory-files" class="btn btn-sm btn-default flat laboratory-files" name="laboratory_files[]" multiple />
               </div>
             
             </div>
@@ -239,14 +187,13 @@
 
             <div class="col-sm-6">
               <div class="col-sm-12">
-                <div class="field" align="left">
+                <div class="field" align="left" style="min-height: 200px;">
                   <label>Upload Image</label>
-                  <input type="file" id="files" class="btn btn-sm btn-default flat" name="laboratory_files[]" multiple />
+                  <input type="file" id="edit-laboratory-files" class="btn btn-sm btn-default flat laboratory-files" name="laboratory_files[]" multiple />
                 </div>
               </div>
-              
 
-              <div class="col-sm-12 spacer-sm">
+              <div class="col-sm-12 spacer-lg">
                 <div id="laboratory-images"></div>  
               </div>
               
@@ -267,19 +214,6 @@
 </div>
 <!-- end edit laboratory Examination -->
 
-<!-- modal for image  -->
-<div class="modal" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">              
-      <div class="modal-body">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <img src="" class="imagepreview" style="width: 100%;" >
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end modal for image -->
-
 
 
 <script type="text/javascript">
@@ -294,12 +228,6 @@
         "bAutoWidth": false
     });
 
-    $(document).on('click', '.lab-item', function() {
-
-      $('.imagepreview').attr('src', $(this).data('item'));
-      $('#imagemodal').modal('show');   
-
-    });
 
   });
 
