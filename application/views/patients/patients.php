@@ -285,6 +285,7 @@
         $('#patient-patient-number').html('000');
         // set hidden input (patient_id) to null value
         $('#patient-number-input').val('');
+        $('#patient-address').text('');
         var form = $('#frm-patient');
         form[0].reset();
 
