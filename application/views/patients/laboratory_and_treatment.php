@@ -213,6 +213,7 @@
     $(document).on('click', '.edit-laboratory-exam', function(event) {
         event.preventDefault();
 
+        storedFiles = [];
         var modal = $('#modal-patient-laboratory-exam-edit');
 
         var laboratory_id = $(this).parent().data('id');
@@ -399,6 +400,7 @@
     $(document).on('click', '.edit-diagnosis-exam', function(event) {
         event.preventDefault();
 
+        storedFiles = [];
         var modal = $('#modal-patient-diagnosis-treatment-edit');
 
         var diagnosis_id = $(this).parent().data('id');
