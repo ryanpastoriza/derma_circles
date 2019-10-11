@@ -10,10 +10,23 @@ Target Server Type    : MYSQL
 Target Server Version : 50721
 File Encoding         : 65001
 
-Date: 2019-09-27 09:31:49
+Date: 2019-10-11 15:05:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for billing
+-- ----------------------------
+DROP TABLE IF EXISTS `billing`;
+CREATE TABLE `billing` (
+  `billing_id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`billing_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of billing
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for branch
@@ -32,6 +45,24 @@ CREATE TABLE `branch` (
 INSERT INTO `branch` VALUES ('1', 'derma circles - robinsons', 'robinsons');
 
 -- ----------------------------
+-- Table structure for patient_diagnosis
+-- ----------------------------
+DROP TABLE IF EXISTS `patient_diagnosis`;
+CREATE TABLE `patient_diagnosis` (
+  `diagnosis_id` int(11) NOT NULL AUTO_INCREMENT,
+  `transaction_date` date DEFAULT NULL,
+  `diagnosis` text CHARACTER SET latin1,
+  `patient_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`diagnosis_id`),
+  KEY `patient_id_id_fk` (`patient_id`),
+  CONSTRAINT `patient_id_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient_information` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of patient_diagnosis
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for patient_diagnosis_treatment
 -- ----------------------------
 DROP TABLE IF EXISTS `patient_diagnosis_treatment`;
@@ -45,11 +76,12 @@ CREATE TABLE `patient_diagnosis_treatment` (
   PRIMARY KEY (`diagnosis_id`),
   KEY `patient_diagnosis_treatment_id_fk` (`patient_id`),
   CONSTRAINT `patient_diagnosis_treatment_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient_information` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of patient_diagnosis_treatment
 -- ----------------------------
+INSERT INTO `patient_diagnosis_treatment` VALUES ('1', '2019-10-02 09:53:01', 'diagnosis', 'treatment', 'disposition', '19');
 
 -- ----------------------------
 -- Table structure for patient_information
@@ -72,12 +104,15 @@ CREATE TABLE `patient_information` (
   `contact_number` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `address` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`patient_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of patient_information
 -- ----------------------------
-INSERT INTO `patient_information` VALUES ('14', 'pastoriza', 'Ryan', 'horcajo', 'md', '1987-02-11', 'male', '5\'7\"', '60', 'o', 'married', 'ryan@gmail.com', 'filipino', '09128777564', 'emily homes');
+INSERT INTO `patient_information` VALUES ('16', 'Speedwagon', 'Mario', 'Starks', '', '1969-01-22', 'male', '6\'5\"', '70', 'O', 'married', 'email@gmail.com', 'filipino', '09128777564', 'Sample Address');
+INSERT INTO `patient_information` VALUES ('17', 'Cruiser', 'Peter', 'Turner', '', '1984-12-15', 'male', '4\'7\"', '57', 'AB', 'separated', 'email@gmail.com', 'filipino', '09128777564', 'Blk 6 Lot 20, Ideal Homes');
+INSERT INTO `patient_information` VALUES ('18', 'Hays', 'Mark', 'Starks', '', '1960-04-17', 'male', '4\'7\"', '57', 'A', 'married', 'email@gmail.com', 'filipino', '09128777564', 'address');
+INSERT INTO `patient_information` VALUES ('19', 'rush', 'fred', 'Durst', 'MD', '1987-03-16', 'male', '6\'5\"', '60', 'A', 'married', 'email@gmail.com', 'filipino', '09128777565', '#999 Abc Bldg Xyz Avenue Butuan City');
 
 -- ----------------------------
 -- Table structure for patient_laboratory
@@ -85,7 +120,7 @@ INSERT INTO `patient_information` VALUES ('14', 'pastoriza', 'Ryan', 'horcajo', 
 DROP TABLE IF EXISTS `patient_laboratory`;
 CREATE TABLE `patient_laboratory` (
   `laboratory_id` int(11) NOT NULL AUTO_INCREMENT,
-  `transaction_date` datetime DEFAULT NULL,
+  `transaction_date` date DEFAULT NULL,
   `exam_type` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `results` text COLLATE utf8mb4_unicode_ci,
   `remarks` text COLLATE utf8mb4_unicode_ci,
@@ -93,13 +128,56 @@ CREATE TABLE `patient_laboratory` (
   PRIMARY KEY (`laboratory_id`),
   KEY `patient_laboratory_id_fk` (`patient_id`),
   CONSTRAINT `patient_laboratory_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient_information` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of patient_laboratory
 -- ----------------------------
-INSERT INTO `patient_laboratory` VALUES ('1', '2019-09-23 22:00:22', 'exam', 'result', 'remark', '14');
-INSERT INTO `patient_laboratory` VALUES ('2', '2019-09-23 22:05:03', 'sda', 'asd', 'asdas', '14');
+INSERT INTO `patient_laboratory` VALUES ('1', '2019-10-02', 'test', 'test', 'test', '16');
+INSERT INTO `patient_laboratory` VALUES ('2', '2019-10-02', 'exam', 'result', 'remarks', '19');
+INSERT INTO `patient_laboratory` VALUES ('3', '2019-10-09', 'exam', 'results', 'remarks', '19');
+INSERT INTO `patient_laboratory` VALUES ('4', '2019-10-09', 'asdasdasasd', 'asdasd', 'asdasd', '18');
+
+-- ----------------------------
+-- Table structure for patient_queueing
+-- ----------------------------
+DROP TABLE IF EXISTS `patient_queueing`;
+CREATE TABLE `patient_queueing` (
+  `queue_id` int(11) NOT NULL AUTO_INCREMENT,
+  `patient_id` int(11) DEFAULT NULL,
+  `status` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `branch_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`queue_id`),
+  UNIQUE KEY `patient_id` (`patient_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of patient_queueing
+-- ----------------------------
+INSERT INTO `patient_queueing` VALUES ('1', '16', 'queue', '1');
+INSERT INTO `patient_queueing` VALUES ('3', '18', 'queue', '1');
+INSERT INTO `patient_queueing` VALUES ('6', '17', 'queue', '1');
+INSERT INTO `patient_queueing` VALUES ('7', '19', 'queue', '1');
+
+-- ----------------------------
+-- Table structure for patient_treatment
+-- ----------------------------
+DROP TABLE IF EXISTS `patient_treatment`;
+CREATE TABLE `patient_treatment` (
+  `treatment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `transaction_date` date DEFAULT NULL,
+  `treatment` text CHARACTER SET latin1,
+  `disposition` varchar(128) CHARACTER SET latin1 DEFAULT NULL,
+  `disposition_date` date DEFAULT NULL,
+  `patient_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`treatment_id`),
+  KEY `patient_id_idfk` (`patient_id`),
+  CONSTRAINT `patient_id_idfk` FOREIGN KEY (`patient_id`) REFERENCES `patient_information` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of patient_treatment
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user
