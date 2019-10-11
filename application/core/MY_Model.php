@@ -11,7 +11,7 @@ class MY_Model extends CI_Model
 
 	// retreive all records
 	public function get_all($where_arr = null, $orderby_arr = null, $select = null){
-
+		
 		if( isset($where_arr) ){
 			$this->db->where($where_arr);
 		}

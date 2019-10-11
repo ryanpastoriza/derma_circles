@@ -9,7 +9,6 @@
     <div class="col-sm-12 spacer-sm">
       
       <table id="tbl-laboratory-exam" class="table table-bordered">
-          
         <thead>
             <tr>
               <th>Date</th>
@@ -24,7 +23,7 @@
             <?php if( $laboratory) { ?>
             <?php foreach($laboratory as $key => $value): ?>
             <tr>
-              <td ><?= $value->transaction_date; ?></td>
+              <td ><?= date('M d, Y', strtotime($value->transaction_date)); ?></td>
               <td><?= $value->exam_type; ?></td>
               <td><?= $value->results; ?></td>
               <td><?= $value->remarks; ?></td>
@@ -40,16 +39,7 @@
               </td>
             </tr>
             <?php endforeach; ?>
-            <?php }else{ ?>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-            <?php  } ?>
+            <?php } ?>
             
         </tbody>
       </table>
@@ -57,7 +47,7 @@
 
   </div>
 </div>
-  
+
 <!-- start Laboratory Examination -->
 <div class="modal" id="modal-patient-laboratory-exam">
   <div class="modal-dialog modal-xl">
@@ -66,7 +56,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Laboratory Examination</h4>
+        <h4 class="modal-title">New Laboratory Examination</h4>
       </div>
       <div class="modal-body">
         
@@ -86,24 +76,32 @@
         <div class="row spacer-sm">
             
             <div class="col-sm-6">
-                
+              
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label>Examination Type</label>
+                  <label>Transaction Date <i class="fa fa-asterisk text-red"></i> : </label>
+                  <input class="form-control" type="date" name="transaction_date" value="<?php echo date('Y-m-d'); ?>" required>
+                </div>
+              </div>
+
+
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label>Examination Type:</label>
                   <input class="form-control" type="text" name="exam_type" required>
                 </div>
               </div>
 
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label>Results / Findings / Interpretation</label>
+                  <label>Results / Findings / Interpretation: </label>
                   <textarea class="form-control" name="results" style="resize: none;" rows="6" required=""></textarea>
                 </div>
               </div>   
 
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label>Remarks</label>
+                  <label>Remarks: </label>
                   <textarea class="form-control" name="remarks" style="resize: none;" rows="6"></textarea>
                 </div>
               </div>
@@ -131,6 +129,7 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- end laboratory Examination -->
+
 
 <!-- start edit Laboratory Examination -->
 <div class="modal" id="modal-patient-laboratory-exam-edit">
@@ -215,7 +214,6 @@
 <!-- end edit laboratory Examination -->
 
 
-
 <script type="text/javascript">
   
   $(function(){
@@ -225,9 +223,9 @@
         "bLengthChange": false,
         "bFilter": false,
         "bInfo": false,
-        "bAutoWidth": false
+        "bAutoWidth": false,
+        "aaSorting": []
     });
-
 
   });
 

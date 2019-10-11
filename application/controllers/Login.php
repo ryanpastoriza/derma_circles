@@ -20,7 +20,7 @@ Class Login extends CI_Controller {
 
 	function index($error = 0) {
 
-		var_dump($this->session->userdata);
+		// var_dump($this->session->userdata);
 
 		$data['branches'] = $this->branch->get_all();
 		$this->load->view('login', $data);
@@ -49,6 +49,7 @@ Class Login extends CI_Controller {
 				$this->load->model('user_roles');
 				unset($user['password']);
 				$user['role'] = (array)$this->user_roles->get(['role_id' => $user['role_id']]);
+				$user['branch_id'] = $branch_id;
 				// 1. get user profile
 				// add user session
 				$this->session->set_userdata($user);

@@ -12,7 +12,6 @@ class Patients extends MY_Controller
 		$this->load->view('patients/patients');
 		$this->load->view('_layouts/footer');
 	}
-
 	public function patient_list() {
 		
 		$patient_info = $this->patient_information->get_all();
@@ -32,7 +31,6 @@ class Patients extends MY_Controller
 
 		echo json_encode($data);
 	}
-
 	public function add_patient() {
 
 		$patient_id = $this->input->post('patient_id');
@@ -55,10 +53,23 @@ class Patients extends MY_Controller
 
 		}
 	}
+	public function save_photo($patient_id){
+
+		$fileName = 'profile';
+		$rawFile = $this->input->post('imgBase64');
+		$img = str_replace('data:image/png;base64,', '', $rawFile);
+		// $img = str_replace(' ', '+', $img);
+		$encoded = base64_decode($img);
+		// echo $img;
+		$file = FCPATH . 'assets/uploads/patients/'.$patient_id.'/'.$fileName.'.png';
+		// $file = RTDIR . 'assets/patients/'.$fileName. '.png';
+		$success = file_put_contents($file, $encoded);
+
+	}
 
 	public function show_laboratory($id) {
 
-		$data['laboratory'] = $this->patient_laboratory->get_all(['patient_id' => $id]);
+		$data['laboratory'] = $this->patient_laboratory->get_all(['patient_id' => $id], array('transaction_date', 'DESC'));
 		$data['patient'] = $this->patient_information->get(['patient_id' => $id]);
 		
 		if( $data['laboratory'] ){
@@ -71,13 +82,12 @@ class Patients extends MY_Controller
 			}
 		}
 
-		$this->load->view('patients/laboratory_exam', $data);
+		$this->load->view('patients/laboratory', $data);
 	}
-
 	public function add_laboratory() {
 
 		$data = $this->input->post();
-		$data['transaction_date'] = date('Y-m-d H:i:s');
+		$data['transaction_date'] = date('Y-m-d');
 		$laboratory_id =  $this->patient_laboratory->insert($data);
 
 		if( $laboratory_id > 0  ){
@@ -89,7 +99,6 @@ class Patients extends MY_Controller
 			echo 0;
 		}
 	}
-
 	public function get_lab_images() {
 
 		$laboratory = $this->patient_laboratory->get(['laboratory_id' => $this->input->post('laboratory_id') ]);
@@ -101,7 +110,7 @@ class Patients extends MY_Controller
 
 		$this->load->view('patients/laboratory_images', $data);
 	}
-
+	// diagnosis
 	public function get_diag_images() {
 
 		$diagnosis = $this->patient_diagnosis->get(['diagnosis_id' => $this->input->post('diagnosis_id') ]);
@@ -112,9 +121,7 @@ class Patients extends MY_Controller
 		$data['images'] = glob( $path, GLOB_BRACE );
 
 		$this->load->view('patients/diagnosis_images', $data);
-
 	}
-
 	public function update_laboratory(){
 
 		$laboratory_id = $this->input->post('laboratory_id');
@@ -122,14 +129,12 @@ class Patients extends MY_Controller
 		$this->patient_laboratory->update($data, array($this->patient_laboratory->pk => $laboratory_id ));
 		echo $laboratory_id;
 	}
-
 	public function laboratory_uploads($patient_id, $id){
 
 		if( isset($_FILES['laboratory_files']['name']) && count($_FILES['laboratory_files']['name']) > 0  ){
 			$this->patient_uploads($patient_id, $id, 'laboratory', 'laboratory_files');
 		}
 	}
-
 	public function patient_uploads($patient_id, $id, $type, $key) {
 		$this->load->library('upload');
 
@@ -165,7 +170,6 @@ class Patients extends MY_Controller
 		    }
 			// end upload file
 	}
-
 	public function remove_image() {
 
 		$image = $this->input->post('image');
@@ -174,19 +178,6 @@ class Patients extends MY_Controller
 			echo unlink($image);
 		}
 	}
-
-	// public function save_image($patient_id, $laboratory_id){
-
-	// 	// $fileName = null;
-	// 	// $rawFile = $this->input->post('imgBase64');
-	// 	// $img = str_replace('data:image/png;base64,', '', $rawFile);
-	// 	// // $img = str_replace(' ', '+', $img);
-	// 	// $encoded = base64_decode($img);
-	// 	// // echo $img;
-	// 	// $file = FCPATH . 'assets/patients/'.$fileName.'.png';
-	// 	// // $file = RTDIR . 'assets/patients/'.$fileName. '.png';
-	// 	// $success = file_put_contents($file, $encoded);	
-	// }
 
 	public function show_diagnosis($id) {
 
@@ -203,10 +194,8 @@ class Patients extends MY_Controller
 			}
 		}
 
-		$this->load->view('patients/diagnosis_treatment', $data);
-
+		$this->load->view('patients/diagnosis', $data);
 	}
-
 	public function add_diagnosis() {
 
 		$data = $this->input->post();
@@ -222,21 +211,24 @@ class Patients extends MY_Controller
 			echo 0;
 		}
 	}
-
 	public function diagnosis_uploads($patient_id, $id){
 
 		if( isset($_FILES['diagnosis_files']['name']) && count($_FILES['diagnosis_files']['name']) > 0  ){
 			$this->patient_uploads($patient_id, $id, 'diagnosis', 'diagnosis_files');
 		}
-
 	}
-
 	public function update_diagnosis(){
 
 		$diagnosis_id = $this->input->post('diagnosis_id');
 		$data = $this->input->post();
 		$this->patient_diagnosis->update($data, array($this->patient_diagnosis->pk => $diagnosis_id ));
 		echo $diagnosis_id;
+	}
+
+	public function medical_certificate() {
+		
+		$this->session->set_userdata($this->input->post());
+		$this->load->view('patients/medical_certificate');
 
 	}
 

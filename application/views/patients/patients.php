@@ -9,7 +9,61 @@
     width: 90%;
    max-width:1200px;
   }
-}
+  
+  .cam-content{
+    display: block;
+    position: relative;
+    overflow: hidden;
+    height: 300px;
+    margin: auto;
+    }
+
+  .cam-buttons button {
+    margin-top: 5px;
+  }
+
+  input[type="file"] {
+    display: block;
+  }
+  .imageThumb {
+    max-width: 200px;
+    border: 1px solid;
+    padding: 1px;
+    cursor: pointer;
+  }
+  .pip {
+    display: inline-block;
+    margin: 10px 10px 0 0;
+  }
+  .remove {
+    display: block;
+    background: #444;
+    border: 1px solid black;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+  }
+  .remove:hover {
+    background: white;
+    color: black;
+  }
+  
+  ul.lab-image-list {
+    list-style: none;
+  }
+
+  .lab-image-list li {
+    cursor: pointer;
+  }
+
+  .lab-image-list li:hover {
+    color: #006dd9;
+  }
+
+  .remove-laboratory-image, .remove-diagnosis-image {
+    cursor: pointer;
+    font-weight: bold;
+  }
 
 </style>
 <!-- Content Wrapper. Contains page content -->
@@ -24,127 +78,49 @@
       </div>
       <!-- start patient list and information -->
       <div class="col-md-9">
-        <!-- <form id="frm-patient"> -->
-        <?= form_open(base_url().'patients/add_patient', ['id' => 'frm-patient']); ?>
-        <div class="box box-primary">
 
-          <div class="box-header with-border">
-            <h3 class="box-title">Patient Information</h3>
-
-              <div class="pull-right box-tools">
-                <button type="button" id="btn-clear-patient" class="btn btn-danger btn-sm">
-                  <i class="fa fa-eraser"></i>
-                </button>
-                <button type="submit" id="btn-patient-save" class="btn btn-primary btn-sm">
-                  <i class="fa fa-save"></i>
-                </button>
-              </div>
-          </div>
-
-          <div class="box-body">
-            
-            <div class="row">
-             
-              <div class="col-sm-12 spacer-sm">
-                  <div class="col-sm-3 form-group">
-                      <label for="">Last Name</label>
-                      <input type="text" class="form-control" id="patient-lastname"  name="lastname" required>
-                  </div>
-                  <div class="col-sm-3 form-group">
-                    <label for="">First Name</label>
-                    <input type="text" class="form-control" id="patient-firstname" name="firstname" required>
-                  </div>
-                  <div class="col-sm-3 form-group">
-                      <label for="">Middle Name</label>
-                     <input type="text" class="form-control" id="patient-middlename" name="middlename" required>
-                  </div>
-                  <div class="col-sm-3 form-group">
-                     <label for="">Suffix</label>
-                     <input type="text" class="form-control" id="patient-suffix" name="suffix">
-                  </div>
-              </div>
-
-              <div class="col-sm-9">
-                <div class="col-sm-4 form-group">
-                  <label for="">Birthdate</label>
-                  <input type="date" class="form-control" id="patient-birthdate" name="birthdate">
-                </div>
-                <div class="col-sm-4 form-group">
-                  <label for="">Age</label>
-                  <input type="text" class="form-control" id="patient-age" disabled>
-                </div>
-                <div class="col-sm-4 form-group">
-                  <label for="">Gender</label>
-                  <select class="form-control" id="patient-gender" name="gender">
-                    <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                  </select>
-                </div>
-                 <div class="col-sm-4 form-group">
-                  <label for="">Height</label>
-                  <input type="text" class="form-control" id="patient-height" name="height">
-                </div>
-                 <div class="col-sm-4 form-group">
-                  <label for="">Weight</label>
-                  <input type="text" class="form-control" id="patient-weight" name="weight">
-                </div>
-                 <div class="col-sm-4 form-group">
-                  <label for="">Blood Type</label>
-                  <input type="text" class="form-control" id="patient-blood-type" name="blood_type">
-                </div>
-
-                <div class="col-sm-4 form-group">
-                  <label for="">Civil Status</label>
-                  <select class="form-control" id="patient-civil-status" name="civil_status">
-                    <option value="">Select Civil Status</option>
-                    <option value="married">Married</option>
-                    <option value="widowed">Widowed</option>
-                    <option value="separated">Separated</option>
-                    <option value="divorced">Divorced</option>
-                    <option value="single">Single</option>
-                  </select>
-                </div>
-                <div class="col-sm-4 form-group">
-                   <label for="">Email</label>
-                   <input type="email" id="patient-email" class="form-control" name="email_address">
-                </div>
-                <div class="col-sm-4 form-group">
-                   <label for="">Citizenship</label>
-                   <input type="text" id="patient-citizenship" class="form-control" name="citizenship">
-                </div>
-                <div class="col-sm-4 form-group">
-                   <label for="">Contact No.</label>
-                   <input type="text" class="form-control" id="patient-contact-number" name="contact_number" required>
-                </div>
-
-                <div class="col-sm-8 form-group">
-                    <label for="">Address</label>
-                    <textarea class="form-control" id="patient-address" name="address" rows="1" style="resize: none;"></textarea>
-                </div>
-              </div>
-
-              <div class="col-sm-3 text-center">
-                <div class="col-sm-12">
-                  <img src="<?php echo base_url().'assets' ?>/img/avatar.png" class="img-thumbnail" style="width: 150px;">
-                </div>
-                <div class="col-sm-12 text-center spacer-sm">
-                  <div class="col-sm-12">
-                    <label>Patient Number</label> 
-                  </div>
-                  <div class="col-sm-12">
-                    <span id="patient-patient-number" class="label bg-blue">000</span>
-                    <input type="hidden" id="patient-number-input" name="patient_id">
-                  </div>
-                </div>
-              </div>
-             
-
+       <!-- Custom Tabs -->
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab_patient_information" data-toggle="tab">Personal Information</a></li>
+            <li><a href="#tab_diagnosis" data-toggle="tab">Diagnosis</a></li>
+            <li><a href="#tab_treatment" data-toggle="tab">Treatment</a></li>
+            <li><a href="#tab_laboratory" data-toggle="tab">Laboratory</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-gear"></i> Options <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="trigger-medical-cert-modal">Medical Certificate</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                <li role="presentation" class="divider"></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab_patient_information">
+              <?php $this->load->view('patients/patient_information'); ?>
             </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="tab_diagnosis">
+               <div id="show-patient-diagnosis"></div>
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="tab_treatment">
+              Lorem
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="tab_laboratory">
+               <div id="show-patient-laboratory"></div>
+              <?php //$this->load->view('patients/laboratory'); ?>
+            </div>
+            <!-- /.tab-pane -->
           </div>
-          <!-- /.box-body -->
+          <!-- /.tab-content -->
         </div>
-        <?= form_close();?>
+        <!-- nav-tabs-custom -->
+      
       </div>
       <!-- end patient list and information -->
     </div>
@@ -154,7 +130,7 @@
     <div class="row">
 
       <div class="col-sm-12">
-        <?php $this->load->view('patients/laboratory_and_treatment'); ?>
+        <?php //$this->load->view('patients/laboratory_and_treatment'); ?>
       </div>
 
     </div>
@@ -164,15 +140,164 @@
 </div>
 <!-- /.content-wrapper -->
 
+
+
+<div class="modal" id="modal-take-photo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">              
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <div class="cam-content" style="border: 1px solid #CCC; background-color: #f1f1f1;">
+                <video id="video" width="405" height="300" autoplay></video>
+                <canvas id="canvas" width="405" height="300">
+            </div>
+                       
+            <div class="cam-buttons">
+                <button id="snap" class="btn btn-default btn-flat"> <i class="fa fa-camera"></i> <small>Capture</small> </button> 
+                <button id="reset" class="btn btn-default btn-flat" style="display:none;"> <i class="fa fa-refresh"></i> <small>Reset</small> </button>
+                <button id="save-photo" class="btn btn-default btn-flat"> <i class="fa fa-save"></i> <small>Save</small> </button> 
+             </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal for image  -->
+<div class="modal" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">              
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <img src="" class="imagepreview" style="width: 100%;" >
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end modal for image -->
+
+<div class="modal" id="modal-medical-certificate">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Medical Certificate</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label>Patient</label>
+              <input type="text" class="form-control" id="medical-certificate-name">
+            </div>
+          </div>
+
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label>Address</label>
+              <textarea id="medical-certificate-address" class="form-control" rows="3" style="resize: none;"></textarea>
+            </div>
+          </div>
+
+           <div class="col-sm-12">
+            <div class="form-group">
+              <label>Date Examined/Treated</label>
+              <input type="date" value="<?= date('Y-m-d'); ?>" id="medical-certificate-date" class="form-control">
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="btn-medical-certificate">Preview</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
     
     $(function(){
+
+      // take photo
+      var snapshot; 
+
+      $(document).on('click', '#btn-take-photo', function(e){
+        event.preventDefault();
+
+        $('#modal-take-photo').modal('show');
+        snapshot = new Snapshot('video', 'canvas');
+      });
+
+      $(document).on('click', '#snap', function(e){
+        e.preventDefault();
+        snapshot.capture('#video', '#canvas', '#snap', '#reset');
+      });
+
+      $(document).on('click', '#reset', function(e){
+        e.preventDefault();
+        snapshot.reset('#video', '#canvas', '#snap', '#reset'); 
+      });
+
+      $(document).on('click', '#save-photo', function(event){
+        event.preventDefault();
+
+        var patient_id = $('#patient-patient-number').html();
+        
+        var url = '<?php echo base_url(); ?>patients/save_photo/' + patient_id;
+        snapshot.close();
+        // snapshot.save(url);
+
+      });
+
+      // end take photo ---------------------------------------------------------------
+
+      $(document).on('click', '#trigger-medical-cert-modal', function(event){
+
+        var modal = $('#modal-medical-certificate');
+
+        modal.modal('show');
+
+        var firstname = $('#patient-firstname').val();
+        var middlename = $('#patient-middlename').val().charAt(0);
+        var lastname = $('#patient-lastname').val();
+        var address = $('#patient-address').html();
+
+        modal.find('#medical-certificate-name').val( titleCase(firstname + ' ' + middlename + '. ' + lastname) );
+        modal.find('#medical-certificate-address').text(address);
+      });
+
+
+      $(document).on('click', '#btn-medical-certificate', function(event) {
+        event.preventDefault();
+
+        var patient = $('#medical-certificate-name').val()
+        var address = $('#medical-certificate-address').text();
+        var date_examined = $('#medical-certificate-date').val();
+
+        var url = "<?php echo base_url().'patients/medical_certificate/'; ?>";
+
+        var posting = $.post(url, { patient: patient, address: address, date_examined : date_examined });
+
+          posting.done(function(response){
+            console.log(response);
+             window.open(url, '_blank');
+          });
+      });
       // start datatable ----------------------------------------------
       var oTable;
     
       oTable = $('#tbl-patient-list').DataTable({
 
-            language: { search: "" },
+            // language: { search: "" },
             dom:    "<'row'<'col-sm-12 col-xs-12'f>>",
             pageLength : 8,
             ajax: { "url" : "<?php echo base_url(); ?>patients/patient_list" },
@@ -193,6 +318,7 @@
           
           $('#tbl-patient-list tbody tr').removeClass('clicked');
           $(this).addClass('clicked');
+          $('#btn-take-photo').removeAttr('disabled');
 
           var data = oTable.row( this ).data();
           // pass data to patient information
@@ -220,17 +346,17 @@
             var ageDate = new Date(ageDifMs); // miliseconds from epoch
             $('#patient-age').val(Math.abs(ageDate.getUTCFullYear() - 1970));
           }
-          // patient gender
+          // // patient gender
           $('#patient-gender').val(data[7]);
           // patient-height
           $('#patient-height').val(data[8]);
           // patient-weight 
           $('#patient-weight').val(data[9]);
           // patient-blood-type
-          $('#patient-blood-type').val(titleCase(data[10]));
+          $('#patient-blood-type').val(data[10]);
           // patient civil status
           $('#patient-civil-status').val(data[11]);
-          // patient patient-email
+          // // patient patient-email
           $('#patient-email').val(data[12]);
           // patient patient-citizenship
           $('#patient-citizenship').val(data[13]);
@@ -281,7 +407,7 @@
 
       $(document).on('click', '#btn-clear-patient', function(event){
         event.preventDefault();
-
+        $('#btn-take-photo').attr('disabled', true);
         $('#patient-patient-number').html('000');
         // set hidden input (patient_id) to null value
         $('#patient-number-input').val('');
@@ -292,8 +418,343 @@
         $('#show-patient-laboratory').html('');
         $('#show-patient-diagnosis').html('');
       });
-  
-      
+
+      // patient laboratory ----------------------------------------------------------------
+      // call patient laboratory modal
+      $(document).on('click', '#btn-laboratory-modal', function(event){
+        event.preventDefault();
+
+        var patient_id =$('#patient-patient-number').html();
+
+        if( patient_id > 0 ){
+          // call laboratory modal
+          $('#modal-patient-laboratory-exam').modal('show');
+        }else{
+           $.notify("You need to select a patient!", "warn");
+        }
+      });
+
+      // add patient laboratory
+      $(document).on('submit', '#frm-patient-laboratory', function(event){
+
+          event.preventDefault();
+        
+          var form = $(this);
+          var formData = handleUpload(event, storedFiles, '#laboratory-files');
+          var parameters = form.serializeArray();
+          var patient_id = $('#patient-patient-number').html();
+
+          parameters.push({name : "patient_id", value : patient_id});
+
+          var url = form.attr('action');
+          var posting = $.post( url, parameters );
+
+          posting.done(function(response){
+             
+              if( response > 0){
+                
+                  $.ajax({
+                    url: '<?php echo base_url(); ?>' + 'patients/laboratory_uploads/' + patient_id + '/' + response ,
+                    data: formData,
+                    type: 'POST',
+                    contentType: false,
+                    processData: false,
+                    success: function(response){
+                      console.log(response);
+                      show_laboratory('show-patient-laboratory', patient_id);
+                    }
+                  });
+
+                $.notify("Transaction has been saved!", "success");
+                $('#modal-patient-laboratory-exam').modal('hide');
+               
+
+              }else{
+                 $.notify("Something Went Wrong", "warn");
+              }
+
+          });
+      });
+
+      // show edit laboratory modal
+      $(document).on('click', '.edit-laboratory-exam', function(event) {
+          event.preventDefault();
+
+          storedFiles = [];
+          var modal = $('#modal-patient-laboratory-exam-edit');
+
+          var laboratory_id = $(this).parent().data('id');
+          var exam_type = $(this).closest('tr').find('td').eq(1).text();
+          var results = $(this).closest('tr').find('td').eq(2).text();
+          var remarks = $(this).closest('tr').find('td').eq(3).text();
+
+          modal.modal('show');
+          modal.find('input[name=exam_type]').val(exam_type);
+          modal.find('#lab-edit-results').text(results);
+          modal.find('#lab-edit-remarks').text(remarks);
+          modal.find('input[name=laboratory_id]').val(laboratory_id);
+
+          var url = '<?php echo base_url(); ?>patients/get_lab_images';
+          var posting = $.post(url, { "laboratory_id" : laboratory_id } );
+              posting.done(function(response){
+
+                modal.find('#laboratory-images').html(response);
+                
+              });
+      });
+
+      // edit laboratory exam
+      $(document).on('submit', '#frm-patient-laboratory-edit', function(event){
+          event.preventDefault();
+
+          var form = $(this);
+
+          var formData = handleUpload(event, storedFiles, '#edit-laboratory-files');
+          var url = form.attr('action');
+          var parameters = form.serializeArray();
+          var patient_id = parameters[0].value;
+          
+          var posting = $.post( url, parameters );
+              
+              posting.done(function(response){  
+                
+                if( response > 0 ){
+
+                  $.ajax({
+                    url: '<?php echo base_url(); ?>' + 'patients/laboratory_uploads/' + patient_id + '/' + response ,
+                    data: formData,
+                    type: 'POST',
+                    contentType: false,
+                    processData: false,
+                    success: function(response){
+                      console.log(response);
+                      show_laboratory('show-patient-laboratory', patient_id);
+                    }
+                  });
+
+
+                  $.notify("Transaction has been updated!", "success");
+                  $('#modal-patient-laboratory-exam-edit').modal('hide');
+                  
+
+                }else{
+
+                   $.notify("Something Went Wrong", "warn");
+
+                }
+
+              });
+      });
+
+      // remove laborator images
+      $(document).on('click', '.remove-laboratory-image', function(event){
+        event.preventDefault();
+
+        var element = $(this);
+        var image = $(this).parent().find('img').data('path');
+        var url = '<?php echo base_url(); ?>patients/remove_image';
+     
+        var posting = $.post(url, {'image': image} );
+          posting.done(function(response){
+
+              if( response > 0 ){
+                element.parent().parent().remove();
+                console.log(response);  
+              }
+
+              
+          });
+      });
+
+      // patient diagnosis ---------------------------------------------------------
+      // call patient diagnosis modal
+      $(document).on('click', '#btn-diagnosis-modal', function(event){
+        event.preventDefault();
+
+        var patient_id =$('#patient-patient-number').html();
+
+        if( patient_id > 0 ){
+          // call laboratory modal
+          $('#modal-patient-diagnosis').modal('show');
+        }else{
+           $.notify("You need to select a patient!", "warn");
+        }
+      });
+
+      // show images in a modal
+      $(document).on('click', '.lab-item', function() {
+
+        console.log()
+        $('.imagepreview').attr('src', $(this).data('item'));
+        $('#imagemodal').modal('show');   
+      });
+
+      // handles stored files for formdata image uploading
+      var storedFiles = [];
+
+      // file uploads
+      if( window.File && window.FileList && window.FileReader ){
+
+        $(document).on('click', '.laboratory-files', function(e){
+          
+           $(this).val('');
+           storedFiles = [];
+           $('.pip').each(function(){
+            $(this).remove();
+           });
+        });
+
+
+        // show laboratory image
+        $(document).on('change', '.laboratory-files', function(e){
+            var parent = $(this);
+            storedFiles = [];
+            var files = e.target.files;
+            var filesArr = Array.prototype.slice.call(files);
+            filesArr.forEach(function(f){
+
+              if(!f.type.match("image.*")) {
+                return;
+              }
+
+              storedFiles.push(f);
+
+              var fr = new FileReader();
+              fr.onload = (function(e){
+                var file = e.target;
+                
+                $('<span class="pip"> ' + 
+                  '<img class="imageThumb" data-file=" '+ f.name +' " src="'+ e.target.result +'" title="'+ f.name +'" ' +
+                  '<br /><span class="remove">Remove</span>' +
+                '</span>').insertAfter(parent);
+              });
+
+              fr.readAsDataURL(f);
+            });
+        });
+
+        // remove from file upload
+        $(document).on('click', '.remove', function(e){
+            
+            var file = $(this).parent().find('img').data('file');
+            for(var i=0;i<storedFiles.length;i++) {
+              if(storedFiles[i].name.trim() == file.trim()) {
+                  storedFiles.splice(i,1);
+                  break;
+              }
+            }
+
+            if( storedFiles.length <= 0 ){
+              $(this).parent().parent().find('input[type=file]').val('');
+            }
+            console.log(storedFiles);
+            $(this).parent(".pip").remove();
+        });
+
+      }else{
+          alert("Your browser doesn't support File API");
+      }
+
+      // capture image
+      function Snapshot (v, c) {
+        // Grab elements, create settings, etc.
+        this.video = document.getElementById(v);
+        this.canvas = document.getElementById(c);
+        this.context = this.canvas.getContext('2d');
+        this.dataUrl = '';
+        this.localStream = null;
+        // console.log(this.video);
+        // Get access to the camera!
+        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // Not adding `{ audio: true }` since we only want video now
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+
+                video.srcObject = stream;
+                video.play();
+            });
+        }
+      }
+
+      Snapshot.prototype.capture = function(v, c, s, r){
+
+          this.context.drawImage(this.video, 0, 0, 405, 300);
+          this.dataUrl = this.canvas.toDataURL();
+
+          $(v).fadeOut(100);
+          $(c).fadeIn(100);
+          $(s).hide();
+          $(r).show();
+      };
+
+      Snapshot.prototype.save = function(loc){
+        // return this.dataUrl;
+        console.log(loc);
+        var data = this.dataUrl;
+        $.ajax({
+          type: "POST",
+          url: loc,
+          data: { 
+             imgBase64: data
+          }
+        }).done(function(o) {
+          console.log(o);
+        });
+      };
+
+      Snapshot.prototype.close = function() {
+
+        this.video.pause();
+        this.video.src = '';
+        this.video.srcObject.getTracks()[0].stop();
+
+      };
+
+      Snapshot.prototype.reset = function(v, c, s, r){
+
+          $(v).fadeIn(100);
+          $(c).fadeOut(100);
+          $(s).show();
+          $(r).hide();
+      };
+
+      window.Snapshot = Snapshot;
+    
     });
 
+    function show_laboratory(element, id) {
+
+        $('#' + element).html('');
+        var url = "<?php echo base_url(); ?>/patients/show_laboratory/" + id;
+        // console.log(url);
+        $('#' + element).load(url);
+
+    }
+
+    function show_diagnosis(element, id) {
+        $('#' + element).html('');
+        var url = "<?php echo base_url(); ?>/patients/show_diagnosis/" + id;
+        // console.log(url);
+        $('#' + element).load(url);
+    }
+
+    function handleUpload(e, storedFiles, elem){
+      e.preventDefault();
+
+      var formData = new FormData(); 
+      var files = $(elem)[0].files; 
+
+      console.log(storedFiles);
+      for (var i = 0; i < storedFiles.length; i++) {
+       var file = storedFiles[i];
+
+       // Check the file type.
+       if (!file.type.match('image.*')) {
+         continue;
+       }
+
+       // Add the file to the request.
+       formData.append($(elem).attr('name'), file);
+      }
+      return formData;
+    }
 </script>

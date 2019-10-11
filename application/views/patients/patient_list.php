@@ -14,16 +14,16 @@
    }
 
    .clicked {
-      background-color: #337ab7;
-      color: #FFF;
+    background-color: #337ab7;
+    color: #FFF;
    }
 
  </style>
 
-<div class="box box-primary">
+<div class="box box-solid">
 
   <div class="box-header with-border">
-    <h3 class="box-title">Patient List</h3>
+    <h3 class="box-title"> <i class="fa fa-th-list"></i> Patient List</h3>
     <div class="pull-right box-tools">
       <span id="patient-data-count" class="label bg-red"></span>
     </div>

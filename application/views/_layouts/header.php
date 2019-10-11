@@ -37,7 +37,7 @@ date_default_timezone_set("Asia/Manila");
   <![endif]-->
 
   <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> -->
 
   <!-- jQuery 3 -->
   <script src="<?php echo base_url('assets/plugins'); ?>/jquery/jquery.min.js"></script>

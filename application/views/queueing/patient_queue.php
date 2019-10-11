@@ -1,7 +1,26 @@
-<div class="box box-primary">
+<style type="text/css">
+  
+    #tbl-queued-patient tbody tr {
+    cursor: pointer;
+   }
 
-  <div class="box-header with-border">
-    <h3 class="box-title">Queued Patients</h3>
+   #tbl-queued-patient tbody tr:hover {
+    background-color: #337ab7;
+    color: #FFF;
+   }
+
+   .clicked {
+    background-color: #337ab7;
+    color: #FFF;
+   }
+
+
+</style>
+
+<div class="box box-solid">
+
+  <div class="box-header with-border text-center">
+    <h3 class="box-title"><i class="fa fa-th-list"></i> Patients on Queue</h3>
     <div class="pull-right box-tools">
       <span id="patient-data-count" class="label bg-red"></span>
     </div>
@@ -15,13 +34,8 @@
         <table id="tbl-queued-patient" class="table table-hover" style="width: 100%;">
           <thead>
             <tr>
-              <th>Patient Number</th>
+              <th>#</th>
               <th>Name</th>
-             
-              <th>Last Name</th>
-              <th>First Name</th>
-              <th>Middle Name</th>
-
             </tr>
           </thead>
         </table>

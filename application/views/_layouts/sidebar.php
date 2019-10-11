@@ -10,7 +10,7 @@ $nav = array(
           array('href' => base_url().'reports/', 'fa' => 'line-chart', 'label' => 'Reports' ),
           array('href' => base_url().'accounts/', 'fa' => 'users', 'label' => 'Accounts' ),
           array('href' => base_url().'logs/', 'fa' => 'history', 'label' => 'Logs' ),
-          array('href' => base_url().'setup/', 'fa' => 'cogs', 'label' => 'Setup' )
+          array('href' => base_url().'setup/', 'fa' => 'cogs', 'label' => 'Setup', 'links' => array() )
 );
 
 ?>
