@@ -1,9 +1,6 @@
-
-
 <script>
 
 	$(function(){
-
 		$('#accounts_tbl').DataTable({
             dom: "<'row'<'col-sm-12 col-xs-12'f>>",
 	        "bPaginate": false,
@@ -12,9 +9,7 @@
 	        "bAutoWidth": false,
 	        "aaSorting": []
 	    });
-
 	});
-
 
 	$("#accounts_tbl tbody tr").click(function(event) {
 		$('.clicked').removeClass('clicked');
@@ -25,7 +20,13 @@
 		$("#user_id").val(id);
 		$("#username").val(username);
 		$("#role_id").val(role_id);
+		$("#submit").text('Update');
 	});
+
+	function clear_fields() {
+		$("#accounts_form input").val('');
+		$("#submit").text('Create');
+	}
 
 </script>
 
