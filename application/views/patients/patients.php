@@ -271,7 +271,12 @@
         var lastname = $('#patient-lastname').val();
         var address = $('#patient-address').html();
 
-        modal.find('#medical-certificate-name').val( titleCase(firstname + ' ' + middlename + '. ' + lastname) );
+        var fullname = '';
+        if( firstname.length > 0 ){
+          fullname = titleCase(firstname + ' ' + middlename + '. ' + lastname);
+        }
+
+        modal.find('#medical-certificate-name').val( fullname );
         modal.find('#medical-certificate-address').text(address);
       });
 
