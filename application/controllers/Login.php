@@ -8,7 +8,6 @@ Class Login extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-
 		// if( $this->session->userdata('logged_in') == true ) {
 		// 	var_dump($this->session->userdata('logged_in'));
 		// 	redirect('dashboard');
