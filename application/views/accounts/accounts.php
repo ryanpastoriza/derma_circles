@@ -93,7 +93,7 @@
 									<?php endif; ?>
 								</div>
 								<div class="form-group col-md-6 text-right">
-									<button type="button" class="btn btn-default" onclick="clear_fields()"><i class="fa fa-times"></i></button>
+									<button type="button" class="btn btn-default" onclick="clear_fields()">Clear</button>
 									<button type="submit" class="btn btn-primary" id='submit'>Create</button>
 								</div>
 							</div>
