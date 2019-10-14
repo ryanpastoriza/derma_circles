@@ -49,12 +49,12 @@
 		      		</div>
 
 					<div class="box-body">
-						<form method="POST" action="<?=base_url('accounts/register')?>">
+						<form method="POST" id="accounts_form" action="<?=base_url('accounts/register')?>">
 							<input type="hidden" name="user_id" id="user_id" value="<?=set_value('user_id');?>">
 							<div class="form-row">
 								<div class="form-group col-md-6">
 									<label for="inputAddress">Username</label>
-							    	<input type="text" class="form-control" name="username" id="username" required value="<?=set_value('username');?>">
+							    	<input type="text" class="form-control" name="username" id="username" value="<?=set_value('username');?>">
 							  	</div>
 							  	<div class="form-group col-md-6">
 									<label for="inputAddress">User Role</label>
@@ -69,18 +69,21 @@
 							<div class="form-row">
 								<div class="form-group col-md-6">
 									<label for="inputAddress">Password</label>
-							    	<input type="password" class="form-control" name="password" id="password" required>
+							    	<input type="password" class="form-control" name="password" id="password">
 							  	</div>
 							  	<div class="form-group col-md-6">
 									<label for="inputAddress">Confirm Password</label>
-							    	<input type="password" class="form-control" name="confirm_password" id="confirm_password" required>
+							    	<input type="password" class="form-control" name="confirm_password" id="confirm_password">
 							  	</div>
 							</div>
 							<div class="form-row">
 								<div class="form-group col-md-6">
 									<?php if (validation_errors()): ?>
-										<div class="alert alert-danger">
-											<?php echo validation_errors(); ?>
+										<div class="alert alert-danger alert-dismissible" role="alert"" >
+											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										    	<span aria-hidden="true">&times;</span>
+											</button>
+											<p><?php echo validation_errors(); ?></p>
 										</div>
 									<?php endif ?>
 									<?php if($this->session->flashdata('reg_msg')): ?>
@@ -90,7 +93,8 @@
 									<?php endif; ?>
 								</div>
 								<div class="form-group col-md-6 text-right">
-									<button type="submit" class="btn btn-primary">Submit</button>
+									<button type="button" class="btn btn-default" onclick="clear_fields()"><i class="fa fa-times"></i></button>
+									<button type="submit" class="btn btn-primary" id='submit'>Create</button>
 								</div>
 							</div>
 						</form>

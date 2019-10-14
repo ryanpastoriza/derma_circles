@@ -28,9 +28,13 @@ class Accounts extends MY_Controller
 	public function register()
 	{
 		$post = (object) $this->input->post();
+
 		$this->form_validation->set_rules('username', 'Username', 'required|min_length[4]');
-		$this->form_validation->set_rules('password', 'Password', 'required|min_length[5]');
-		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+		
+		if(!$post->user_id){
+			$this->form_validation->set_rules('password', 'Password', 'required|min_length[5]');
+			$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+		}
 
 		if ($this->form_validation->run() == FALSE)
         {
@@ -42,15 +46,14 @@ class Accounts extends MY_Controller
         	$row['password'] = password_hash($post->password, PASSWORD_DEFAULT);
         	$row['status']   = 'active';
         	$row['role_id']  = $post->role_id;
-
+        	echo $post->user_id;
         	if(!$post->user_id){
 	        	$insert = $this->user->insert($row);
 			    $this->session->set_flashdata('reg_msg', 'Registration successful.');
         	}
         	else{
+			    $this->db->where('user_id', $post->user_id)->update('user', $row);
 			    $this->session->set_flashdata('reg_msg', 'Update successful.');
-        		$id = $this->user->update($row, ['role_id = {$post->user_id}']);
-        		echo $post->user_id;
         	}
 		    redirect(base_url('accounts'));
         }
