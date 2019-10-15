@@ -25,6 +25,7 @@ date_default_timezone_set("Asia/Manila");
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins'); ?>/adminlte/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="<?php echo base_url('assets/plugins'); ?>/jquery-ui-1.12.1/jquery-ui.min.css">
 
   <!-- Custom css -->
  <link rel="stylesheet" href="<?php echo base_url('assets'); ?>/css/custom.css">
@@ -41,6 +42,10 @@ date_default_timezone_set("Asia/Manila");
 
   <!-- jQuery 3 -->
   <script src="<?php echo base_url('assets/plugins'); ?>/jquery/jquery.min.js"></script>
+  <!-- jQuery 3 -->
+  <script src="<?php echo base_url('assets/plugins'); ?>/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <!-- <script src="<?php echo base_url('assets/plugins'); ?>/jquery-ui/jquery-ui.min.js"></script> -->
 </head>
 <body class="hold-transition skin-black sidebar-mini">
 <!-- Site wrapper -->
