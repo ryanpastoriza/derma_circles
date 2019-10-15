@@ -10,7 +10,10 @@ $nav = array(
           array('href' => base_url().'reports/', 'fa' => 'line-chart', 'label' => 'Reports' ),
           array('href' => base_url().'accounts/', 'fa' => 'users', 'label' => 'Accounts' ),
           array('href' => base_url().'logs/', 'fa' => 'history', 'label' => 'Logs' ),
-          array('href' => base_url().'setup/', 'fa' => 'cogs', 'label' => 'Setup', 'links' => array() )
+          array('fa' => 'cogs', 'label' => 'Setup', 'links' => array(
+            ['label' => 'Roles and Accessibilities', 'uri' => 'roles', 'href' => base_url('setup/roles'), 'fa' => 'user-circle'],
+            ['label' => 'Services', 'uri' => 'services', 'href' => base_url('setup/services'), 'fa' => 'user-circle']
+          ) )
 );
 
 ?>
@@ -32,11 +35,30 @@ $nav = array(
       <li class="header">Menu</li>
       
       <?php foreach ($nav as $key => $value): ?>
-      <li class="<?= ($this->uri->segment(1) == strtolower($value['label'])) ? 'active' : ''; ?>">
-        <a href="<?= $value['href']; ?>">
-          <i class="fa fa-<?= $value['fa']; ?>"></i> <span><?= $value['label']; ?></span>
-        </a>
-      </li>
+        <?php if (empty($value['links'])): ?>
+          <li class="<?= ($this->uri->segment(1) == strtolower($value['label'])) ? 'active' : ''; ?>">
+            <a href="<?= $value['href']; ?>">
+              <i class="fa fa-<?= $value['fa']; ?>"></i> <span><?= $value['label']; ?></span>
+            </a>
+          </li>
+        <?php else: ?>
+          <li class="treeview <?= ($this->uri->segment(1) == strtolower($value['label'])) ? 'active' : ''; ?>">
+            <a href="#"><i class="fa fa-link"></i> <span><?= $value['label'] ?></span>
+              <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <?php foreach ($value['links'] as $key1 => $value1): ?>
+                <li class="<?= ($this->uri->segment(2) == strtolower($value1['uri'])) ? 'active' : ''; ?>">
+                  <a href="<?= $value1['href']?>">
+                    <i class="fa fa-<?=$value1['fa'] ?>"></i><span><?= $value1['label'] ?></span>
+                  </a>
+                </li>
+              <?php endforeach ?>
+            </ul>
+          </li>  
+        <?php endif ?>
       <?php endforeach; ?>
     </ul> 
   </section>
