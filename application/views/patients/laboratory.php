@@ -23,7 +23,7 @@
             <?php if( $laboratory) { ?>
             <?php foreach($laboratory as $key => $value): ?>
             <tr>
-              <td ><?= date('M d, Y', strtotime($value->transaction_date)); ?></td>
+              <td><?= date('M d, Y', strtotime($value->transaction_date)); ?></td>
               <td><?= $value->exam_type; ?></td>
               <td><?= $value->results; ?></td>
               <td><?= $value->remarks; ?></td>
@@ -161,6 +161,13 @@
         <div class="row spacer-sm">
             
             <div class="col-sm-6">
+
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label>Transaction Date <i class="fa fa-asterisk text-red"></i> : </label>
+                  <input class="form-control" id="lab-edit-transaction-date" type="date" name="transaction_date" required>
+                </div>
+              </div>
                 
               <div class="col-sm-12">
                 <div class="form-group">

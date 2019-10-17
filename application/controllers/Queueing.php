@@ -19,7 +19,6 @@ class Queueing extends MY_Controller
 		// get queue number;
 		// add array of data
 		$data['patient_id'] = $patient_id;
-		$data['queue_number'] = 1;
 		$data['status'] = 'queue';
 		$data['branch_id'] = $this->session->branch_id;
 		// check duplicate entry

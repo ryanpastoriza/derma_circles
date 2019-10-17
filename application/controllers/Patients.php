@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 /**
  * 
  */
@@ -19,13 +18,12 @@ class Patients extends MY_Controller
 		foreach ($patient_info as $key => $value) {
 			$row = [];
 			
-			$fullName = $value->firstname.' '.$value->middlename.' '.$value->lastname.' '.$value->suffix;
+			$fullName = $value->firstname.' '.$value->middlename[0].'. '.$value->lastname.' '.$value->suffix;
 			$row[] = ucwords($fullName);
 
 			foreach ($value as $key2 => $value2) {
 				$row[] = $value2;
 			}
-
 			$data['data'][] = $row;
 		}
 
@@ -48,25 +46,14 @@ class Patients extends MY_Controller
 				mkdir($path, 0777, TRUE);
 				mkdir($path.'/laboratory', 0777, TRUE);
 				mkdir($path.'/diagnosis', 0777, TRUE);
+				mkdir($path.'/treatment', 0777, TRUE);
 				echo $patient_id;
 			}
 
 		}
 	}
-	public function save_photo($patient_id){
 
-		$fileName = 'profile';
-		$rawFile = $this->input->post('imgBase64');
-		$img = str_replace('data:image/png;base64,', '', $rawFile);
-		// $img = str_replace(' ', '+', $img);
-		$encoded = base64_decode($img);
-		// echo $img;
-		$file = FCPATH . 'assets/uploads/patients/'.$patient_id.'/'.$fileName.'.png';
-		// $file = RTDIR . 'assets/patients/'.$fileName. '.png';
-		$success = file_put_contents($file, $encoded);
-
-	}
-
+	// laboratory ------------------------------------------------------------
 	public function show_laboratory($id) {
 
 		$data['laboratory'] = $this->patient_laboratory->get_all(['patient_id' => $id], array('transaction_date', 'DESC'));
@@ -110,7 +97,20 @@ class Patients extends MY_Controller
 
 		$this->load->view('patients/laboratory_images', $data);
 	}
-	// diagnosis
+	public function laboratory_uploads($patient_id, $id){
+
+		if( isset($_FILES['laboratory_files']['name']) && count($_FILES['laboratory_files']['name']) > 0  ){
+			$this->patient_uploads($patient_id, $id, 'laboratory', 'laboratory_files');
+		}
+	}
+	public function update_laboratory(){
+
+		$laboratory_id = $this->input->post('laboratory_id');
+		$data = $this->input->post();
+		$this->patient_laboratory->update($data, array($this->patient_laboratory->pk => $laboratory_id ));
+		echo $laboratory_id;
+	}
+	// diagnosis ------------------------------------------------------------
 	public function get_diag_images() {
 
 		$diagnosis = $this->patient_diagnosis->get(['diagnosis_id' => $this->input->post('diagnosis_id') ]);
@@ -122,17 +122,89 @@ class Patients extends MY_Controller
 
 		$this->load->view('patients/diagnosis_images', $data);
 	}
-	public function update_laboratory(){
+	public function show_diagnosis($id) {
 
-		$laboratory_id = $this->input->post('laboratory_id');
-		$data = $this->input->post();
-		$this->patient_laboratory->update($data, array($this->patient_laboratory->pk => $laboratory_id ));
-		echo $laboratory_id;
+		$data['patient'] = $this->patient_information->get(['patient_id' => $id]);
+		$data['diagnosis'] = $this->patient_diagnosis->get_all(['patient_id' => $id], array('transaction_date', 'DESC'));
+
+		if( $data['diagnosis'] ){
+			foreach ($data['diagnosis'] as $key => $value) {
+			
+				$path = 'assets/uploads/patients/'.$id.'/diagnosis/'.$value->diagnosis_id.'/*.{jpg,png,gif,PNG,JPG}';
+				$diagFiles = glob( $path, GLOB_BRACE );
+				$data['diagnosis'][$key]->images = $diagFiles;
+			
+			}
+		}
+
+		$this->load->view('patients/diagnosis', $data);
 	}
-	public function laboratory_uploads($patient_id, $id){
+	public function add_diagnosis() {
 
-		if( isset($_FILES['laboratory_files']['name']) && count($_FILES['laboratory_files']['name']) > 0  ){
-			$this->patient_uploads($patient_id, $id, 'laboratory', 'laboratory_files');
+		$data = $this->input->post();
+		$data['transaction_date'] = date('Y-m-d H:i:s');
+		$diagnosis_id = $this->patient_diagnosis->insert($data);
+
+		if( $diagnosis_id > 0  ){
+			// create laboratory dir
+			$path = FCPATH. 'assets/uploads/patients/'.$this->input->post('patient_id').'/diagnosis/'.$diagnosis_id;
+			mkdir($path, 0777, TRUE);
+			echo $diagnosis_id;
+		}else{
+			echo 0;
+		}
+	}
+	public function diagnosis_uploads($patient_id, $id){
+
+		if( isset($_FILES['diagnosis_files']['name']) && count($_FILES['diagnosis_files']['name']) > 0  ){
+			$this->patient_uploads($patient_id, $id, 'diagnosis', 'diagnosis_files');
+		}
+	}
+	public function update_diagnosis(){
+
+		$diagnosis_id = $this->input->post('diagnosis_id');
+		$data = $this->input->post();
+		$this->patient_diagnosis->update($data, array($this->patient_diagnosis->pk => $diagnosis_id ));
+		echo $diagnosis_id;
+	}
+	// treatment ------------------------------------------------------------
+	public function show_treatment($id){
+		$data['patient'] = $this->patient_information->get(['patient_id' => $id]);
+		$data['treatment'] = $this->patient_treatment->get_all(['patient_id' => $id], array('transaction_date', 'DESC'));
+
+		if( $data['treatment'] ){
+			foreach ($data['treatment'] as $key => $value) {
+			
+				$path = 'assets/uploads/patients/'.$id.'/treatment/'.$value->treatment_id.'/*.{jpg,png,gif,PNG,JPG}';
+				$treatmentFiles = glob( $path, GLOB_BRACE );
+				$data['diagnosis'][$key]->images = $treatmentFiles;
+			
+			}
+		}
+
+		$this->load->view('patients/treatment', $data);
+	}
+	// ----------------------------------------------------------------------
+	public function save_photo($patient_id){
+
+		$fileName = 'profile';
+		$rawFile = $this->input->post('imgBase64');
+		$img = str_replace('data:image/png;base64,', '', $rawFile);
+		// $img = str_replace(' ', '+', $img);
+		$encoded = base64_decode($img);
+		// echo $img;
+		$file = FCPATH . 'assets/uploads/patients/'.$patient_id.'/'.$fileName.'.png';
+		// $file = RTDIR . 'assets/patients/'.$fileName. '.png';
+		$success = file_put_contents($file, $encoded);
+	}
+	public function show_profile_picture(){
+		$patient_id = $this->input->post('patient_id');
+		$path = 'assets/uploads/patients/'.$patient_id.'/profile.png';
+
+		if( file_exists($path) ){
+			echo base_url().$path;
+		}else{
+			echo base_url().'assets/img/avatar.png';
 		}
 	}
 	public function patient_uploads($patient_id, $id, $type, $key) {
@@ -178,58 +250,10 @@ class Patients extends MY_Controller
 			echo unlink($image);
 		}
 	}
-
-	public function show_diagnosis($id) {
-
-		$data['patient'] = $this->patient_information->get(['patient_id' => $id]);
-		$data['diagnosis'] = $this->patient_diagnosis->get_all(['patient_id' => $id]);
-
-		if( $data['diagnosis'] ){
-			foreach ($data['diagnosis'] as $key => $value) {
-			
-				$path = 'assets/uploads/patients/'.$id.'/diagnosis/'.$value->diagnosis_id.'/*.{jpg,png,gif,PNG,JPG}';
-				$diagFiles = glob( $path, GLOB_BRACE );
-				$data['diagnosis'][$key]->images = $diagFiles;
-			
-			}
-		}
-
-		$this->load->view('patients/diagnosis', $data);
-	}
-	public function add_diagnosis() {
-
-		$data = $this->input->post();
-		$data['transaction_date'] = date('Y-m-d H:i:s');
-		$diagnosis_id = $this->patient_diagnosis->insert($data);
-
-		if( $diagnosis_id > 0  ){
-			// create laboratory dir
-			$path = FCPATH. 'assets/uploads/patients/'.$this->input->post('patient_id').'/diagnosis/'.$diagnosis_id;
-			mkdir($path, 0777, TRUE);
-			echo $diagnosis_id;
-		}else{
-			echo 0;
-		}
-	}
-	public function diagnosis_uploads($patient_id, $id){
-
-		if( isset($_FILES['diagnosis_files']['name']) && count($_FILES['diagnosis_files']['name']) > 0  ){
-			$this->patient_uploads($patient_id, $id, 'diagnosis', 'diagnosis_files');
-		}
-	}
-	public function update_diagnosis(){
-
-		$diagnosis_id = $this->input->post('diagnosis_id');
-		$data = $this->input->post();
-		$this->patient_diagnosis->update($data, array($this->patient_diagnosis->pk => $diagnosis_id ));
-		echo $diagnosis_id;
-	}
-
 	public function medical_certificate() {
 		
 		$this->session->set_userdata($this->input->post());
 		$this->load->view('patients/medical_certificate');
-
 	}
 
 }	

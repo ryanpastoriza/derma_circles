@@ -34,8 +34,8 @@
 
   <div class="col-sm-9">
     <div class="col-sm-5 form-group">
-      <label for="">Birthdate:</label>
-      <input type="date" class="form-control" id="patient-birthdate" name="birthdate">
+      <label for="">Birthdate*:</label>
+      <input type="date" class="form-control" id="patient-birthdate" name="birthdate" required>
     </div>
     <div class="col-sm-3 form-group">
       <label for="">Age:</label>
@@ -101,7 +101,7 @@
 
   <div class="col-sm-3 col-md-3 text-center">
     <div class="col-sm-12">
-      <img src="<?php echo base_url().'assets' ?>/img/avatar.png" class="img-thumbnail" style="width: 150px;">
+      <img src="<?php echo base_url().'assets' ?>/img/avatar.png" id="patient-photo" class="img-thumbnail" style="width: 150px;">
     </div>
     <div class="col-sm-3 col-md-12">
       <button id="btn-take-photo" disabled class="btn btn-sm btn-default spacer-sm">Take Photo</button>

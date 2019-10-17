@@ -2,8 +2,12 @@
 
 class FileHandler {
 
-        public function __construct($params){
-               
-        }
+      public function savePhoto() {
+
+      }
+
+      public function showFiles() {
+      	
+      }
         
 }

@@ -108,7 +108,7 @@
             </div>
             <!-- /.tab-pane -->
             <div class="tab-pane" id="tab_treatment">
-              Lorem
+              <div id="show-patient-treatment"></div>
             </div>
             <!-- /.tab-pane -->
             <div class="tab-pane" id="tab_laboratory">
@@ -253,9 +253,10 @@
         var patient_id = $('#patient-patient-number').html();
         
         var url = '<?php echo base_url(); ?>patients/save_photo/' + patient_id;
-        snapshot.close();
-        // snapshot.save(url);
+        snapshot.save(url);
+        snapshot.close('#modal-take-photo');
 
+        show_profile_pic('#patient-photo', patient_id);
       });
 
       // end take photo ---------------------------------------------------------------
@@ -294,7 +295,7 @@
 
           posting.done(function(response){
             console.log(response);
-             window.open(url, '_blank');
+            window.open(url, '_blank');
           });
       });
       // start datatable ----------------------------------------------
@@ -370,9 +371,10 @@
           // patient patient-address
           $('#patient-address').html(titleCase(data[15]));
 
-
           show_laboratory('show-patient-laboratory', data[1]);
           show_diagnosis('show-patient-diagnosis', data[1]);
+          show_treatment('show-patient-treatment', data[1]);
+          show_profile_pic('#patient-photo', data[1]);
       });
       // end datatable ----------------------------------------------
 
@@ -489,11 +491,13 @@
           var modal = $('#modal-patient-laboratory-exam-edit');
 
           var laboratory_id = $(this).parent().data('id');
+          var transaction_date = $(this).closest('tr').find('td').eq(0).text();
           var exam_type = $(this).closest('tr').find('td').eq(1).text();
           var results = $(this).closest('tr').find('td').eq(2).text();
           var remarks = $(this).closest('tr').find('td').eq(3).text();
 
           modal.modal('show');
+          modal.find('input[name=transaction_date]').val(format_date(transaction_date));
           modal.find('input[name=exam_type]').val(exam_type);
           modal.find('#lab-edit-results').text(results);
           modal.find('#lab-edit-remarks').text(remarks);
@@ -502,9 +506,7 @@
           var url = '<?php echo base_url(); ?>patients/get_lab_images';
           var posting = $.post(url, { "laboratory_id" : laboratory_id } );
               posting.done(function(response){
-
                 modal.find('#laboratory-images').html(response);
-                
               });
       });
 
@@ -551,7 +553,15 @@
               });
       });
 
-      // remove laborator images
+      // show images in a modal
+      $(document).on('click', '.lab-item', function() {
+
+        console.log()
+        $('.imagepreview').attr('src', $(this).data('item'));
+        $('#imagemodal').modal('show');   
+      });
+
+      // remove laboratory images
       $(document).on('click', '.remove-laboratory-image', function(event){
         event.preventDefault();
 
@@ -586,12 +596,126 @@
         }
       });
 
-      // show images in a modal
-      $(document).on('click', '.lab-item', function() {
+      // add patient diagnosis
+      $(document).on('submit', '#frm-patient-diagnosis', function(event){
+        event.preventDefault();
 
-        console.log()
-        $('.imagepreview').attr('src', $(this).data('item'));
-        $('#imagemodal').modal('show');   
+        var form = $(this);
+        var parameters = form.serializeArray();
+        var formData = handleUpload(event, storedFiles, '#diagnosis-files');
+        var patient_id = $('#patient-patient-number').html();
+
+        parameters.push({name : "patient_id", value : patient_id});
+
+        var url = form.attr('action');
+        var posting = $.post( url, parameters );
+          posting.done(function(response){
+
+                if( response > 0){
+
+                  $.ajax({
+                    url: '<?php echo base_url(); ?>' + 'patients/diagnosis_uploads/' + patient_id + '/' + response,
+                    data: formData,
+                    type: 'POST',
+                    contentType: false,
+                    processData: false,
+                    success: function(response){
+                      console.log(response);
+                      show_diagnosis('show-patient-diagnosis', patient_id);
+                    }
+                  });
+
+                  $.notify("Transaction has been saved!", "success");
+                  $('#modal-patient-diagnosis').modal('hide');
+                }else{
+                   $.notify("Something Went Wrong", "warn");
+                }
+
+            });
+        // console.log(formData);
+      });
+
+      // show edit modal
+      $(document).on('click', '.edit-diagnosis', function(event){
+        event.preventDefault();
+
+        storedFiles = [];
+        var modal = $('#modal-patient-diagnosis-edit');
+
+        modal.modal('show');
+        var diagnosis_id = $(this).parent().data('id');
+        var transaction_date = $(this).closest('tr').find('td').eq(0).text();
+        var diagnosis = $(this).closest('tr').find('td').eq(1).text();
+
+        modal.find('input[name=transaction_date]').val(format_date(transaction_date));
+        modal.find('textarea[name=diagnosis]').text(diagnosis);
+        modal.find('input[name=diagnosis_id]').val(diagnosis_id);
+
+        var url = '<?php echo base_url(); ?>patients/get_diag_images';
+        var posting = $.post(url, { "diagnosis_id" : diagnosis_id } );
+              posting.done(function(response){
+
+                modal.find('#diagnosis-images').html(response);
+                
+              });
+      });
+
+      $(document).on('submit', '#frm-patient-diagnosis-edit', function(event){
+        event.preventDefault();
+
+          var form = $(this);
+          var parameters = form.serializeArray();
+          var formData = handleUpload(event, storedFiles, '#edit-diagnosis-files');
+          var patient_id = $('#patient-patient-number').html();
+
+          parameters.push({name : "patient_id", value : patient_id});
+
+          var url = form.attr('action');
+          var posting = $.post( url, parameters );
+
+          posting.done(function(response){
+
+              
+              if( response > 0){
+
+                $.ajax({
+                  url: '<?php echo base_url(); ?>' + 'patients/diagnosis_uploads/' + patient_id + '/' + response,
+                  data: formData,
+                  type: 'POST',
+                  contentType: false,
+                  processData: false,
+                  success: function(response){
+                    show_diagnosis('show-patient-diagnosis', patient_id);
+                  }
+                });
+
+                $.notify("Transaction has been saved!", "success");
+                $('#modal-patient-diagnosis-edit').modal('hide');
+              }else{
+                 $.notify("Something Went Wrong", "warn");
+              }
+
+          });
+    });
+
+       // remove diagnosis images
+      $(document).on('click', '.remove-diagnosis-image', function(event){
+        event.preventDefault();
+
+        var element = $(this);
+        var image = $(this).parent().find('img').data('path');
+        var url = '<?php echo base_url(); ?>patients/remove_image';
+     
+        var posting = $.post(url, {'image': image} );
+          posting.done(function(response){
+
+              if( response > 0 ){
+                element.parent().parent().remove();
+                console.log(response);  
+              }
+
+              
+          });
       });
 
       // handles stored files for formdata image uploading
@@ -600,8 +724,18 @@
       // file uploads
       if( window.File && window.FileList && window.FileReader ){
 
+        // laboratory
         $(document).on('click', '.laboratory-files', function(e){
           
+           $(this).val('');
+           storedFiles = [];
+           $('.pip').each(function(){
+            $(this).remove();
+           });
+        });
+        // diagnosis
+        $(document).on('click', '.diagnosis-files', function(e){
+        
            $(this).val('');
            storedFiles = [];
            $('.pip').each(function(){
@@ -612,6 +746,34 @@
 
         // show laboratory image
         $(document).on('change', '.laboratory-files', function(e){
+            var parent = $(this);
+            storedFiles = [];
+            var files = e.target.files;
+            var filesArr = Array.prototype.slice.call(files);
+            filesArr.forEach(function(f){
+
+              if(!f.type.match("image.*")) {
+                return;
+              }
+
+              storedFiles.push(f);
+
+              var fr = new FileReader();
+              fr.onload = (function(e){
+                var file = e.target;
+                
+                $('<span class="pip"> ' + 
+                  '<img class="imageThumb" data-file=" '+ f.name +' " src="'+ e.target.result +'" title="'+ f.name +'" ' +
+                  '<br /><span class="remove">Remove</span>' +
+                '</span>').insertAfter(parent);
+              });
+
+              fr.readAsDataURL(f);
+            });
+        });
+
+        // show diagnosis image
+        $(document).on('change', '.diagnosis-files', function(e){
             var parent = $(this);
             storedFiles = [];
             var files = e.target.files;
@@ -706,11 +868,12 @@
         });
       };
 
-      Snapshot.prototype.close = function() {
+      Snapshot.prototype.close = function(elem) {
 
         this.video.pause();
         this.video.src = '';
         this.video.srcObject.getTracks()[0].stop();
+        $(elem).modal('hide');
 
       };
 
@@ -730,15 +893,18 @@
 
         $('#' + element).html('');
         var url = "<?php echo base_url(); ?>/patients/show_laboratory/" + id;
-        // console.log(url);
         $('#' + element).load(url);
-
     }
 
     function show_diagnosis(element, id) {
         $('#' + element).html('');
         var url = "<?php echo base_url(); ?>/patients/show_diagnosis/" + id;
-        // console.log(url);
+        $('#' + element).load(url);
+    }
+
+    function show_treatment(element, id){
+        $('#' + element).html('');
+        var url = "<?php echo base_url(); ?>/patients/show_treatment/" + id;
         $('#' + element).load(url);
     }
 
@@ -762,4 +928,36 @@
       }
       return formData;
     }
+
+    function show_profile_pic(elem, patient_id) {
+
+      var url = '<?php echo base_url().'patients/show_profile_picture' ?>';
+
+      var posting = $.post(url, {patient_id: patient_id} );
+
+      posting.done(function(response){
+        // alert(response);
+         $(elem).attr('src', response);
+          // '<?php //echo base_url('assets/uploads/patients'); ?>/' + patient_id + '/profile.png');
+
+      });
+
+     
+    }
+
+    function format_date(date) {
+
+      var d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+
+          if (month.length < 2) 
+              month = '0' + month;
+          if (day.length < 2) 
+              day = '0' + day;
+
+      return [year, month, day].join('-');
+    }
+
 </script>
