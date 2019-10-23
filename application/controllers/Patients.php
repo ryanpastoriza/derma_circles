@@ -52,7 +52,6 @@ class Patients extends MY_Controller
 
 		}
 	}
-
 	// laboratory ------------------------------------------------------------
 	public function show_laboratory($id) {
 
@@ -74,7 +73,6 @@ class Patients extends MY_Controller
 	public function add_laboratory() {
 
 		$data = $this->input->post();
-		$data['transaction_date'] = date('Y-m-d');
 		$laboratory_id =  $this->patient_laboratory->insert($data);
 
 		if( $laboratory_id > 0  ){
@@ -95,7 +93,8 @@ class Patients extends MY_Controller
 		$data['laboratory'] = $laboratory;
 		$data['images'] = glob( $path, GLOB_BRACE );
 
-		$this->load->view('patients/laboratory_images', $data);
+		// $this->load->view('patients/laboratory_images', $data);
+		$this->load->view('patients/patient_images', $data);
 	}
 	public function laboratory_uploads($patient_id, $id){
 
@@ -120,7 +119,8 @@ class Patients extends MY_Controller
 		$data['diagnosis'] = $diagnosis;
 		$data['images'] = glob( $path, GLOB_BRACE );
 
-		$this->load->view('patients/diagnosis_images', $data);
+		// $this->load->view('patients/diagnosis_images', $data);
+		$this->load->view('patients/patient_images', $data);
 	}
 	public function show_diagnosis($id) {
 
@@ -142,7 +142,6 @@ class Patients extends MY_Controller
 	public function add_diagnosis() {
 
 		$data = $this->input->post();
-		$data['transaction_date'] = date('Y-m-d H:i:s');
 		$diagnosis_id = $this->patient_diagnosis->insert($data);
 
 		if( $diagnosis_id > 0  ){
@@ -177,12 +176,50 @@ class Patients extends MY_Controller
 			
 				$path = 'assets/uploads/patients/'.$id.'/treatment/'.$value->treatment_id.'/*.{jpg,png,gif,PNG,JPG}';
 				$treatmentFiles = glob( $path, GLOB_BRACE );
-				$data['diagnosis'][$key]->images = $treatmentFiles;
+				$data['treatment'][$key]->images = $treatmentFiles;
 			
 			}
 		}
 
 		$this->load->view('patients/treatment', $data);
+	}
+	public function add_treatment() {
+
+		$data = $this->input->post();
+		$treatment_id = $this->patient_treatment->insert($data);
+
+		if( $treatment_id > 0  ){
+			// create laboratory dir
+			$path = FCPATH. 'assets/uploads/patients/'.$this->input->post('patient_id').'/treatment/'.$treatment_id;
+			mkdir($path, 0777, TRUE);
+			echo $treatment_id;
+		}else{
+			echo 0;
+		}
+	}
+	public function treatment_uploads($patient_id, $id){
+
+		if( isset($_FILES['treatment_files']['name']) && count($_FILES['treatment_files']['name']) > 0  ){
+			$this->patient_uploads($patient_id, $id, 'treatment', 'treatment_files');
+		}
+	}
+	public function get_treatment_images(){
+
+		$treatment = $this->patient_treatment->get(['treatment_id' => $this->input->post('treatment_id') ]);
+
+		$path = 'assets/uploads/patients/'.$treatment->patient_id.'/treatment/'.$treatment->treatment_id.'/*.{jpg,png,gif,PNG,JPG}';
+
+		$data['treatment'] = $treatment;
+		$data['images'] = glob( $path, GLOB_BRACE );
+
+		$this->load->view('patients/patient_images', $data);
+	}
+	public function update_treatment(){
+
+		$treatment_id = $this->input->post('treatment_id');
+		$data = $this->input->post();
+		$this->patient_treatment->update($data, array($this->patient_treatment->pk => $treatment_id ));
+		echo $treatment_id;
 	}
 	// ----------------------------------------------------------------------
 	public function save_photo($patient_id){
@@ -190,16 +227,14 @@ class Patients extends MY_Controller
 		$fileName = 'profile';
 		$rawFile = $this->input->post('imgBase64');
 		$img = str_replace('data:image/png;base64,', '', $rawFile);
-		// $img = str_replace(' ', '+', $img);
 		$encoded = base64_decode($img);
-		// echo $img;
-		$file = FCPATH . 'assets/uploads/patients/'.$patient_id.'/'.$fileName.'.png';
-		// $file = RTDIR . 'assets/patients/'.$fileName. '.png';
+		$file = FCPATH . 'assets/uploads/patients/'.$patient_id.'/'.$fileName.'.jpg';
 		$success = file_put_contents($file, $encoded);
+		echo $success;
 	}
 	public function show_profile_picture(){
 		$patient_id = $this->input->post('patient_id');
-		$path = 'assets/uploads/patients/'.$patient_id.'/profile.png';
+		$path = 'assets/uploads/patients/'.$patient_id.'/profile.jpg';
 
 		if( file_exists($path) ){
 			echo base_url().$path;
@@ -235,7 +270,7 @@ class Patients extends MY_Controller
 					if($this->upload->do_upload('file')){
 						$uploadData = $this->upload->data();
 						$filename = $uploadData['file_name'];
-
+						var_export($filename);
 						$data['totalFiles'][] = $filename;
 					}
 		    	}

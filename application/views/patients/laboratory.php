@@ -35,7 +35,9 @@
                 </ul>
               </td>
               <td data-id="<?= $value->laboratory_id; ?>"> 
-                <button type="button" class="btn btn-primary btn-xs flat edit-laboratory-exam"><i class="fa fa-pencil"></i></button> 
+                <button type="button" class="btn btn-primary btn-xs flat edit-laboratory-exam">
+                  <i class="fa fa-pencil"></i>
+                </button> 
               </td>
             </tr>
             <?php endforeach; ?>
