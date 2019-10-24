@@ -19,7 +19,7 @@
 
 <div class="box box-solid">
 
-  <div class="box-header with-border text-center">
+  <div class="box-header with-border">
     <h3 class="box-title"><i class="fa fa-th-list"></i> Patients on Queue</h3>
     <div class="pull-right box-tools">
       <span id="patient-data-count" class="label bg-red"></span>

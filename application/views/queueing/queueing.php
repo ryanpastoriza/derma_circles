@@ -32,7 +32,7 @@
         <div class="row">
           <div class="col-sm-12">
 
-            <a class="btn btn-app btn-primary" id="btn-add-patient-queue">
+            <a class="btn btn-app" id="btn-add-patient-queue">
               <span class="badge bg-green" id="count-queue">0</span>
               <i class="fa fa-fast-forward"></i> Check In Patient
             </a>
@@ -53,7 +53,7 @@
       <div class="col-sm-9">
           
           <div class="col-sm-12">
-              <span id=""></span>
+              <span id="">sds</span>
           </div>
 
       </div>
@@ -157,7 +157,6 @@
 
   $(function(){
 
-
       var oTable = $('#tbl-queued-patient').DataTable({
 
         ajax: { "url" : "<?php echo base_url(); ?>queueing/get_patient_queueing" },
@@ -175,12 +174,10 @@
           } );
       } ).draw();
 
-
       $(document).on('click', '#btn-add-patient-queue', function(event){
         event.preventDefault();
 
         $('#modal-patient-add-to-queue').modal('show');
-
       });
 
       var plistTable = $('#tbl-patient-list-for-queue').DataTable({
@@ -191,7 +188,6 @@
                   "searchable": false
               },
           ],
-       
       });
 
       $('#tbl-patient-list-for-queue tbody').on( 'click', 'tr', function () {
@@ -213,7 +209,6 @@
         var posting = $.post(url);
             posting.done(function(response){
 
-              console.log(response);
               if( response > 0){
                 $.notify("Patient Checked In", "success");
                 oTable.ajax.reload();
@@ -230,14 +225,8 @@
 
           $('#tbl-queued-patient tbody tr').removeClass('clicked');
           $(this).addClass('clicked');
-
       });
 
   }); 
-
-
-
-  
-
 
 </script>
