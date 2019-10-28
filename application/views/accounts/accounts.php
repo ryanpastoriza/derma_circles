@@ -53,17 +53,19 @@
 							<input type="hidden" name="user_id" id="user_id" value="<?=set_value('user_id');?>">
 							<div class="form-row">
 								<div class="form-group col-md-6">
+									<label for="branch">Branch</label>
+									<select name="branch_id" id="branch_id" class="form-control">
+							    		<?php foreach ($branches as $key => $value): ?>
+											<?php $selected = set_value('branch_id') == $value->branch_id ? 'selected' : ''?>  			
+											<option value="<?=$value->branch_id?>" <?=$selected?> ><?= ucwords($value->branch_name) ?></option>
+							    		<?php endforeach ?>
+									</select>
+							  	</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
 									<label for="inputAddress">Username</label>
 							    	<input type="text" class="form-control" name="username" id="username" value="<?=set_value('username');?>">
-							  	</div>
-							  	<div class="form-group col-md-6">
-									<label for="inputAddress">User Role</label>
-							    	<select name="role_id" id="role_id" class="form-control">
-							    		<?php foreach ($roles as $key => $value): ?>
-											<?php $selected = set_value('role_id') == $value->role_id ? 'selected' : ''?>  			
-								    		<option value="<?=$value->role_id?>" <?=$selected ?> ><?= ucfirst($value->role_name) ?></option>
-							    		<?php endforeach ?>
-							    	</select>
 							  	</div>
 							</div>
 							<div class="form-row">
@@ -77,9 +79,20 @@
 							  	</div>
 							</div>
 							<div class="form-row">
+							  	<div class="form-group col-md-6">
+									<label for="inputAddress">User Role</label>
+							    	<select name="role_id" id="role_id" class="form-control">
+							    		<?php foreach ($roles as $key => $value): ?>
+											<?php $selected = set_value('role_id') == $value->role_id ? 'selected' : ''?>  			
+								    		<option value="<?=$value->role_id?>" <?=$selected ?> ><?= ucfirst($value->role_name) ?></option>
+							    		<?php endforeach ?>
+							    	</select>
+							  	</div>
+							</div>
+							<div class="form-row">
 								<div class="form-group col-md-6">
 									<?php if (validation_errors()): ?>
-										<div class="alert alert-danger alert-dismissible" role="alert"" >
+										<div class="alert alert-danger alert-dismissible" role="alert" >
 											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 										    	<span aria-hidden="true">&times;</span>
 											</button>
@@ -92,15 +105,19 @@
 										</div>
 									<?php endif; ?>
 								</div>
-								<div class="form-group col-md-6 text-right">
-									<button type="button" class="btn btn-default" onclick="clear_fields()">Clear</button>
-									<button type="submit" class="btn btn-primary" id='submit'>Create</button>
-								</div>
+							
 							</div>
 						</form>
 					</div>
 
-					<div class="box-footer"></div>
+					<div class="box-footer">
+						<div class="form-row">
+							<div class="form-group col-md-12 text-right">		
+								<button type="button" class="btn btn-default" onclick="clear_fields()">Clear</button>
+								<button type="submit" class="btn btn-primary" id='submit' onclick="submit_form()">Create</button>
+							</div>
+						</div>
+					</div>
 		  		</div>
   			</div>
 

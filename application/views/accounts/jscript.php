@@ -28,6 +28,10 @@
 		$("#submit").text('Create');
 	}
 
+	function submit_form(){
+		$("#accounts_form").submit();	
+	}
+	
 </script>
 
 <style type="text/css">
