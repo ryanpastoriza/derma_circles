@@ -19,8 +19,9 @@ class Accounts extends MY_Controller
 	{
 		$roles = $this->user_roles->get_all();
 		$accounts = $this->user->get_all();
+		$branches = $this->branch->get_all();
 		$this->load->view('_layouts/header', ['title' => 'DermaCircles - Accounts']);
-		$this->load->view('accounts/accounts', ['roles' => $roles, 'accounts' => $accounts]);
+		$this->load->view('accounts/accounts', ['roles' => $roles, 'accounts' => $accounts, 'branches' => $branches]);
 		$this->load->view('accounts/jscript');
 		$this->load->view('_layouts/footer');
 	}
@@ -46,7 +47,7 @@ class Accounts extends MY_Controller
         	$row['password'] = password_hash($post->password, PASSWORD_DEFAULT);
         	$row['status']   = 'active';
         	$row['role_id']  = $post->role_id;
-        	echo $post->user_id;
+        	$row['branch_id']  = $post->branch_id;
         	if(!$post->user_id){
 	        	$insert = $this->user->insert($row);
 			    $this->session->set_flashdata('reg_msg', 'Registration successful.');

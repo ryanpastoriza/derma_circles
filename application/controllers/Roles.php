@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * 
  */
-class Setup extends MY_Controller
+class Roles extends MY_Controller
 {
 	
 	public function __construct()
@@ -16,18 +16,18 @@ class Setup extends MY_Controller
 		$this->load->model('user_roles');
 	}
 
-	public function index() {
-		$this->load->view('_layouts/header', ['title' => 'DermaCircles - Setup']);
-		$this->load->view('setup/setup');
-		$this->load->view('_layouts/footer');
-	}
+	// public function index() {
+	// 	$this->load->view('_layouts/header', ['title' => 'DermaCircles - Setup']);
+	// 	$this->load->view('setup/setup');
+	// 	$this->load->view('_layouts/footer');
+	// }
 
-	public function roles()
+	public function index()
 	{
 		$roles = $this->user_roles->get_all();
 		$this->load->view('_layouts/header', ['title' => 'DermaCircles - Roles and Accessibility']);
-		$this->load->view('setup/roles', ['roles' => $roles]);
-		$this->load->view('setup/jscript');
+		$this->load->view('roles/roles', ['roles' => $roles]);
+		$this->load->view('roles/jscript');
 		$this->load->view('_layouts/footer');
 	}
 
@@ -43,7 +43,7 @@ class Setup extends MY_Controller
 			$this->user_roles->insert(['role_name' => $role]);
 		    $this->session->set_flashdata('reg_msg', 'Registration successful.');		
 		}
-	    redirect(base_url('setup/roles'));	
+	    redirect(base_url('/roles'));	
 	}
 
 }

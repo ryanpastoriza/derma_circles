@@ -28,7 +28,7 @@
 
 				  	</div>
 				  	<div class="box-body">
-				  		<form action="<?= base_url('setup/add_role')?>" method="POST">
+				  		<form action="<?= base_url('roles/add_role')?>" method="POST">
 					  		<div class="input-group">
 				                <input name="role_name" type="text" class="form-control" placeholder="New Role" required>
 				                <div class="input-group-btn">
