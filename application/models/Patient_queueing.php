@@ -13,6 +13,12 @@ class Patient_queueing extends My_Model
 	    parent::__construct();
 	}
 
+	public function empty() {
+
+		$this->db->empty_table($this->table);
+
+	}
+
 	public function check_if_in_queue($patient_id) {
 
 		// $query = $this->db;

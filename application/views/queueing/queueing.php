@@ -52,10 +52,6 @@
 
       <div class="col-sm-9">
           
-          <div class="col-sm-12">
-              <span id="">sds</span>
-          </div>
-
       </div>
 
   </div>
@@ -145,7 +141,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger" id="btn-reset-queue">Reset</button>
+        <button type="button" class="btn btn-primary" id="btn-reset-queue">Confirm</button>
       </div>
     </div>
     <!-- /.modal-content -->
@@ -225,6 +221,22 @@
 
           $('#tbl-queued-patient tbody tr').removeClass('clicked');
           $(this).addClass('clicked');
+      });
+
+      $(document).on('click', '#btn-reset-queue', function(event){
+        event.preventDefault();
+
+        var url = '<?php echo base_url().'queueing/reset_queue'; ?>';
+
+        var posting = $.post(url);
+           posting.done(function(response){
+            oTable.ajax.reload();
+              // $.notify("Reset Successful", "success");
+              // $('#modal-patient-confirm-reset-queue').modal('hide');
+              // oTable.ajax.reload();
+           });
+
+
       });
 
   }); 

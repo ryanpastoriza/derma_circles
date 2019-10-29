@@ -54,5 +54,10 @@ class Queueing extends MY_Controller
 		
 		echo json_encode($data);
 	}
+	public function reset_queue(){
+
+		$this->patient_queueing->empty();
+
+	}
 
 }

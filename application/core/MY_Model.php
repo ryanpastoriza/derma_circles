@@ -42,8 +42,6 @@ class MY_Model extends CI_Model
 			return FALSE;
 		}
 	}
-
-
 	// retrieve single record
 	public function get($where_arr = null) {
 
@@ -61,8 +59,6 @@ class MY_Model extends CI_Model
 			return FALSE;
 		}
 	}
-
-
 	// insert records
 	public function insert($columns_arr) {
 
@@ -74,7 +70,6 @@ class MY_Model extends CI_Model
 			}
 		}
 	}
-
 	// update records
 	public function update($columns_arr, $where_arr = null){
 
@@ -88,9 +83,7 @@ class MY_Model extends CI_Model
 		}else{
 			return FALSE;
 		}
-
 	}
-
 	// delete records
 	public function delete($where_arr = null) {
 
