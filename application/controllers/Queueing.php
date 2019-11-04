@@ -30,6 +30,17 @@ class Queueing extends MY_Controller
 			echo 0;
 		}
 	}
+
+	public function get_patient() {
+
+		$patient_id = $this->input->post('patient_id');
+		$patient = $this->patient_information->get(['patient_id' => $patient_id]);
+		// $data['patient'] = $this->patient_information->get(['patient_id' => $id]);
+
+		echo json_encode($patient);
+
+	}
+
 	public function get_patient_queueing() {
 		
 		$patient_queues = $this->patient_queueing->get_all(
@@ -46,7 +57,7 @@ class Queueing extends MY_Controller
 			$patient = null;
 			$patient = $this->patient_information->get(array($this->patient_information->pk => $value->patient_id ));
 			$fullName = $patient->firstname.' '.$patient->middlename.' '.$patient->lastname.' '.$patient->suffix;
-			$row[] = $value->queue_id;
+			$row[] = $value->patient_id;
 			$row[] = ucwords($fullName);
 			
 			$data['data'][] = $row;
@@ -54,6 +65,9 @@ class Queueing extends MY_Controller
 		
 		echo json_encode($data);
 	}
+
+
+
 	public function reset_queue(){
 
 		$this->patient_queueing->empty();

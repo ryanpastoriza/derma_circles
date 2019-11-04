@@ -103,10 +103,12 @@
     </div>
   </div>
 
-
-
   <div class="col-sm-12">
     
+    <a class="btn btn-app" id="btn-clear">
+      <i class="fa fa-times text-danger"></i> Clear
+    </a>
+
     <a class="btn btn-app" id="btn-done">
       <i class="fa fa-check text-green"></i> Done
     </a>

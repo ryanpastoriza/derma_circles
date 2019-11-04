@@ -244,12 +244,6 @@
             });
       });
 
-      $('#tbl-queued-patient tbody').on( 'click', 'tr', function () {
-
-          $('#tbl-queued-patient tbody tr').removeClass('clicked');
-          $(this).addClass('clicked');
-      });
-
       $(document).on('click', '#btn-reset-queue', function(event){
         event.preventDefault();
 
@@ -265,9 +259,17 @@
            });
       });
 
-
       // on click table - patient queueing
-      
+      $('#tbl-queued-patient tbody').on( 'click', 'tr', function () {
+
+          $('#tbl-queued-patient tbody tr').removeClass('clicked');
+          $(this).addClass('clicked');
+
+          var data = oTable.row( this ).data();
+          console.log(get_patient_information(data[0]));
+          show_laboratory('show-patient-laboratory', data[0]);
+
+      });
 
 
 
@@ -278,4 +280,83 @@
       });
 
   }); 
+
+
+
+  function get_patient_information(patient_id){
+      
+    var patient;
+    var url = "<?php echo base_url(); ?>/queueing/get_patient/";
+    var posting = $.post(url, { patient_id : patient_id  });
+        posting.done(function(data){
+
+            patient = JSON.parse(data);
+
+            $('#patient-patient-number').html(patient.patient_id);
+            // add value to hidden input
+            $('#patient-number-input').val(patient.patient_id);
+            // patient lastname
+            $('#patient-lastname').val(patient.lastname);
+            // patient firstname
+            $('#patient-firstname').val(patient.firstname);
+            // patient middlename
+            $('#patient-middlename').val(titleCase(patient.middlename));
+            // patient suffix
+            $('#patient-suffix').val(patient.suffix);
+            // patient birthdate
+            $('#patient-birthdate').val(patient.birthdate);
+            // patient age - calculate from birthdate
+            var birthdate = new Date(patient.birthdate);
+
+            if( data[6] == '0000-00-00' ){
+              $('#patient-age').val('');
+            }else{
+              var ageDifMs = Date.now() - birthdate.getTime();
+              var ageDate = new Date(ageDifMs); // miliseconds from epoch
+              $('#patient-age').val(Math.abs(ageDate.getUTCFullYear() - 1970));
+            }
+            // // patient gender
+            $('#patient-gender').val(patient.gender);
+            // patient-height
+            $('#patient-height').val(patient.height);
+            // patient-weight 
+            $('#patient-weight').val(patient.weight);
+            // patient-blood-type
+            $('#patient-blood-type').val(patient.blood_type);
+            // patient civil status
+            $('#patient-civil-status').val(patient.civil_status);
+            // // patient patient-email
+            $('#patient-email').val(patient.email_address);
+            // patient patient-citizenship
+            $('#patient-citizenship').val(patient.citizenship);
+            // patient patient-contact-number
+            $('#patient-contact-number').val(patient.contact_number);
+            // patient patient-address
+            $('#patient-address').html(titleCase(patient.address));
+
+
+
+        });
+  }
+
+  function show_laboratory(element, id) {
+
+      $('#' + element).html('');
+      var url = "<?php echo base_url(); ?>/patients/show_laboratory/" + id;
+      $('#' + element).load(url);
+  }
+
+  function show_diagnosis(element, id) {
+      $('#' + element).html('');
+      var url = "<?php echo base_url(); ?>/patients/show_diagnosis/" + id;
+      $('#' + element).load(url);
+  }
+
+  function show_treatment(element, id){
+      $('#' + element).html('');
+      var url = "<?php echo base_url(); ?>/patients/show_treatment/" + id;
+      $('#' + element).load(url);
+  }
+
+
 </script>
