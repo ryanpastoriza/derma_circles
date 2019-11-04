@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50721
 File Encoding         : 65001
 
-Date: 2019-10-24 15:23:35
+Date: 2019-11-04 09:26:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -70,27 +70,6 @@ INSERT INTO `patient_diagnosis` VALUES ('6', '2019-10-17', 'peter', '17');
 INSERT INTO `patient_diagnosis` VALUES ('7', '2019-10-02', 'diagnosis', '20');
 
 -- ----------------------------
--- Table structure for patient_diagnosis_treatment
--- ----------------------------
-DROP TABLE IF EXISTS `patient_diagnosis_treatment`;
-CREATE TABLE `patient_diagnosis_treatment` (
-  `diagnosis_id` int(11) NOT NULL AUTO_INCREMENT,
-  `transaction_date` datetime DEFAULT NULL,
-  `diagnosis` text CHARACTER SET latin1,
-  `treatment` text CHARACTER SET latin1,
-  `disposition` text CHARACTER SET latin1,
-  `patient_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`diagnosis_id`),
-  KEY `patient_diagnosis_treatment_id_fk` (`patient_id`),
-  CONSTRAINT `patient_diagnosis_treatment_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient_information` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- ----------------------------
--- Records of patient_diagnosis_treatment
--- ----------------------------
-INSERT INTO `patient_diagnosis_treatment` VALUES ('1', '2019-10-02 09:53:01', 'diagnosis', 'treatment', 'disposition', '19');
-
--- ----------------------------
 -- Table structure for patient_information
 -- ----------------------------
 DROP TABLE IF EXISTS `patient_information`;
@@ -120,7 +99,7 @@ INSERT INTO `patient_information` VALUES ('16', 'Speedwagon', 'Mario', 'Starks',
 INSERT INTO `patient_information` VALUES ('17', 'Cruiser', 'Peter', 'Turner', '', '1984-12-15', 'male', '4\'7\"', '57', 'AB', 'separated', 'email@gmail.com', 'filipino', '09128777564', 'Blk 6 Lot 20, Ideal Homes');
 INSERT INTO `patient_information` VALUES ('18', 'Hays', 'Mark', 'Starks', '', '1960-04-17', 'male', '4\'7\"', '57', 'A', 'married', 'email@gmail.com', 'filipino', '09128777564', 'address');
 INSERT INTO `patient_information` VALUES ('19', 'rush', 'fred', 'Durst', 'MD', '1987-03-16', 'male', '6\'5\"', '60', 'A', 'married', 'email@gmail.com', 'filipino', '09128777565', '#999 Abc Bldg Xyz Avenue Butuan City');
-INSERT INTO `patient_information` VALUES ('20', 'lucifer', 'chrollo', 'spider', '', '1987-02-11', 'male', '5\'5\"', '65', 'AB', 'single', 'chrollo@gmail.com', 'filipino', '0978664543', 'address');
+INSERT INTO `patient_information` VALUES ('20', 'lucifer', 'chrollo', 'Spider', '', '1987-02-11', 'female', '5\'5\"', '65', 'AB', 'single', 'chrollo@gmail.com', 'filipino', '0978664543', 'Address');
 INSERT INTO `patient_information` VALUES ('21', 'durst', 'fred', 'davis', '', '1978-04-18', 'male', '', '', '', 'separated', '', '', '0978664543', 'sample address');
 INSERT INTO `patient_information` VALUES ('22', 'pierre', 'thomas', 'salazar', '', '1976-08-22', 'male', '5\'5\"', '57', 'AB', 'separated', 'cpj@gmail.com', 'filipino', '09128777564', 'address line');
 
@@ -163,17 +142,12 @@ CREATE TABLE `patient_queueing` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`queue_id`),
   UNIQUE KEY `patient_id` (`patient_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of patient_queueing
 -- ----------------------------
-INSERT INTO `patient_queueing` VALUES ('1', '16', 'queue', '1');
-INSERT INTO `patient_queueing` VALUES ('3', '18', 'queue', '1');
-INSERT INTO `patient_queueing` VALUES ('6', '17', 'queue', '1');
-INSERT INTO `patient_queueing` VALUES ('7', '19', 'queue', '1');
-INSERT INTO `patient_queueing` VALUES ('8', '20', 'queue', '1');
-INSERT INTO `patient_queueing` VALUES ('9', '22', 'queue', '1');
+INSERT INTO `patient_queueing` VALUES ('29', '16', 'queue', '1');
 
 -- ----------------------------
 -- Table structure for patient_treatment
@@ -189,7 +163,7 @@ CREATE TABLE `patient_treatment` (
   PRIMARY KEY (`treatment_id`),
   KEY `patient_id_idfk` (`patient_id`),
   CONSTRAINT `patient_id_idfk` FOREIGN KEY (`patient_id`) REFERENCES `patient_information` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of patient_treatment
@@ -201,6 +175,12 @@ INSERT INTO `patient_treatment` VALUES ('4', '2019-10-22', 'atrassdasf', null, '
 INSERT INTO `patient_treatment` VALUES ('5', '2019-10-22', 'treatment again', null, '2019-10-12', '20');
 INSERT INTO `patient_treatment` VALUES ('6', '2019-10-22', 'treat', null, '2019-10-25', '20');
 INSERT INTO `patient_treatment` VALUES ('7', '2019-10-22', '', null, '2019-10-26', '20');
+INSERT INTO `patient_treatment` VALUES ('8', '2019-10-28', '', null, '2019-10-29', '21');
+INSERT INTO `patient_treatment` VALUES ('9', '2019-10-28', '', null, '2019-10-26', '19');
+INSERT INTO `patient_treatment` VALUES ('10', '2019-10-28', '', null, '2019-10-07', '18');
+INSERT INTO `patient_treatment` VALUES ('11', '2019-10-28', '', null, '2019-10-14', '22');
+INSERT INTO `patient_treatment` VALUES ('12', '2019-10-28', '', null, '2019-10-12', '17');
+INSERT INTO `patient_treatment` VALUES ('13', '2019-10-28', '', null, '2019-10-31', '16');
 
 -- ----------------------------
 -- Table structure for services
