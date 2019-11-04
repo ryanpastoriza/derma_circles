@@ -2,6 +2,7 @@
    
    div.dataTables_wrapper div.dataTables_filter{
     text-align: left;
+    width: 100%;
    }
 
    #tbl-patient-list tbody tr {

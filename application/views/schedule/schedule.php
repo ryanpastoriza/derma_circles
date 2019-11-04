@@ -3,7 +3,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
           <div class="box box-primary">
             <div class="box-body no-padding">
               <!-- THE CALENDAR -->
@@ -14,6 +14,7 @@
           <!-- /. box -->
         </div>
         <!-- /.col -->
+        <div class="col-sm-4"></div>
       </div>
       <!-- /.row -->
     </section>

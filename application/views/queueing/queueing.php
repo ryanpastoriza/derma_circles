@@ -31,14 +31,14 @@
       <div class="col-sm-3">
         <div class="row">
           <div class="col-sm-12">
-
+            
             <a class="btn btn-app" id="btn-add-patient-queue">
               <span class="badge bg-green" id="count-queue">0</span>
-              <i class="fa fa-fast-forward"></i> Check In Patient
+              <i class="fa fa-fast-forward text-blue"></i> Add to Queue
             </a>
 
             <a class="btn btn-app" data-toggle="modal" data-target="#modal-patient-confirm-reset-queue">
-              <i class="fa fa-repeat"></i> Reset Queue
+              <i class="fa fa-repeat text-red"></i> Reset Queue
             </a>
 
           </div>
@@ -46,12 +46,43 @@
           <div class="col-sm-12 spacer-sm">
               <?php $this->load->view('queueing/patient_queue'); ?>
           </div>
+
         </div>
 
       </div>
 
       <div class="col-sm-9">
-          
+         
+          <!-- Custom Tabs -->
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab_patient_information" data-toggle="tab">Personal Information</a></li>
+            <li><a href="#tab_diagnosis" data-toggle="tab">Diagnosis</a></li>
+            <li><a href="#tab_treatment" data-toggle="tab">Treatment</a></li>
+            <li><a href="#tab_laboratory" data-toggle="tab">Laboratory</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab_patient_information">
+                <?php $this->load->view('queueing/patient_information'); ?>
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="tab_diagnosis">
+               <div id="show-patient-diagnosis"></div>
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="tab_treatment">
+              <div id="show-patient-treatment"></div>
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="tab_laboratory">
+               <div id="show-patient-laboratory"></div>
+            </div>
+            <!-- /.tab-pane -->
+          </div>
+          <!-- /.tab-content -->
+        </div>
+        <!-- nav-tabs-custom -->
+
       </div>
 
   </div>
@@ -90,21 +121,18 @@
                 <?php foreach ($patient_info as $key => $value) : ?>
                 <tr>
                   <td><?= $value->patient_id; ?></td>
-                  <td><?= $value->lastname; ?></td>
-                  <td><?= $value->firstname; ?></td>
-                  <td><?= $value->middlename; ?></td>
-                  <td><?= $value->gender; ?></td>
+                  <td><?= ucwords($value->lastname); ?></td>
+                  <td><?= ucwords($value->firstname); ?></td>
+                  <td><?= ucwords($value->middlename); ?></td>
+                  <td><?= ucwords($value->gender); ?></td>
                   <td><?= $value->contact_number; ?></td>
                 </tr>
                 <?php endforeach; ?>
               </tbody>
             </table>
           </div>
-
-
         </div>
         
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
@@ -116,7 +144,6 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
 
 <div class="modal" id="modal-patient-confirm-reset-queue">
   <div class="modal-dialog">
@@ -152,8 +179,8 @@
 <script type="text/javascript">
 
   $(function(){
-
-      var oTable = $('#tbl-queued-patient').DataTable({
+      var oTable;
+      oTable = $('#tbl-queued-patient').DataTable({
 
         ajax: { "url" : "<?php echo base_url(); ?>queueing/get_patient_queueing" },
         dom:    "<'row'<'col-sm-12 col-xs-12'f>>",
@@ -193,7 +220,7 @@
 
         var data = plistTable.row( this ).data();
 
-        $('input[name=patient-to-queue]').val(data[0])
+        $('input[name=patient-to-queue]').val(data[0])      
       });
 
       $(document).on('click', '#btn-add-to-queue', function(event){
@@ -230,15 +257,25 @@
 
         var posting = $.post(url);
            posting.done(function(response){
-            oTable.ajax.reload();
-              // $.notify("Reset Successful", "success");
-              // $('#modal-patient-confirm-reset-queue').modal('hide');
-              // oTable.ajax.reload();
-           });
 
+            $.notify("Reset Successful", "success");
+            $('#modal-patient-confirm-reset-queue').modal('hide');
+            oTable.clear().draw();
+
+           });
+      });
+
+
+      // on click table - patient queueing
+      
+
+
+
+      // on finish consultation
+      $(document).on('click', '#btn-done', function(event){
+        event.preventDefault();
 
       });
 
   }); 
-
 </script>

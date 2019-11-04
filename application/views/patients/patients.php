@@ -79,7 +79,7 @@
       <!-- start patient list and information -->
       <div class="col-md-9">
 
-       <!-- Custom Tabs -->
+        <!-- Custom Tabs -->
         <div class="nav-tabs-custom">
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab_patient_information" data-toggle="tab">Personal Information</a></li>
