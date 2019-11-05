@@ -1,3 +1,4 @@
+ <?= form_open(base_url().'patients/add_patient', ['id' => 'frm-patient']); ?>
  <div class="row">
   <div class="col-sm-12 spacer-sm">
       <div class="col-sm-3 form-group">
@@ -89,9 +90,9 @@
     <div class="col-sm-12">
       <img src="<?php echo base_url().'assets' ?>/img/avatar.png" id="patient-photo" class="img-thumbnail" style="width: 150px;">
     </div>
-    <div class="col-sm-3 col-md-12">
+  <!--   <div class="col-sm-3 col-md-12">
       <button id="btn-take-photo" disabled class="btn btn-sm btn-default spacer-sm">Take Photo</button>
-    </div>
+    </div> -->
     <div class="col-sm-12 text-center spacer-sm">
       <div class="col-sm-12">
         <label>Patient Number</label> 
@@ -116,3 +117,4 @@
   </div>
 
 </div>
+<?= form_close();?>

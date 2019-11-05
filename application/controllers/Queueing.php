@@ -74,4 +74,12 @@ class Queueing extends MY_Controller
 
 	}
 
+	public function patient_checkout() {
+
+		$patient_id = $this->input->post('patient_id');
+
+		echo $this->patient_queueing->delete([ 'patient_id' => $patient_id ]);
+
+	}
+
 }

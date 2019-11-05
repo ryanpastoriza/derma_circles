@@ -179,11 +179,13 @@
 <script type="text/javascript">
 
   $(function(){
+
       var oTable;
       oTable = $('#tbl-queued-patient').DataTable({
 
         ajax: { "url" : "<?php echo base_url(); ?>queueing/get_patient_queueing" },
         dom:    "<'row'<'col-sm-12 col-xs-12'f>>",
+        ordering: false,
         pageLength : 8,
         fnDrawCallback: function() {
             var count_data = this.api().rows().count();
@@ -266,7 +268,7 @@
           $(this).addClass('clicked');
 
           var data = oTable.row( this ).data();
-          console.log(get_patient_information(data[0]));
+          get_patient_information(data[0]);
           show_laboratory('show-patient-laboratory', data[0]);
 
       });
@@ -276,6 +278,35 @@
       // on finish consultation
       $(document).on('click', '#btn-done', function(event){
         event.preventDefault();
+
+        var patient_id = $('#patient-patient-number').html();
+        var url = "<?php echo base_url(); ?>/queueing/patient_checkout/";
+        var posting = $.post(url, { patient_id : patient_id });
+            posting.done(function(data){
+
+              console.log(data);
+              if( data > 0 ) {
+                 oTable.ajax.reload();
+                 $('#btn-clear').trigger('click');
+              }else{
+                $.notify("Something went wrong!", "warn");
+              }
+
+              
+            });
+
+
+      });
+      // clear
+      $(document).on('click', '#btn-clear', function(event){
+        event.preventDefault();
+
+        var form = $('#frm-patient');
+        form[0].reset();
+        $('#patient-patient-number').html('000');
+        // set hidden input (patient_id) to null value
+        $('#patient-number-input').val('');
+        $('#patient-address').text('');
 
       });
 
