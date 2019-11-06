@@ -45,6 +45,36 @@ class Services extends MY_Controller
 	    $this->service_category->insert(['category_name' => $category_name]);
 	}
 
+	public function services(){
+		$services = $this->services_model->get_services();
+		echo json_encode($services);
+	}
+
+	public function update_service(){
+		$row['service_name'] = $_REQUEST['value'];
+	    $this->db->where('services_id', $_REQUEST['pk'])->update('services', $row);
+	    if($this->db->affected_rows() == '1'){
+			echo json_encode(true);
+	    }
+	    else{
+			echo json_encode(false);
+	    }
+	}
+
+	public function update_price(){
+		$row['price'] = $_REQUEST['value'];
+	    $this->db->where('services_id', $_REQUEST['pk'])->update('services', $row);
+	    if($this->db->affected_rows() == '1'){
+			echo json_encode(true);
+	    }
+	    else{
+			echo json_encode(false);
+	    }	
+	}
+
+	public function update_category(){
+		echo json_encode('asdsad');
+	}
 }
 
 ?>
