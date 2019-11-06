@@ -13,13 +13,6 @@
 	</section>
 
 	<section class="content">
-		
-		<div class="row">
-        
-
-	    </div>
-
-
 
 		<div class="col-lg-2">
 			<div class="box box-solid">
@@ -40,12 +33,10 @@
 					<?php $this->load->view('services/services_tab'); ?>
 				</div>
 				<div id="packages_tab" class="tab-pane fade">
-					<h3>Menu 1</h3>
-					<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+					<?php $this->load->view('services/packages_tab'); ?>
 				</div>
 				<div id="category_tab" class="tab-pane fade">
-					<h3>Menu 2</h3>
-					<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+					<?php $this->load->view('services/category_tab'); ?>
 				</div>
 			</div>
 		</div>

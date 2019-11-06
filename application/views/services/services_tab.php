@@ -1,15 +1,15 @@
 
 
 
-<div class="box box-primary collapsed-box">
-	<div class="box-header with-border">
-      	<h3 class="box-title"><span class="fa fa-plus"></span> Add Service</h3>
-		<div class="box-tools pull-right">
-			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-		</div>
-    </div>
-    <div class="box-body" style="padding: 20px; display: none;">
-		<form action="#" method="POST" id="service_form">
+<form id="service_form">
+	<div class="box box-primary collapsed-box">
+		<div class="box-header with-border">
+	      	<h3 class="box-title"><span class="fa fa-plus"></span> Add Service</h3>
+			<div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+			</div>
+	    </div>
+	    <div class="box-body" style="padding: 20px; display: none;">
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="form-group">
@@ -64,30 +64,30 @@
 				<div class="col-lg-6">
 					<div class="form-group">
 						<label for="service">Service Name:</label>
-						<input type="text" class="form-control" required name="service_name">
+						<input type="text" class="form-control" name="service_name" id="service_name">
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="form-group">
 						<label for="price">Price:</label>
-						<input type="number" class="form-control" required step=".01" value="0.00" name="price">
+						<input type="number" class="form-control" step=".01" value="0.00" name="price" id="price">
 					</div>
 				</div>
 			</div>
-		</form>
-    </div>
-    <div class="box-footer">
-    	<button class="btn btn-primary btn-md pull-right" onclick="submit_service_form()">Submit</button>
-    </div>
-</div>
+	    </div>
+	    <div class="box-footer">
+	    	<button class="btn btn-primary btn-md pull-right" onclick="add_service()" type="button">Submit</button>
+	    </div>
+	</div>
+</form>
 
 <div class="box box-solid">
 	<div class="box-body">
 		<table class="table table-hover" id="services_tbl">
 			<thead>
+				<th>Service</th>
 				<th>Package</th>
 				<th>Category</th>
-				<th>Service</th>
 				<th>Price</th>
 			</thead>
 			<tbody id="services_rows"></tbody>

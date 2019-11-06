@@ -50,6 +50,12 @@ class Services extends MY_Controller
 		echo json_encode($services);
 	}
 
+	public function add_service(){
+		$rows = $this->input->post();
+	    $ins = $this->services_model->insert($rows);
+		echo json_encode($ins);
+	}
+
 	public function update_service(){
 		$row['service_name'] = $_REQUEST['value'];
 	    $this->db->where('services_id', $_REQUEST['pk'])->update('services', $row);
@@ -73,8 +79,50 @@ class Services extends MY_Controller
 	}
 
 	public function update_category(){
-		echo json_encode('asdsad');
+		$row['category_id'] = $_REQUEST['value'];
+	    $this->db->where('services_id', $_REQUEST['pk'])->update('services', $row);
+	    if($this->db->affected_rows() == '1'){
+			echo json_encode(true);
+	    }
+	    else{
+			echo json_encode(false);
+	    }	
 	}
+
+	public function update_package()
+	{
+		$row['package_id'] = $_REQUEST['value'];
+	    $this->db->where('services_id', $_REQUEST['pk'])->update('services', $row);
+	    if($this->db->affected_rows() == '1'){
+			echo json_encode(true);
+	    }
+	    else{
+			echo json_encode(false);
+	    }	
+	}
+
+	public function update_package_2(){
+		$row['package_name'] = $_REQUEST['value'];
+		$this->db->where('service_package_id', $_REQUEST['pk'])->update('service_package', $row);
+	    if($this->db->affected_rows() == '1'){
+			echo json_encode(true);
+	    }
+	    else{
+			echo json_encode(false);
+	    }	
+	}
+
+	public function update_category_2(){
+		$row['category_name'] = $_REQUEST['value'];
+		$this->db->where('category_id', $_REQUEST['pk'])->update('service_category', $row);
+	    if($this->db->affected_rows() == '1'){
+			echo json_encode(true);
+	    }
+	    else{
+			echo json_encode(false);
+	    }	
+	}
+
 }
 
 ?>
