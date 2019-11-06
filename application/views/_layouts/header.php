@@ -26,6 +26,7 @@ date_default_timezone_set("Asia/Manila");
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins'); ?>/adminlte/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins'); ?>/jquery-ui-1.12.1/jquery-ui.min.css">
+  <link rel="stylesheet" href="<?php echo base_url('assets/plugins'); ?>/x-editable/bootstrap-editable.css">
 
   <!-- Custom css -->
  <link rel="stylesheet" href="<?php echo base_url('assets'); ?>/css/custom.css">
