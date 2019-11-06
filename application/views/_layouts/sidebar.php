@@ -5,14 +5,19 @@ $nav = array(
           array('href' => base_url().'patients/', 'fa' => 'user', 'label' => 'Patients' ),
           array('href' => base_url().'queueing/', 'fa' => 'fast-forward', 'label' => 'Queueing' ),
           array('href' => base_url().'schedule', 'fa' => 'calendar', 'label' => 'Schedule' ),
+          array('href' => base_url().'services/main', 'fa' => 'industry', 'label' => 'Services', 'links' => array(
+            ['label' => 'Therapist', 'fa' => 'hand-stop-o', 'href' => base_url('services/therapist'), 'uri' => 'therapist'],
+            ['label' => 'Packages', 'fa' => 'shopping-bag', 'href' => base_url('test'), 'uri' => 'facials'],
+            // ['label' => 'Machines', 'fa' => 'plug', 'href' => base_url('test'), 'uri' => 'machines']
+            ) ),
           array('href' => base_url().'payment/', 'fa' => 'credit-card', 'label' => 'Payment' ),
           array('href' => base_url().'inventory/', 'fa' => 'cubes', 'label' => 'Inventory' ),
           array('href' => base_url().'reports/', 'fa' => 'line-chart', 'label' => 'Reports' ),
           array('href' => base_url().'accounts/', 'fa' => 'users', 'label' => 'Accounts' ),
           array('href' => base_url().'logs/', 'fa' => 'history', 'label' => 'Logs' ),
           array('fa' => 'cogs', 'label' => 'Setup', 'links' => array(
-            ['label' => 'Roles and Accessibilities', 'uri' => 'roles', 'href' => base_url('roles'), 'fa' => 'user-circle'],
-            ['label' => 'Services', 'uri' => 'services', 'href' => base_url('services'), 'fa' => 'handshake-o']
+            ['label' => 'Roles and Accessibilities', 'uri' => 'roles', 'href' => base_url('setup/roles'), 'fa' => 'user-circle'],
+            ['label' => 'Services', 'uri' => 'services', 'href' => base_url('setup/services'), 'fa' => 'handshake-o']
           ) )
 );
 
@@ -33,7 +38,6 @@ $nav = array(
 
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">Menu</li>
-      
       <?php foreach ($nav as $key => $value): ?>
         <?php if (empty($value['links'])): ?>
           <li class="<?= ($this->uri->segment(1) == strtolower($value['label'])) ? 'active' : ''; ?>">
@@ -42,8 +46,9 @@ $nav = array(
             </a>
           </li>
         <?php else: ?>
-          <li class="treeview <?= ($this->uri->segment(1) == strtolower($value['label'])) ? 'active' : ''; ?>">
-            <a href="#"><i class="fa fa-link"></i> <span><?= $value['label'] ?></span>
+
+          <li class="treeview <?= ($this->uri->segment(1) == strtolower($value['label'])) ? 'active' : '5test'; ?>">
+            <a href="#"><i class="fa fa-<?= $value['fa']; ?>"></i> <span><?= $value['label'] ?></span>
               <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
               </span>
@@ -57,10 +62,12 @@ $nav = array(
                 </li>
               <?php endforeach ?>
             </ul>
-          </li>  
+          </li>
+
         <?php endif ?>
       <?php endforeach; ?>
     </ul> 
   </section>
   <!-- /.sidebar -->
 </aside>
+

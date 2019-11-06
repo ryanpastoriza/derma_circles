@@ -124,16 +124,6 @@
       </div>
       <!-- end patient list and information -->
     </div>
-    
-
-    <!-- patient laboratory and diagnosis -->
-    <div class="row">
-
-      <div class="col-sm-12">
-        <?php //$this->load->view('patients/laboratory_and_treatment'); ?>
-      </div>
-
-    </div>
 
   </section>
   <!-- /.content -->

@@ -270,10 +270,10 @@
           var data = oTable.row( this ).data();
           get_patient_information(data[0]);
           show_laboratory('show-patient-laboratory', data[0]);
+          show_diagnosis('show-patient-diagnosis', data[0]);
+          show_treatment('show-patient-treatment', data[0]);
 
       });
-
-
 
       // on finish consultation
       $(document).on('click', '#btn-done', function(event){
@@ -291,11 +291,8 @@
               }else{
                 $.notify("Something went wrong!", "warn");
               }
-
               
             });
-
-
       });
       // clear
       $(document).on('click', '#btn-clear', function(event){
@@ -364,8 +361,6 @@
             $('#patient-contact-number').val(patient.contact_number);
             // patient patient-address
             $('#patient-address').html(titleCase(patient.address));
-
-
 
         });
   }

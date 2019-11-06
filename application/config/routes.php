@@ -56,3 +56,14 @@ $route['translate_uri_dashes'] = FALSE;
 
 // login
 $route['login/authentication'] = 'login/user_login';
+
+
+// services
+$route['services/main'] = 'service/index';
+$route['services/therapist'] = 'service/therapist';
+
+
+// setup
+$route['setup/services'] = 'services';
+$route['setup/roles'] = 'roles';
+
