@@ -5,7 +5,7 @@
   	
   	<div class="row">
   		
-  		<div class="col-sm-4">
+  		<div class="col-sm-5">
   			
   			<div class="box box-solid">
 	            <div class="box-header with-border">
@@ -17,32 +17,28 @@
 	            <div class="box-body">
 
 	            	<div class="row">
-	            		
+	            		<?= form_open(base_url().'therapist/create', ['id' => 'frm-therapist']); ?>
 	            		<div class="col-sm-12">
 		            		<div class="input-group">
-				                <input type="text" class="form-control">
-				                    <span class="input-group-btn">
-				                      <button type="button" class="btn btn-info btn-flat">Add</button>
-				                    </span>
+				                <input type="text" class="form-control" name="name" required>
+			                    <span class="input-group-btn">
+			                      <button type="submit" class="btn btn-info btn-flat" id="btn-add-therapist">Add</button>
+			                    </span>
 				            </div>
 			            </div>
-
+						<?= form_close();?>
 			            <div class="col-sm-12 spacer-sm">
 			            	
-							<table class="table table-hover table-condensed">
+							<table class="table table-hover table-condensed" id="tbl-therapist">
 								<thead>
 									<tr>
-										<th>Therapist</th>
+										<th>ID</th>
+										<th>Name</th>
+										<th>Status</th>
+										<th>Branch</th>
 									</tr>
 								</thead>
-								<tbody>
-									<?php foreach ($therapist as $key => $value) : ?>
-										<tr>
-											<td><?= ucwords($value->name); ?></td>
-										</tr>
-									<?php endforeach; ?>
-									
-								</tbody>
+								
 							</table>
 
 			            </div>
@@ -54,7 +50,7 @@
   		</div>
 
 
-  		<div class="col-sm-8">
+  		<div class="col-sm-7">
   			
   			<div class="box box-solid">
 	            <div class="box-header with-border">
@@ -72,10 +68,7 @@
 	            </div>
           	</div>	
 
-
   		</div>
-		
-
   	</div>
   
     
@@ -83,3 +76,56 @@
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+
+<script type="text/javascript">
+	
+	$(function(){
+
+		var oTable = $('#tbl-therapist').DataTable({
+			pageLength : 8,
+			dom:    "<'row'<'col-sm-12 col-xs-12'f>>",
+			ordering: false,
+            ajax: { "url" : "<?php echo base_url(); ?>therapist/retrieve" },
+            columnDefs: [
+                {
+                    "targets": [ 0, 3],
+                    "visible": false,
+                    // "searchable": false
+                },
+                {
+                	render: function(data, type, row){
+            			return '<span class="label bg-green">'+row[2]+'</span>';
+            		},
+            		targets: 2
+                }
+            ],
+		});
+
+
+		$(document).on('submit', '#frm-therapist', function(e){
+			e.preventDefault();
+
+			var form = $(this);
+        	var url = form.attr('action');
+        	var posting = $.post(url, form.serializeArray() );
+				posting.done(function(response){
+
+					console.log(response);
+					if( response > 0 ) {
+						$.notify("New Therapist Added!", "success");
+						oTable.ajax.reload();
+						form[0].reset();
+					}else{
+						$.notify("Something went wrong!", "warn");
+					}
+
+				});
+		});
+
+
+
+	});
+
+
+</script>

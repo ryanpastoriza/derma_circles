@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('patient_information', 'patient_laboratory', 'patient_diagnosis', 'patient_treatment', 'patient_queueing', 'branch', 'user_roles', 'services_model', 'service_package', 'service_category', 'therapist');
+$autoload['model'] = array('patient_information', 'patient_laboratory', 'patient_diagnosis', 'patient_treatment', 'patient_queueing', 'branch', 'user_roles', 'services_model', 'service_package', 'service_category', 'therapist_model', 'service_transaction');

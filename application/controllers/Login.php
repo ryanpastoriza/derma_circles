@@ -61,11 +61,11 @@ Class Login extends CI_Controller {
 		}
 		echo 0;
 		
-		$data = array(
-			'username' => $this->input->post('username'),
-			'password' => $this->input->post('password'),
-			'branch_id' => $this->input->post('branch_id')
-		);
+		// $data = array(
+		// 	'username' => $this->input->post('username'),
+		// 	'password' => $this->input->post('password'),
+		// 	'branch_id' => $this->input->post('branch_id')
+		// );
 	}
 
 	function user_logout() {

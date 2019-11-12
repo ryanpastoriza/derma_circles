@@ -61,6 +61,7 @@ $route['login/authentication'] = 'login/user_login';
 // services
 $route['services/main'] = 'service/index';
 $route['services/therapist'] = 'service/therapist';
+$route['services/service_management'] = 'service/service_management';
 
 
 // setup

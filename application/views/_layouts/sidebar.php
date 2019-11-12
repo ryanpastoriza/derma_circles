@@ -7,7 +7,7 @@ $nav = array(
           array('href' => base_url().'schedule', 'fa' => 'calendar', 'label' => 'Schedule' ),
           array('href' => base_url().'services/main', 'fa' => 'industry', 'label' => 'Services', 'links' => array(
             ['label' => 'Therapist', 'fa' => 'hand-stop-o', 'href' => base_url('services/therapist'), 'uri' => 'therapist'],
-            ['label' => 'Packages', 'fa' => 'shopping-bag', 'href' => base_url('test'), 'uri' => 'facials'],
+            ['label' => 'Service Management', 'fa' => 'shopping-bag', 'href' => base_url('services/service_management'), 'uri' => 'service_management'],
             // ['label' => 'Machines', 'fa' => 'plug', 'href' => base_url('test'), 'uri' => 'machines']
             ) ),
           array('href' => base_url().'payment/', 'fa' => 'credit-card', 'label' => 'Payment' ),

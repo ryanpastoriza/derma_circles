@@ -417,6 +417,8 @@
 
         $('#show-patient-laboratory').html('');
         $('#show-patient-diagnosis').html('');
+        $('#show-patient-treatment').html('');
+        $('#tbl-patient-list tbody tr').removeClass('clicked');
         show_profile_pic('#patient-photo', 0);
 
       });
@@ -1079,8 +1081,6 @@
         // console.log(response);
          $(elem).attr('src', response);
       });
-
-     
     }
 
     function format_date(date) {
