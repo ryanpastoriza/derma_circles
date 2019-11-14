@@ -13,4 +13,5 @@ class Therapist_model extends My_Model
 	    parent::__construct();
 	}
 
+
 }

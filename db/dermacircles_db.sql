@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50723
 File Encoding         : 65001
 
-Date: 2019-11-12 17:03:56
+Date: 2019-11-14 17:40:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,13 +21,23 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `billing`;
 CREATE TABLE `billing` (
   `billing_id` int(11) NOT NULL AUTO_INCREMENT,
-  `patient_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`billing_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `transaction_id` int(11) DEFAULT NULL,
+  `discount` varchar(128) CHARACTER SET latin1 DEFAULT NULL,
+  `status` varchar(128) CHARACTER SET latin1 DEFAULT NULL,
+  PRIMARY KEY (`billing_id`),
+  KEY `transaction_idfk` (`transaction_id`),
+  CONSTRAINT `transaction_idfk` FOREIGN KEY (`transaction_id`) REFERENCES `service_transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of billing
 -- ----------------------------
+INSERT INTO `billing` VALUES ('1', '1', null, null);
+INSERT INTO `billing` VALUES ('2', '2', null, null);
+INSERT INTO `billing` VALUES ('3', '3', null, null);
+INSERT INTO `billing` VALUES ('4', '4', null, null);
+INSERT INTO `billing` VALUES ('6', '12', '', 'unpaid');
+INSERT INTO `billing` VALUES ('7', '13', '', 'unpaid');
 
 -- ----------------------------
 -- Table structure for branch
@@ -145,12 +155,11 @@ CREATE TABLE `patient_queueing` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`queue_id`),
   UNIQUE KEY `patient_id` (`patient_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of patient_queueing
 -- ----------------------------
-INSERT INTO `patient_queueing` VALUES ('36', '21', 'queue', '1');
 INSERT INTO `patient_queueing` VALUES ('37', '22', 'queue', '1');
 INSERT INTO `patient_queueing` VALUES ('38', '17', 'queue', '1');
 
@@ -263,15 +272,19 @@ CREATE TABLE `service_transaction` (
   CONSTRAINT `patient_idfk` FOREIGN KEY (`patient_id`) REFERENCES `patient_information` (`patient_id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `service_idfk` FOREIGN KEY (`service_id`) REFERENCES `services` (`services_id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `therapist_idfk` FOREIGN KEY (`therapist_id`) REFERENCES `therapist` (`therapist_id`) ON DELETE SET NULL ON UPDATE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of service_transaction
 -- ----------------------------
 INSERT INTO `service_transaction` VALUES ('1', '3', '3', '18', '2019-11-12 12:14:00');
-INSERT INTO `service_transaction` VALUES ('2', '1', '1', '19', '2019-11-12 15:07:00');
+INSERT INTO `service_transaction` VALUES ('2', '1', '1', '19', '2019-11-14 15:07:00');
 INSERT INTO `service_transaction` VALUES ('3', '9', '3', '17', '2019-11-12 16:48:00');
-INSERT INTO `service_transaction` VALUES ('4', '1', '2', '20', '2019-11-12 16:49:00');
+INSERT INTO `service_transaction` VALUES ('4', '1', '2', '20', '2019-11-14 16:49:00');
+INSERT INTO `service_transaction` VALUES ('12', '8', '4', '21', '2019-11-14 11:09:00');
+INSERT INTO `service_transaction` VALUES ('13', '8', '4', '19', '2019-11-14 14:31:00');
+INSERT INTO `service_transaction` VALUES ('14', '2', '3', '21', '2019-11-14 15:00:00');
+INSERT INTO `service_transaction` VALUES ('15', '9', '2', '19', '2019-11-14 15:01:00');
 
 -- ----------------------------
 -- Table structure for therapist
@@ -280,19 +293,21 @@ DROP TABLE IF EXISTS `therapist`;
 CREATE TABLE `therapist` (
   `therapist_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`therapist_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of therapist
 -- ----------------------------
-INSERT INTO `therapist` VALUES ('1', 'ashley campbell', 'active', '1');
-INSERT INTO `therapist` VALUES ('2', 'clarence jaworskie', 'active', '1');
-INSERT INTO `therapist` VALUES ('3', 'nancy taylor', 'active', '1');
-INSERT INTO `therapist` VALUES ('8', 'sample name', 'active', '1');
-INSERT INTO `therapist` VALUES ('9', 'mark', 'active', '1');
+INSERT INTO `therapist` VALUES ('1', 'ashley campbell', 'facialist', 'active', '1');
+INSERT INTO `therapist` VALUES ('2', 'clarence jaworskie', 'facialist', 'active', '1');
+INSERT INTO `therapist` VALUES ('3', 'nancy taylor', 'facialist', 'active', '1');
+INSERT INTO `therapist` VALUES ('8', 'doctor', 'doctor', 'active', '1');
+INSERT INTO `therapist` VALUES ('9', 'mark twain', 'facialist', 'active', '1');
+INSERT INTO `therapist` VALUES ('10', 'Test name', 'facialist', 'active', '1');
 
 -- ----------------------------
 -- Table structure for user

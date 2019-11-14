@@ -10,7 +10,7 @@ class Therapist extends MY_Controller
 
 	public function retrieve() {
 
-		$therapist = $this->therapist_model->get_all(['status' => 'active']);
+		$therapist = $this->therapist_model->get_all(['status' => 'active', 'type' => 'facialist']);
 
 		$data = array();
 
@@ -33,6 +33,7 @@ class Therapist extends MY_Controller
 
 			'name' => $this->input->post('name'),
 			'status' => 'active',
+			'type' => 'facialist',
 			'branch_id' =>  $this->session->userdata('branch_id'),
 
 		);

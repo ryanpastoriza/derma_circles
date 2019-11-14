@@ -36,7 +36,6 @@ class Queueing extends MY_Controller
 		$patient_id = $this->input->post('patient_id');
 		$patient = $this->patient_information->get(['patient_id' => $patient_id]);
 		// $data['patient'] = $this->patient_information->get(['patient_id' => $id]);
-
 		echo json_encode($patient);
 
 	}
@@ -66,8 +65,6 @@ class Queueing extends MY_Controller
 		echo json_encode($data);
 	}
 
-
-
 	public function reset_queue(){
 
 		$this->patient_queueing->empty();
@@ -78,7 +75,27 @@ class Queueing extends MY_Controller
 
 		$patient_id = $this->input->post('patient_id');
 
-		echo $this->patient_queueing->delete([ 'patient_id' => $patient_id ]);
+		$doctor = $this->therapist_model->get(['status' => 'active', 'type' => 'doctor']);
+		$service = $this->services_model->get_services('consultation');
+
+		$data = array(
+
+			'therapist_id' => $doctor->therapist_id,
+			'service_id' => $service->services_id,
+			'patient_id' => $patient_id,
+			'date_created' => date('Y-m-d G:i'),
+
+		);
+
+		// add service transaction
+		$transaction_id = $this->service_transaction->insert($data);
+		
+		if( $transaction_id > 0) {
+			// add billing information
+			if( $this->billing->add_billing($transaction_id) > 0 ){
+				echo $this->patient_queueing->delete([ 'patient_id' => $patient_id ]);
+			}
+		}
 
 	}
 
