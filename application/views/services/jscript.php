@@ -50,6 +50,8 @@
 			$.notify('Package ' + packageName + " has been added.", 'success');
 			packages();
 			hidePackage();
+			$("#package-name").val('')
+			$("#package_name_diff_tab").val('')
 		});
 	}
 
@@ -80,6 +82,9 @@
 			$.notify('category ' + categoryName + " has been added.", 'success');
 			categories();
 			hideCategory();
+			$("#category-name").val('')
+			$("#category_name_diff_tab").val('')
+
 		});
 	}
 
@@ -96,7 +101,7 @@
 			});
 			$("#services_rows").html(tr);
 			$("#services_tbl").dataTable();
-			editables();
+			// editables();
 		});
 	}
 
@@ -148,92 +153,134 @@
 		categoryData = a;
 	}
 	
-	function editables(){
-		$(".package_name").editable({
-			send: 'always',
-			mode: 'inline',
-			source: packageData,
-			url: "<?=base_url('services/update_package')?>",
-			success: function(response, newValue) {
-				if( response == 'true' ){
-					$.notify('Update successful.', 'success');
-				}
-				if( response == 'false' ){
-					return 'Something went wrong';
-				}
-		    }
-		}).bind(packageData);
+	function services_edit_mode(form){
+		editables(form);
+		if(form == 'services'){
+			$(".services_edit_mode").addClass('hidden');
+			$(".disable_edit_services").removeClass('hidden');
+		}
+		if(form == 'packages'){
+			$(".packages_edit_mode").addClass('hidden');
+			$(".disable_edit_packages").removeClass('hidden');
+		}
+		if(form == 'category'){
+			$(".category_edit_mode").addClass('hidden');
+			$(".disable_edit_category").removeClass('hidden');
+		}
+	}
 
-		$(".category_name").editable({
-			send: 'always',
-			mode: 'inline',
-			url: "<?=base_url('services/update_category')?>",
-		    'source': function() {
-		        return categoryData;
-		    },
-			success: function(response, newValue) {
-				if( response == 'true' ){
-					$.notify('Update successful.', 'success');
-				}
-				if( response == 'false' ){
-					return 'Something went wrong';
-				}
-		    }
-		}).bind(categoryData);
+	function disable_edit_services(form){
+		if(form == 'services'){
+			$('.package_name').editable('destroy');
+			$('.category_name').editable('destroy');
+			$('.service_name').editable('destroy');
+			$('.service_price').editable('destroy');
+			$(".disable_edit_services").addClass('hidden');
+			$(".services_edit_mode").removeClass('hidden');
+		}
+		if(form == 'packages'){
+			$('.package_name_2').editable('destroy');
+			$(".disable_edit_packages").addClass('hidden');
+			$(".packages_edit_mode").removeClass('hidden');
+		}
 
-		$(".service_name").editable({
-			mode: 'inline',
-			url: "<?=base_url('services/update_service')?>",
-			success: function(response, newValue) {
-				if( response == 'true' ){
-					$.notify('Update successful.', 'success');
-				}
-				if( response == 'false' ){
-					return 'Something went wrong';
-				}
-		    }
-		});
+		if(form == 'category'){
+			$('.category_name_2').editable('destroy');
+			$(".category_edit_mode").removeClass('hidden');
+			$(".disable_edit_category").addClass('hidden');
+		}
+	}
 
-		$(".service_price").editable({
-			mode: 'inline',
-			type: 'number',
-			step: 'any',
-			url: '<?=base_url('services/update_price')?>',
-			success: function(response, newValue) {
-				if( response == 'true' ){
-					$.notify('Update successful.', 'success');
-				}
-				if( response == 'false' ){
-					return 'Something went wrong';
-				}
-		    }
-		});
+	function editables(form){
+		if(form == 'services'){
+			$(".package_name").editable({
+				send: 'always',
+				mode: 'inline',
+				source: packageData,
+				url: "<?=base_url('services/update_package')?>",
+				success: function(response, newValue) {
+					if( response == 'true' ){
+						$.notify('Update successful.', 'success');
+					}
+					if( response == 'false' ){
+						return 'Something went wrong';
+					}
+			    }
+			}).bind(packageData);
 
-		$(".package_name_2").editable({
-			mode: 'inline',
-			url: '<?=base_url('services/update_package_2')?>',
-			success: function(response, newValue) {
-				if( response == 'true' ){
-					$.notify('Update successful.', 'success');
-				}
-				if( response == 'false' ){
-					return 'Something went wrong';
-				}
-		    }
-		});
+			$(".category_name").editable({
+				send: 'always',
+				mode: 'inline',
+				url: "<?=base_url('services/update_category')?>",
+			    'source': function() {
+			        return categoryData;
+			    },
+				success: function(response, newValue) {
+					if( response == 'true' ){
+						$.notify('Update successful.', 'success');
+					}
+					if( response == 'false' ){
+						return 'Something went wrong';
+					}
+			    }
+			}).bind(categoryData);
 
-		$(".category_name_2").editable({
-			mode: 'inline',
-			url: '<?=base_url('services/update_category_2')?>',
-			success: function(response, newValue) {
-				if( response == 'true' ){
-					$.notify('Update successful.', 'success');
-				}
-				if( response == 'false' ){
-					return 'Something went wrong';
-				}
-		    }
-		});
+			$(".service_name").editable({
+				mode: 'inline',
+				url: "<?=base_url('services/update_service')?>",
+				success: function(response, newValue) {
+					if( response == 'true' ){
+						$.notify('Update successful.', 'success');
+					}
+					if( response == 'false' ){
+						return 'Something went wrong';
+					}
+			    }
+			});
+
+			$(".service_price").editable({
+				mode: 'inline',
+				type: 'number',
+				step: 'any',
+				url: '<?=base_url('services/update_price')?>',
+				success: function(response, newValue) {
+					if( response == 'true' ){
+						$.notify('Update successful.', 'success');
+					}
+					if( response == 'false' ){
+						return 'Something went wrong';
+					}
+			    }
+			});
+		}
+		if(form == 'packages'){		
+			$(".package_name_2").editable({
+				mode: 'inline',
+				url: '<?=base_url('services/update_package_2')?>',
+				success: function(response, newValue) {
+					if( response == 'true' ){
+						$.notify('Update successful.', 'success');
+					}
+					if( response == 'false' ){
+						return 'Something went wrong';
+					}
+			    }
+			});
+		}
+		if(form == 'category'){
+			$(".category_name_2").editable({
+				mode: 'inline',
+				url: '<?=base_url('services/update_category_2')?>',
+				success: function(response, newValue) {
+					if( response == 'true' ){
+						$.notify('Update successful.', 'success');
+					}
+					if( response == 'false' ){
+						return 'Something went wrong';
+					}
+			    }
+			});
+		}
 
 	}
 

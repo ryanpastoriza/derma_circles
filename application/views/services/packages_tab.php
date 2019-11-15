@@ -23,6 +23,11 @@
 
 		<div class="box box-solid">
 			<div class="box-body">
+
+				<div class="row" style="text-align: right; padding:0px 20px 10px 0px;">
+					<button class="btn btn-link packages_edit_mode" onclick="services_edit_mode('packages')"><span class="fa fa-edit"></span> Edit Mode</button>
+					<button class="btn btn-link disable_edit_packages hidden" onclick="disable_edit_services('packages')"><span class="fa fa-check"></span> Edit Done</button>
+				</div>
 				<table class="table table-hover" id="packages_tbl">
 					<thead>
 						<th>Package</th>
