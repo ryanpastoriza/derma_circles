@@ -23,11 +23,10 @@
 				    	<h3 class="box-title"> Add Role </h3>
 				    	<div class="pull-right box-tools">
 			                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-			                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
 				    	</div>
 
 				  	</div>
-				  	<div class="box-body">
+				  	<div class="box-body" style="display:none;">
 				  		<form action="<?= base_url('roles/add_role')?>" method="POST">
 					  		<div class="input-group">
 				                <input name="role_name" type="text" class="form-control" placeholder="New Role" required>
@@ -60,43 +59,14 @@
 			<div class="col-lg-9">
 				<div class="box box-primary">
 		            <div class="box-header with-border">
-		              <h3 class="box-title">Horizontal Form</h3>
+		            	<h3 class="box-title">Accessibility</h3>
 		            </div>
-		            <!-- /.box-header -->
-		            <!-- form start -->
-		            <form class="form-horizontal">
-		              <div class="box-body">
-		                <div class="form-group">
-		                  <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-
-		                  <div class="col-sm-10">
-		                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-		                  </div>
-		                </div>
-		                <div class="form-group">
-		                  <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-
-		                  <div class="col-sm-10">
-		                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-		                  </div>
-		                </div>
-		                <div class="form-group">
-		                  <div class="col-sm-offset-2 col-sm-10">
-		                    <div class="checkbox">
-		                      <label>
-		                        <input type="checkbox"> Remember me
-		                      </label>
-		                    </div>
-		                  </div>
-		                </div>
-		              </div>
-		              <!-- /.box-body -->
-		              <div class="box-footer">
-		                <button type="submit" class="btn btn-default">Cancel</button>
+	              	<div class="box-body">
+	               		asad
+	              	</div>
+	              	<div class="box-footer">
 		                <button type="submit" class="btn btn-primary pull-right">Sign in</button>
-		              </div>
-		              <!-- /.box-footer -->
-		            </form>
+		            </div>
 		          </div>
 			</div>
 

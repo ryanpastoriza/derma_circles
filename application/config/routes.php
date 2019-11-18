@@ -67,4 +67,5 @@ $route['services/service_management'] = 'service/service_management';
 // setup
 $route['setup/services'] = 'services';
 $route['setup/roles'] = 'roles';
+$route['setup/branches'] = 'branches';
 

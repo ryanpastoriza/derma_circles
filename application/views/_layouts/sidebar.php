@@ -17,7 +17,8 @@ $nav = array(
           array('href' => base_url().'logs/', 'fa' => 'history', 'label' => 'Logs' ),
           array('fa' => 'cogs', 'label' => 'Setup', 'links' => array(
             ['label' => 'Roles and Accessibilities', 'uri' => 'roles', 'href' => base_url('setup/roles'), 'fa' => 'user-circle'],
-            ['label' => 'Services', 'uri' => 'services', 'href' => base_url('setup/services'), 'fa' => 'handshake-o']
+            ['label' => 'Services', 'uri' => 'services', 'href' => base_url('setup/services'), 'fa' => 'handshake-o'],
+            ['label' => 'Branches', 'uri' => 'branches', 'href' => base_url('setup/branches'), 'fa' => 'building-o']
           ) )
 );
 

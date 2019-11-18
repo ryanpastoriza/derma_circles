@@ -26,7 +26,7 @@
 		  						</thead>
 		  						<tbody>
 		  							<?php foreach ($accounts as $key => $value): ?>
-			  							<tr data-id="<?=$value->user_id?>" data-username="<?=$value->username?>" data-role-id="<?=$value->role_id?>">
+			  							<tr data-id="<?=$value->user_id?>" data-username="<?=$value->username?>" data-role-id="<?=$value->role_id?>" data-branch-id="<?=$value->branch_id?>">
 			  								<td><?= $value->username ?></td>
 			  							</tr>
 		  							<?php endforeach ?>
@@ -57,7 +57,7 @@
 									<select name="branch_id" id="branch_id" class="form-control">
 							    		<?php foreach ($branches as $key => $value): ?>
 											<?php $selected = set_value('branch_id') == $value->branch_id ? 'selected' : ''?>  			
-											<option value="<?=$value->branch_id?>" <?=$selected?> ><?= ucwords($value->branch_name) ?></option>
+											<option value="<?=$value->branch_id?>" id="branch_<?=$value->branch_id?>" <?=$selected?> ><?= ucwords($value->branch_name) ?></option>
 							    		<?php endforeach ?>
 									</select>
 							  	</div>
@@ -113,7 +113,7 @@
 					<div class="box-footer">
 						<div class="form-row">
 							<div class="form-group col-md-12 text-right">		
-								<button type="button" class="btn btn-default" onclick="clear_fields()">Clear</button>
+								<button type="button" class="btn btn-default clear" onclick="clear_fields()">Clear</button>
 								<button type="submit" class="btn btn-primary" id='submit' onclick="submit_form()">Create</button>
 							</div>
 						</div>
