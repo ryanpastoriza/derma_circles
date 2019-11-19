@@ -17,10 +17,10 @@
       
       <div class="col-sm-12">
         <div class="col-sm-6">
-          Patient Name: <span id=""></span>
+          Patient Name: <span id=""><?= ucwords($billing[0]->firstname.' '.$billing[0]->middlename[0].'. '.$billing[0]->lastname.' '.$billing[0]->suffix); ?></span>
         </div>
         <div class="col-sm-6">
-          Status: <span id=""></span>
+          Status: <span class="label bg-red" id="">unpaid</span>
         </div>
       </div>
    
@@ -91,6 +91,10 @@
             </thead>
             <tbody>
               <?php  
+                echo '<pre>';
+                var_export($billing);
+                echo '</pre>';
+
                 $total = 0;
               ?>
               <?php foreach ($billing as $key => $value) : ?>
@@ -148,16 +152,16 @@
              <div class="col-sm-6 text-right">
               <!--  Payment -->
              </div>
-             <div class="col-sm-6">
+              <!-- <div class="col-sm-6">
               <div class="input-group">
                 <span class="input-group-addon">Payment</span>
                 <input type="text" class="form-control">
-              </div>
+              </div> -->
              </div>
            </div>
         </div>
       </div>
-
+<!-- 
       <div class="col-sm-12 spacer-md ">
         <div class="col-sm-12 text-right">
            <div class="col-sm-6 col-sm-offset-6 text-right">
@@ -165,7 +169,7 @@
            </div>
         </div>
       </div>
-
+ -->
   </div>
   <!-- /.box-body -->
 </div>

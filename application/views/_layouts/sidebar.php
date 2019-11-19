@@ -11,7 +11,10 @@ $nav = array(
             // ['label' => 'Machines', 'fa' => 'plug', 'href' => base_url('test'), 'uri' => 'machines']
             ) ),
           array('href' => base_url().'payment/', 'fa' => 'credit-card', 'label' => 'Payment' ),
-          array('href' => base_url().'inventory/', 'fa' => 'cubes', 'label' => 'Inventory' ),
+          array('href' => base_url().'inventory/', 'fa' => 'cubes', 'label' => 'Inventory', 'links' => array(
+            ['label' => 'Products', 'fa' => 'product-hunt', 'href' => base_url(), 'uri' => 'products'],
+            ['label' => 'Stocks', 'fa' => 'th-list', 'href' => base_url(), 'uri' => 'stocks']
+          ) ),
           array('href' => base_url().'reports/', 'fa' => 'line-chart', 'label' => 'Reports' ),
           array('href' => base_url().'accounts/', 'fa' => 'users', 'label' => 'Accounts' ),
           array('href' => base_url().'logs/', 'fa' => 'history', 'label' => 'Logs' ),

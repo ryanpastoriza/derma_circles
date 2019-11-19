@@ -16,4 +16,10 @@ class Inventory extends MY_Controller
 
 	}
 
+	public function products() {
+
+		
+		
+	}
+
 }
