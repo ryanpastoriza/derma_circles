@@ -9,6 +9,9 @@
 	        "bAutoWidth": false,
 	        "aaSorting": []
 	    });
+	    setTimeout(function () {
+	    	$(".clear").click();
+		}, 500);
 	});
 
 	$("#accounts_tbl tbody tr").click(function(event) {
@@ -17,10 +20,14 @@
 		var id = $(this).attr('data-id');
 		var username = $(this).attr('data-username');
 		var role_id = $(this).attr('data-role-id');
+		var branch_id = $(this).attr('data-branch-id');
 		$("#user_id").val(id);
 		$("#username").val(username);
 		$("#role_id").val(role_id);
 		$("#submit").text('Update');
+
+		$("#branch_"+branch_id).attr('selected', 'selected')
+
 	});
 
 	function clear_fields() {
