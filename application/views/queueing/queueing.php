@@ -371,6 +371,7 @@
       $(document).on('click', '#btn-clear', function(event){
         event.preventDefault();
 
+        $('#btn-done').addClass('disabled');
         var form = $('#frm-patient');
         form[0].reset();
         $('#patient-patient-number').html('000');
@@ -945,6 +946,7 @@
     var posting = $.post(url, { patient_id : patient_id  });
         posting.done(function(data){
 
+            $('#btn-done').removeClass('disabled');
             patient = JSON.parse(data);
 
             $('#patient-patient-number').html(patient.patient_id);

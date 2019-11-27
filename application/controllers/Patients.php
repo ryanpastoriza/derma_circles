@@ -232,6 +232,7 @@ class Patients extends MY_Controller
 		$success = file_put_contents($file, $encoded);
 		echo $success;
 	}
+	
 	public function show_profile_picture(){
 		$patient_id = $this->input->post('patient_id');
 		$path = 'assets/uploads/patients/'.$patient_id.'/profile.jpg';

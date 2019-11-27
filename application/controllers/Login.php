@@ -8,18 +8,13 @@ Class Login extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		// if( $this->session->userdata('logged_in') == true ) {
-		// 	var_dump($this->session->userdata('logged_in'));
-		// 	redirect('dashboard');
-		// }else{
-		// 	var_dump($this->session->userdata('logged_in'));
-		// }
 	}
-
 
 	function index($error = 0) {
 
-		// var_dump($this->session->userdata);
+		if( $this->session->userdata('logged_in') == true ) {
+			redirect(base_url('dashboard'));
+		}
 
 		$data['branches'] = $this->branch->get_all();
 		$this->load->view('login', $data);
@@ -49,6 +44,7 @@ Class Login extends CI_Controller {
 				unset($user['password']);
 				$user['role'] = (array)$this->user_roles->get(['role_id' => $user['role_id']]);
 				$user['branch_id'] = $branch_id;
+				$user['branch'] = $this->branch->get(['branch_id' => $branch_id]);
 				// 1. get user profile
 				// add user session
 				$this->session->set_userdata($user);
@@ -77,11 +73,10 @@ Class Login extends CI_Controller {
 			if( $key != 'session_id' && $key != 'ip_address' && $key != 'last_activity' ){
 				$this->session->unset_userdata($key);
 			}
-			
 		}
 
 		$this->session->sess_destroy();
-		redirect('login');
+		redirect(base_url('login'));
 	}
 
 }

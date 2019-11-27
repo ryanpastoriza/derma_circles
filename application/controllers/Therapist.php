@@ -38,7 +38,14 @@ class Therapist extends MY_Controller
 
 		);
 
-		echo $this->therapist_model->insert($data);
+		if( $this->input->post('therapist_id') == 0 ){
+			echo $this->therapist_model->insert($data);
+		}else{
+			echo $this->therapist_model->update($data, [$this->therapist_model->pk => $this->input->post($this->therapist_model->pk)]);
+		}
+
+
+		// echo $this->therapist_model->insert($data);
 		
 	}
 

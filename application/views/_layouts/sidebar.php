@@ -12,8 +12,9 @@ $nav = array(
             ) ),
           array('href' => base_url().'payment/', 'fa' => 'credit-card', 'label' => 'Payment' ),
           array('href' => base_url().'inventory/', 'fa' => 'cubes', 'label' => 'Inventory', 'links' => array(
-            ['label' => 'Products', 'fa' => 'product-hunt', 'href' => base_url(), 'uri' => 'products'],
-            ['label' => 'Stocks', 'fa' => 'th-list', 'href' => base_url(), 'uri' => 'stocks']
+            ['label' => 'Products', 'fa' => 'product-hunt', 'href' => base_url('inventory/products'), 'uri' => 'products'],
+            ['label' => 'Stocks', 'fa' => 'th-list', 'href' => base_url(), 'uri' => 'stocks'],
+            ['label' => 'Stock Transfer', 'fa' => 'truck', 'href' => base_url(), 'uri' => 'transfer']
           ) ),
           array('href' => base_url().'reports/', 'fa' => 'line-chart', 'label' => 'Reports' ),
           array('href' => base_url().'accounts/', 'fa' => 'users', 'label' => 'Accounts' ),
@@ -35,7 +36,7 @@ $nav = array(
         <img src="<?php echo base_url('assets'); ?>/img/user.png" style="width: 45px;" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
-        <p>Alexander Pierce</p>
+        <p><?= ucwords($this->session->userdata['username']); ?></p>
         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
       </div>
     </div>

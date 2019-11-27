@@ -47,7 +47,7 @@
         <!-- User Account: style can be found in dropdown.less -->
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="<?php echo base_url().'assets' ?>/plugins/adminlte/img/user2-160x160.jpg" class="user-image" alt="User Image">
+            <img src="<?php echo base_url('assets'); ?>/img/user.png" class="user-image" alt="User Image">
             <span class="hidden-xs"><?= ucwords($this->session->userdata['username']); ?></span>
           </a>
           <ul class="dropdown-menu">
@@ -57,25 +57,9 @@
 
               <p>
                 <?= ucwords($this->session->userdata['username']); ?> - <?= ucwords($this->session->userdata['role']['role_name']); ?>
-                <!-- <small>Member since Nov. 2012</small> -->
+                <small><?= ucwords($this->session->userdata['branch']->branch_name); ?></small>
               </p>
             </li>
-            <!-- Menu Body -->
-            <li class="user-body">
-              <div class="row">
-                <div class="col-xs-4 text-center">
-                  <a href="#">Followers</a>
-                </div>
-                <div class="col-xs-4 text-center">
-                  <a href="#">Sales</a>
-                </div>
-                <div class="col-xs-4 text-center">
-                  <a href="#">Friends</a>
-                </div>
-              </div>
-              <!-- /.row -->
-            </li>
-            <!-- Menu Footer-->
             <li class="user-footer">
               <div class="pull-left">
                 <a href="#" class="btn btn-default btn-flat">Profile</a>

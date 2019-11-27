@@ -13,15 +13,7 @@ class Billing extends My_Model
 	    parent::__construct();
 	}
 
-	public function add_billing($transaction_id) {
-
-		$data = array(
-
-			'transaction_id' => $transaction_id,
-			'discount' => '',
-			'status' => 'unpaid'
-
-		);
+	public function add_billing($data = array()) {
 
 		return $this->insert($data);
 
@@ -36,6 +28,7 @@ class Billing extends My_Model
 							service_transaction.service_id,
 							service_transaction.date_created,
 							service_transaction.transaction_id,
+							service_transaction.discount,
 							services.service_name,
 							services.price,
 							service_category.category_name,
@@ -50,8 +43,10 @@ class Billing extends My_Model
 		$this->db->join('service_category', 'services.category_id = service_category.category_id', 'inner');
 		$this->db->join('service_package', 'services.package_id = service_package.service_package_id', 'inner');
 		$this->db->join('therapist', 'service_transaction.therapist_id = therapist.therapist_id', 'inner');
-		$this->db->where(['date(service_transaction.date_created)' => $date, 'patient_information.patient_id' => $patient_id]);
-
+		$this->db->where(['date(service_transaction.date_created)' => $date, 
+							'patient_information.patient_id' => $patient_id, 
+							'service_transaction.branch_id' => $this->session->branch_id]);
+		
 		$query = $this->db->get();
 
 		return $query->result();

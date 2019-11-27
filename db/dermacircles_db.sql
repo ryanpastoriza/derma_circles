@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50723
 File Encoding         : 65001
 
-Date: 2019-11-14 17:40:48
+Date: 2019-11-27 16:11:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,23 +21,56 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `billing`;
 CREATE TABLE `billing` (
   `billing_id` int(11) NOT NULL AUTO_INCREMENT,
-  `transaction_id` int(11) DEFAULT NULL,
-  `discount` varchar(128) CHARACTER SET latin1 DEFAULT NULL,
+  `total` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `billing_date` date DEFAULT NULL,
+  `payment` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` varchar(128) CHARACTER SET latin1 DEFAULT NULL,
-  PRIMARY KEY (`billing_id`),
-  KEY `transaction_idfk` (`transaction_id`),
-  CONSTRAINT `transaction_idfk` FOREIGN KEY (`transaction_id`) REFERENCES `service_transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`billing_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of billing
 -- ----------------------------
-INSERT INTO `billing` VALUES ('1', '1', null, null);
-INSERT INTO `billing` VALUES ('2', '2', null, null);
-INSERT INTO `billing` VALUES ('3', '3', null, null);
-INSERT INTO `billing` VALUES ('4', '4', null, null);
-INSERT INTO `billing` VALUES ('6', '12', '', 'unpaid');
-INSERT INTO `billing` VALUES ('7', '13', '', 'unpaid');
+INSERT INTO `billing` VALUES ('7', '1926.11', '2019-11-26', '2000', 'paid');
+INSERT INTO `billing` VALUES ('8', '1200', '2019-11-26', '1200', 'paid');
+INSERT INTO `billing` VALUES ('9', '0', '2019-11-27', '0', 'paid');
+INSERT INTO `billing` VALUES ('10', '0', '2019-11-27', '0', 'paid');
+INSERT INTO `billing` VALUES ('11', '890.01', '2019-11-27', '1000', 'paid');
+INSERT INTO `billing` VALUES ('12', '0', '2019-11-27', '0', 'paid');
+INSERT INTO `billing` VALUES ('13', '0', '2019-11-27', '0', 'paid');
+INSERT INTO `billing` VALUES ('14', '1754.01', '2019-11-27', '2000', 'paid');
+INSERT INTO `billing` VALUES ('15', '900', '2019-11-27', '1000', 'paid');
+INSERT INTO `billing` VALUES ('16', '0', '2019-11-27', '0', 'paid');
+
+-- ----------------------------
+-- Table structure for billing_service_transaction
+-- ----------------------------
+DROP TABLE IF EXISTS `billing_service_transaction`;
+CREATE TABLE `billing_service_transaction` (
+  `billing_id` int(11) NOT NULL,
+  `transaction_id` int(11) DEFAULT NULL,
+  `discount` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `subtotal` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  KEY `billing_idfk` (`billing_id`),
+  KEY `transaction_idfk` (`transaction_id`),
+  CONSTRAINT `billing_idfk` FOREIGN KEY (`billing_id`) REFERENCES `billing` (`billing_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `transaction_idfk` FOREIGN KEY (`transaction_id`) REFERENCES `service_transaction` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of billing_service_transaction
+-- ----------------------------
+INSERT INTO `billing_service_transaction` VALUES ('7', '48', 'np', '0.00');
+INSERT INTO `billing_service_transaction` VALUES ('7', '49', '2', '881.02');
+INSERT INTO `billing_service_transaction` VALUES ('7', '50', '4', '191.04');
+INSERT INTO `billing_service_transaction` VALUES ('7', '51', '5', '854.05');
+INSERT INTO `billing_service_transaction` VALUES ('8', '52', '', '300.00');
+INSERT INTO `billing_service_transaction` VALUES ('8', '53', '', '900.00');
+INSERT INTO `billing_service_transaction` VALUES ('14', '56', '1', '890.01');
+INSERT INTO `billing_service_transaction` VALUES ('14', '57', '4', '864.00');
+INSERT INTO `billing_service_transaction` VALUES ('14', '58', 'np', '0.00');
+INSERT INTO `billing_service_transaction` VALUES ('15', '59', '', '900.00');
+INSERT INTO `billing_service_transaction` VALUES ('16', '60', 'np', '0.00');
 
 -- ----------------------------
 -- Table structure for branch
@@ -48,13 +81,14 @@ CREATE TABLE `branch` (
   `branch_name` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `location` text CHARACTER SET latin1,
   PRIMARY KEY (`branch_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of branch
 -- ----------------------------
 INSERT INTO `branch` VALUES ('1', 'derma circles - robinsons', 'robinsons');
-INSERT INTO `branch` VALUES ('2', 'warehouse', null);
+INSERT INTO `branch` VALUES ('2', 'main', null);
+INSERT INTO `branch` VALUES ('3', 'Smm', 'Address');
 
 -- ----------------------------
 -- Table structure for patient_diagnosis
@@ -68,7 +102,7 @@ CREATE TABLE `patient_diagnosis` (
   PRIMARY KEY (`diagnosis_id`),
   KEY `patient_id_id_fk` (`patient_id`),
   CONSTRAINT `patient_id_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient_information` (`patient_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of patient_diagnosis
@@ -81,6 +115,7 @@ INSERT INTO `patient_diagnosis` VALUES ('5', '2019-10-17', 'asdasdasdasd', '20')
 INSERT INTO `patient_diagnosis` VALUES ('6', '2019-10-17', 'peter', '17');
 INSERT INTO `patient_diagnosis` VALUES ('7', '2019-10-02', 'diagnosis', '20');
 INSERT INTO `patient_diagnosis` VALUES ('8', '2019-11-11', 'asdasdasd', '17');
+INSERT INTO `patient_diagnosis` VALUES ('9', '2019-11-27', 'diagnosis', '21');
 
 -- ----------------------------
 -- Table structure for patient_information
@@ -155,13 +190,14 @@ CREATE TABLE `patient_queueing` (
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`queue_id`),
   UNIQUE KEY `patient_id` (`patient_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of patient_queueing
 -- ----------------------------
-INSERT INTO `patient_queueing` VALUES ('37', '22', 'queue', '1');
-INSERT INTO `patient_queueing` VALUES ('38', '17', 'queue', '1');
+INSERT INTO `patient_queueing` VALUES ('52', '18', 'queue', '1');
+INSERT INTO `patient_queueing` VALUES ('53', '19', 'queue', '1');
+INSERT INTO `patient_queueing` VALUES ('54', '16', 'queue', '1');
 
 -- ----------------------------
 -- Table structure for patient_treatment
@@ -195,6 +231,47 @@ INSERT INTO `patient_treatment` VALUES ('10', '2019-10-28', '', null, '2019-10-0
 INSERT INTO `patient_treatment` VALUES ('11', '2019-10-28', '', null, '2019-10-14', '22');
 INSERT INTO `patient_treatment` VALUES ('12', '2019-10-28', '', null, '2019-10-12', '17');
 INSERT INTO `patient_treatment` VALUES ('13', '2019-10-28', '', null, '2019-10-31', '16');
+
+-- ----------------------------
+-- Table structure for product
+-- ----------------------------
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `barcode` varchar(128) CHARACTER SET latin1 DEFAULT NULL,
+  `product_name` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `price` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `category` int(11) DEFAULT NULL,
+  PRIMARY KEY (`product_id`),
+  KEY `category_idfk` (`category`),
+  CONSTRAINT `category_idfk` FOREIGN KEY (`category`) REFERENCES `product_category` (`category_id`) ON DELETE SET NULL ON UPDATE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of product
+-- ----------------------------
+INSERT INTO `product` VALUES ('1', null, 'Glycerin', '', '205', '2');
+INSERT INTO `product` VALUES ('2', null, 'hycort', '', '397', '3');
+INSERT INTO `product` VALUES ('3', null, 'dermosalic', '', '397', '3');
+INSERT INTO `product` VALUES ('4', null, '02 soap', '', '205', '2');
+
+-- ----------------------------
+-- Table structure for product_category
+-- ----------------------------
+DROP TABLE IF EXISTS `product_category`;
+CREATE TABLE `product_category` (
+  `category_id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of product_category
+-- ----------------------------
+INSERT INTO `product_category` VALUES ('1', 'medicine');
+INSERT INTO `product_category` VALUES ('2', 'soap');
+INSERT INTO `product_category` VALUES ('3', 'cream/ointment');
 
 -- ----------------------------
 -- Table structure for services
@@ -265,26 +342,37 @@ CREATE TABLE `service_transaction` (
   `service_id` int(11) DEFAULT NULL,
   `patient_id` int(11) DEFAULT NULL,
   `date_created` datetime DEFAULT NULL,
+  `branch_id` int(11) DEFAULT NULL,
+  `discount` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`transaction_id`),
   KEY `therapist_idfk` (`therapist_id`),
   KEY `service_idfk` (`service_id`),
   KEY `patient_idfk` (`patient_id`),
+  KEY `branch_idfk` (`branch_id`),
+  CONSTRAINT `branch_idfk` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `patient_idfk` FOREIGN KEY (`patient_id`) REFERENCES `patient_information` (`patient_id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `service_idfk` FOREIGN KEY (`service_id`) REFERENCES `services` (`services_id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `therapist_idfk` FOREIGN KEY (`therapist_id`) REFERENCES `therapist` (`therapist_id`) ON DELETE SET NULL ON UPDATE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of service_transaction
 -- ----------------------------
-INSERT INTO `service_transaction` VALUES ('1', '3', '3', '18', '2019-11-12 12:14:00');
-INSERT INTO `service_transaction` VALUES ('2', '1', '1', '19', '2019-11-14 15:07:00');
-INSERT INTO `service_transaction` VALUES ('3', '9', '3', '17', '2019-11-12 16:48:00');
-INSERT INTO `service_transaction` VALUES ('4', '1', '2', '20', '2019-11-14 16:49:00');
-INSERT INTO `service_transaction` VALUES ('12', '8', '4', '21', '2019-11-14 11:09:00');
-INSERT INTO `service_transaction` VALUES ('13', '8', '4', '19', '2019-11-14 14:31:00');
-INSERT INTO `service_transaction` VALUES ('14', '2', '3', '21', '2019-11-14 15:00:00');
-INSERT INTO `service_transaction` VALUES ('15', '9', '2', '19', '2019-11-14 15:01:00');
+INSERT INTO `service_transaction` VALUES ('46', '8', '4', '16', '2019-11-25 08:35:00', '1', null);
+INSERT INTO `service_transaction` VALUES ('47', '8', '3', '16', '2019-11-25 08:36:00', '1', null);
+INSERT INTO `service_transaction` VALUES ('48', '8', '4', '17', '2019-11-26 09:34:00', '1', null);
+INSERT INTO `service_transaction` VALUES ('49', '8', '2', '17', '2019-11-26 09:34:00', '1', null);
+INSERT INTO `service_transaction` VALUES ('50', '3', '1', '17', '2019-11-26 09:53:00', '1', null);
+INSERT INTO `service_transaction` VALUES ('51', '9', '2', '17', '2019-11-26 10:17:00', '1', null);
+INSERT INTO `service_transaction` VALUES ('52', '8', '4', '20', '2019-11-26 10:21:00', '1', null);
+INSERT INTO `service_transaction` VALUES ('53', '9', '3', '20', '2019-11-26 10:21:00', '1', null);
+INSERT INTO `service_transaction` VALUES ('54', '3', '3', '17', '2019-11-25 10:57:00', '1', null);
+INSERT INTO `service_transaction` VALUES ('55', '9', '3', '16', '2019-11-26 11:25:00', '1', null);
+INSERT INTO `service_transaction` VALUES ('56', '9', '2', '16', '2019-11-27 11:27:00', '1', null);
+INSERT INTO `service_transaction` VALUES ('57', '2', '3', '16', '2019-11-27 15:54:00', '1', null);
+INSERT INTO `service_transaction` VALUES ('58', '3', '2', '16', '2019-11-27 15:54:00', '1', null);
+INSERT INTO `service_transaction` VALUES ('59', '9', '3', '19', '2019-11-27 15:54:00', '1', null);
+INSERT INTO `service_transaction` VALUES ('60', '13', '1', '20', '2019-11-27 15:54:00', '1', null);
 
 -- ----------------------------
 -- Table structure for therapist
@@ -297,17 +385,16 @@ CREATE TABLE `therapist` (
   `status` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `branch_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`therapist_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of therapist
 -- ----------------------------
-INSERT INTO `therapist` VALUES ('1', 'ashley campbell', 'facialist', 'active', '1');
 INSERT INTO `therapist` VALUES ('2', 'clarence jaworskie', 'facialist', 'active', '1');
 INSERT INTO `therapist` VALUES ('3', 'nancy taylor', 'facialist', 'active', '1');
 INSERT INTO `therapist` VALUES ('8', 'doctor', 'doctor', 'active', '1');
 INSERT INTO `therapist` VALUES ('9', 'mark twain', 'facialist', 'active', '1');
-INSERT INTO `therapist` VALUES ('10', 'Test name', 'facialist', 'active', '1');
+INSERT INTO `therapist` VALUES ('13', 'Ashley Campbell', 'facialist', 'active', '1');
 
 -- ----------------------------
 -- Table structure for user

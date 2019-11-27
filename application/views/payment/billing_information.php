@@ -17,10 +17,10 @@
       
       <div class="col-sm-12">
         <div class="col-sm-6">
-          Patient Name: <span id=""><?= ucwords($billing[0]->firstname.' '.$billing[0]->middlename[0].'. '.$billing[0]->lastname.' '.$billing[0]->suffix); ?></span>
+          Patient Name: <span id=""><?= ucwords($patient->firstname.' '.$patient->middlename[0].'. '.$patient->lastname.' '.$patient->suffix); ?></span>
         </div>
         <div class="col-sm-6">
-          Status: <span class="label bg-red" id="">unpaid</span>
+        <!--   Status: <span class="label bg-red" id="">unpaid</span> -->
         </div>
       </div>
    
@@ -39,6 +39,7 @@
         </div>
       </div>
      -->
+
       <div class="col-sm-12 spacer-lg">
         <div class="col-sm-4">
           <div class="form-group">
@@ -91,38 +92,40 @@
             </thead>
             <tbody>
               <?php  
-                echo '<pre>';
-                var_export($billing);
-                echo '</pre>';
-
+                // echo '<pre>';
+                // var_export($billing);
+                // echo '</pre>';
                 $total = 0;
               ?>
               <?php foreach ($billing as $key => $value) : ?>
-              <tr class="row-data">
-                <?php
-                  $total += $value->price;
-                ?>
-                <td><?= $value->service_name ?></td>
-                <td class="text-right price"><?= number_format($value->price, 2); ?> </td>
-                <td>
-                  <div class="input-group">
-                     <select class="form-control input-sm service-discount">
-                      <option></option>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                    </select>
-                    <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                  </div>
-                 
-                </td>
-                <td class="text-right"><span class="subtotal"><?= number_format($value->price, 2); ?></span></td>
-                <!-- <td><i class="fa fa-remove text-red"></i></td> -->
-              </tr>
-              <?php endforeach; ?>
+                <tr class="row-data" id="<?= $value->transaction_id; ?>">
+                  <?php
+                    $total += $value->price;
+                  ?>
+                  <td><?= $value->service_name ?></td>
+                  <td class="text-right price"><?= number_format($value->price, 2); ?> </td>
+                  <td>
+                    <div class="input-group">
+                       <select class="form-control input-sm service-discount">
+                        <option value=""></option>
+                        <option value="np">NP</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select>
+                      <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                    </div>
+                   
+                  </td>
+                  <td class="text-right"><span class="subtotal"><?= number_format($value->price, 2); ?></span></td>
+                  <!-- <td><i class="fa fa-remove text-red"></i></td> -->
+                </tr>
+                <?php endforeach; ?>
+
             </tbody>
+
           </table>
         </div>
       </div>
@@ -130,11 +133,9 @@
       <div class="col-sm-12 spacer-md ">
         <div class="row">
           <div class="col-sm-12 text-right">
+             
              <div class="col-sm-6 col-sm-offset-6">
-               <div class="col-sm-6">
-                
-               </div>
-               <div class="col-sm-6">
+               <div class="col-sm-6 col-sm-offset-6">
                  <div class="input-group">
                   <span class="input-group-addon">Total</span>
                   <input type="text" class="form-control total" style="text-align: right; " id="total-amount" value="<?= number_format($total, 2); ?>">
@@ -142,44 +143,39 @@
                 <span></span>
                </div>
              </div>
+              
+              <div class="col-sm-6 col-sm-offset-6 spacer-sm">
+               <div class="col-sm-6 col-sm-offset-6">
+                 <div class="input-group">
+                  <span class="input-group-addon">Payment</span>
+                  <input type="number" class="form-control" style="text-align: right; " id="total-payment">
+                </div>
+                <span></span>
+               </div>
+             </div>
+
+             <div class="col-sm-6 col-sm-offset-6 spacer-sm">
+               <div class="col-sm-6 col-sm-offset-6">
+                 <div class="input-group">
+                  <span class="input-group-addon">Change</span>
+                  <input type="text" disabled class="form-control" style="text-align: right; " id="txt-change">
+                </div>
+                <span></span>
+               </div>
+             </div>
+
           </div>
         </div>
       </div>
 
-      <div class="col-sm-12 spacer-sm ">
-        <div class="col-sm-12 text-right">
-           <div class="col-sm-6 col-sm-offset-6">
-             <div class="col-sm-6 text-right">
-              <!--  Payment -->
-             </div>
-              <!-- <div class="col-sm-6">
-              <div class="input-group">
-                <span class="input-group-addon">Payment</span>
-                <input type="text" class="form-control">
-              </div> -->
-             </div>
-           </div>
+      <div class="col-sm-12 text-right spacer-md">
+        <div class="col-sm-12">
+          <div class="col-sm-12">
+            <button class="btn btn-primary" id="btn-add-payment" <?php echo (count($billing) > 0) ? '' : 'disabled'; ?> >Save Transaction</button>
+          </div>
         </div>
       </div>
-<!-- 
-      <div class="col-sm-12 spacer-md ">
-        <div class="col-sm-12 text-right">
-           <div class="col-sm-6 col-sm-offset-6 text-right">
-              <button class="btn btn-success">Add Payment</button>
-           </div>
-        </div>
-      </div>
- -->
+
   </div>
-  <!-- /.box-body -->
 </div>
-
-
-<script type="text/javascript">
   
-  $(function(){
-
-  });
-  
-
-</script>

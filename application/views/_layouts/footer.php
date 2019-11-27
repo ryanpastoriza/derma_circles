@@ -17,6 +17,9 @@
 <!-- fullCalendar -->
 <script src="<?php echo base_url('assets/plugins'); ?>/moment/moment.js"></script>
 <script src="<?php echo base_url('assets/plugins'); ?>/fullcalendar/dist/fullcalendar.min.js"></script>
+<script src="<?php echo base_url('assets/plugins'); ?>/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+<script src="<?php echo base_url('assets/plugins'); ?>/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <!-- custom js -->
 <script src="<?php echo base_url('assets'); ?>/js/notify.js"></script>
 <script src="<?php echo base_url('assets'); ?>/js/custom.js"></script>

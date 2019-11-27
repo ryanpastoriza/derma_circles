@@ -112,41 +112,6 @@
 	            	
 	            	<div class="row">
 
-	            		<div class="col-sm-4">
-	            			<div class="form-group">
-			                	
-			                	<label for="">Patient:</label>
-			                	<input type="text" id="patient-name" list="patient-list" class="form-control input-sm" placeholder="Patient Name" required>
-			                	<datalist id="patient-list">
-			                		<?php foreach ($patients as $key => $value) : ?>
-			                			<option value="<?= ucwords($value->firstname.' '.$value->middlename[0].'. '.$value->lastname.' '.$value->suffix); ?>" data-id="<?= $value->patient_id; ?>">
-			                			</option>	
-			                		<?php endforeach; ?>
-			                		
-			                	</datalist>
-			                </div>
-	            		</div>
-
-	            		<div class="col-sm-4">
-	            			<div class="form-group">
-			                	
-			                	<label for="">Therapist:</label>
-			                	<select class="form-control input-sm" id="therapist" name="therapist_id" required>
-			                			<option value="">All</option>
-			                		<?php foreach ($therapist as $key => $value) : ?>
-			                			<option value="<?= $value->therapist_id; ?>"><?= ucwords($value->name); ?></option>
-			                		<?php endforeach; ?>
-			                	</select>
-			                </div>
-	            		</div>
-
-	            		<div class="col-sm-4">
-	            			<div class="form-group">
-			                  <label for="">Date:</label>
-			                  <input class="form-control input-sm" type="date" value="<?php echo date('Y-m-d'); ?>">
-			                </div>
-	            		</div>
-	            		
 	            		<div class="col-sm-12">
 	            			<div id="service-transactions"></div>
 	            		</div>

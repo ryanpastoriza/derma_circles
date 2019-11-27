@@ -110,7 +110,7 @@
       <i class="fa fa-times text-danger"></i> Clear
     </a>
 
-    <a class="btn btn-app" id="btn-done">
+    <a class="btn btn-app disabled" id="btn-done">
       <i class="fa fa-check text-green"></i> Done
     </a>
 

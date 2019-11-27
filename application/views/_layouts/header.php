@@ -20,6 +20,10 @@ date_default_timezone_set("Asia/Manila");
   <!-- fullcalendar -->
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins'); ?>/fullcalendar/dist/fullcalendar.min.css">
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins'); ?>/fullcalendar/dist/fullcalendar.print.min.css" media="print">
+   <!-- daterange picker -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/plugins'); ?>/bootstrap-daterangepicker/daterangepicker.css">
+  <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/plugins'); ?>/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins'); ?>/adminlte/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins

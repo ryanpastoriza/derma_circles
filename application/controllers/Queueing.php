@@ -84,17 +84,14 @@ class Queueing extends MY_Controller
 			'service_id' => $service->services_id,
 			'patient_id' => $patient_id,
 			'date_created' => date('Y-m-d G:i'),
+			'branch_id'    => $this->session->branch_id,
 
 		);
-
 		// add service transaction
-		$transaction_id = $this->service_transaction->insert($data);
+		$transaction_id = $this->service_transaction->add_service_transaction($data);
 		
 		if( $transaction_id > 0) {
-			// add billing information
-			if( $this->billing->add_billing($transaction_id) > 0 ){
-				echo $this->patient_queueing->delete([ 'patient_id' => $patient_id ]);
-			}
+			echo $this->patient_queueing->delete([ 'patient_id' => $patient_id ]);
 		}
 
 	}

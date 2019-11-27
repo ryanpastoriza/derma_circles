@@ -17,10 +17,11 @@ class Service extends MY_Controller
 
 	public function therapist() {
 
-		// $data['therapist'] = $this->therapist_model->get_all(['status' => 'active']);
+		$data['therapist'] = $this->therapist_model->get_all(['status' => 'active', 'type' => 'facialist']);
+		$data['services'] = $this->therapist_model->get_services_by_therapist();
 
 		$this->load->view('_layouts/header', ['title' => 'DermaCircles - Therapist']);
-		$this->load->view('service/therapist');
+		$this->load->view('service/therapist', $data);
 		$this->load->view('_layouts/footer');
 
 	}
@@ -43,21 +44,18 @@ class Service extends MY_Controller
 		$date_created = date('Y-m-d G:i');
 		$data = $this->input->post();
 		$data['date_created'] = $date_created;
+		$data['branch_id'] = $this->session->branch_id;
 
-		echo $this->service_transaction->insert($data);
-
-		// var_export($data);
-
+		echo $this->service_transaction->add_service_transaction($data);
 	}
 
 	public function get_service_transactions() {
-
+		// $patient, $therapist, $currdate
+		
 		$currDate = date('Y-m-d');
 
 		$data['transactions'] = $this->service_transaction->get_service_transactions($currDate);
-
 		$this->load->view('service/service_transactions', $data);
-
 	}
 
 

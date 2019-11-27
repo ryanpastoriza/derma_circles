@@ -4,12 +4,13 @@
 	// echo '<pre>';
 	// var_export($transactions);
 	// echo '</pre>';
-
+	$num = 1;
 ?>
 
 <table class="table table-condensed table-bordered" id="tbl-service-transactions">
 	<thead>
 		<tr>
+			<th>#</th>
 			<th>Patient</th>
 			<th>Facialist</th>
 			<th>Service</th>
@@ -22,6 +23,7 @@
 		<?php foreach ($transactions as $key => $value) :?>
 		
 		<tr>
+			<td><?php echo $num++; ?></td>
 			<td><?= ucwords($value->firstname.' '.$value->middlename[0].'. '.$value->lastname.' '.$value->suffix); ?></td>
 			<td><?= ucwords($value->name); ?></td>
 			<td><?= $value->service_name; ?></td>
@@ -34,3 +36,19 @@
 		
 	</tbody>
 </table>
+
+
+<script type="text/javascript">
+	
+	// $(function(){
+
+	// 	var oTable = $('#tbl-service-transactions').DataTable({
+	// 		ordering: false,
+	// 		info:     false,
+	// 	});
+
+
+	// });
+
+
+</script>

@@ -297,8 +297,9 @@
       oTable = $('#tbl-patient-list').DataTable({
 
             // language: { search: "" },
-            dom:    "<'row'<'col-sm-12 col-xs-12'f>>",
-            pageLength : 8,
+            dom:    "<'row'<'col-sm-12 col-xs-12'f><'col-sm-12 col-xs-12't><'col-sm-12 col-xs-12'p> >",
+            // lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            pageLength : 25,
             ajax: { "url" : "<?php echo base_url(); ?>patients/patient_list" },
             columnDefs: [
                 {
