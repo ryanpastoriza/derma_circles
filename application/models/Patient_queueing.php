@@ -13,7 +13,7 @@ class Patient_queueing extends My_Model
 	    parent::__construct();
 	}
 
-	public function empty() {
+	public function empty_queue() {
 
 		$this->db->empty_table($this->table);
 
@@ -23,8 +23,6 @@ class Patient_queueing extends My_Model
 
 		// $query = $this->db;
 		// $query->
-
-
 	}
 
 	public function get_current_queue_number() {
@@ -33,10 +31,7 @@ class Patient_queueing extends My_Model
 		// 	'date_created' => 
 		// );
 
-		// $this->get_all()		
-
-
-
+		// $this->get_all()
 	}
 
 

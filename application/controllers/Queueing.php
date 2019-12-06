@@ -55,7 +55,7 @@ class Queueing extends MY_Controller
 			$row = [];
 			$patient = null;
 			$patient = $this->patient_information->get(array($this->patient_information->pk => $value->patient_id ));
-			$fullName = $patient->firstname.' '.$patient->middlename.' '.$patient->lastname.' '.$patient->suffix;
+			$fullName = $patient->lastname.', '.$patient->firstname.' '.$patient->middlename[0].'. '.$patient->suffix;
 			$row[] = $value->patient_id;
 			$row[] = ucwords($fullName);
 			
@@ -67,7 +67,7 @@ class Queueing extends MY_Controller
 
 	public function reset_queue(){
 
-		$this->patient_queueing->empty();
+		$this->patient_queueing->empty_queue();
 
 	}
 

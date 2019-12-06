@@ -17,7 +17,7 @@ class Service extends MY_Controller
 
 	public function therapist() {
 
-		$data['therapist'] = $this->therapist_model->get_all(['status' => 'active', 'type' => 'facialist']);
+		$data['therapist'] = $this->therapist_model->get_all(['status' => 'active', 'type' => 'facialist', 'branch_id' => $this->session->branch_id ]);
 		$data['services'] = $this->therapist_model->get_services_by_therapist();
 
 		$this->load->view('_layouts/header', ['title' => 'DermaCircles - Therapist']);
@@ -29,7 +29,7 @@ class Service extends MY_Controller
 	public function service_management() {
 
 		$data['patients'] = $this->patient_information->get_all();
-		$data['therapist'] = $this->therapist_model->get_all(['status' => 'active', 'type' => 'facialist']);
+		$data['therapist'] = $this->therapist_model->get_all(['status' => 'active', 'type' => 'facialist', 'branch_id' => $this->session->branch_id ]);
 		$data['services'] = $this->services_model->get_services();
 
 		$this->load->view('_layouts/header', ['title' => 'DermaCircles - Service Management']);

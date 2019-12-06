@@ -10,16 +10,16 @@
    max-width:1200px;
   }
   
-  .cam-content{
+ /* .cam-content{
     display: block;
     position: relative;
     overflow: hidden;
     height: 300px;
     margin: auto;
-    }
+    }*/
 
-  .cam-buttons button {
-    margin-top: 5px;
+  .cam-buttons {
+    margin-top: 10px;
   }
 
   input[type="file"] {
@@ -65,6 +65,21 @@
     font-weight: bold;
   }
 
+  #my_camera{
+        margin: 0 auto;
+        width: 320px;
+        height: 240px;
+        border: 1px solid black;
+    }
+
+  #results {
+        margin: 0 auto;
+        margin-top: 10px;
+        width: 320px;
+        height: 240px;
+        border: 1px solid black;
+  }
+
 </style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -72,7 +87,6 @@
   <section class="content">
     
     <div class="row">
-      
       <div class="col-md-3">
         <?php $this->load->view('patients/patient_list'); ?>
       </div>
@@ -140,17 +154,23 @@
 
         <div class="row">
           <div class="col-sm-12 text-center">
-            <div class="cam-content" style="border: 1px solid #CCC; background-color: #f1f1f1;">
-                <video id="video" width="405" height="300" autoplay></video>
-                <canvas id="canvas" width="405" height="300">
-            </div>
+            <!-- <div class="cam-content" style="border: 1px solid #CCC; background-color: #f1f1f1;"> -->
+            <div id="my_camera"></div>
+              <!--   <video id="video" width="405" height="300" autoplay></video>
+                <canvas id="canvas" width="405" height="300"> -->
+            <!-- </div> -->
                        
             <div class="cam-buttons">
-                <button id="snap" class="btn btn-default btn-flat"> <i class="fa fa-camera"></i> <small>Capture</small> </button> 
+                <input type=button class="btn btn-sm btn-default" value="Configure" onClick="configure()">
+                <input type=button class="btn btn-sm btn-primary" value="Take Snapshot" onClick="take_snapshot()">
+                <input type=button value="Save Snapshot" onClick="saveSnap()">
+              <!--   <button id="snap" class="btn btn-default btn-flat"> <i class="fa fa-camera"></i> <small>Capture</small> </button> 
                 <button id="reset" class="btn btn-default btn-flat" style="display:none;"> <i class="fa fa-refresh"></i> <small>Reset</small> </button>
-                <button id="save-photo" class="btn btn-default btn-flat"> <i class="fa fa-save"></i> <small>Save</small> </button> 
-             </div>
+                <button id="save-photo" class="btn btn-default btn-flat"> <i class="fa fa-save"></i> <small>Save</small> </button>  -->
+            </div>
+            <div id="results"></div>
            </div>
+
         </div>
       </div>
     </div>
@@ -216,41 +236,20 @@
 <script type="text/javascript">
     
     $(function(){
-
       // take photo
-      var snapshot; 
+      // var snapshot; 
 
       $(document).on('click', '#btn-take-photo', function(e){
         event.preventDefault();
-
-        $('#modal-take-photo').modal('show');
-        snapshot = new Snapshot('video', 'canvas');
+        var modal = $('#modal-take-photo');
+        modal.modal('show');
+        modal.find('#results').html('');
+        // $('#modal-take-photo').modal('show');
+        // $('#modal-take-photo').modal('show');
       });
 
-      $('#modal-take-photo').on('hidden.bs.modal', function (e) {
-           snapshot.reset('#video', '#canvas', '#snap', '#reset'); 
-      });
+      $(document).on('')
 
-      $(document).on('click', '#snap', function(e){
-        e.preventDefault();
-        snapshot.capture('#video', '#canvas', '#snap', '#reset');
-      });
-
-      $(document).on('click', '#reset', function(e){
-        e.preventDefault();
-        snapshot.reset('#video', '#canvas', '#snap', '#reset');
-      });
-
-      $(document).on('click', '#save-photo', function(event){
-        event.preventDefault();
-
-        var patient_id = $('#patient-patient-number').html();
-        
-        var url = '<?php echo base_url(); ?>patients/save_photo/' + patient_id;
-        snapshot.save(url, '#patient-photo', patient_id);
-        snapshot.close('#modal-take-photo');
-
-      });
 
       // end take photo ---------------------------------------------------------------
 
@@ -967,71 +966,51 @@
           alert("Your browser doesn't support File API");
       }
 
-      // capture image
-      function Snapshot (v, c) {
-        // Grab elements, create settings, etc.
-        this.video = document.getElementById(v);
-        this.canvas = document.getElementById(c);
-        this.context = this.canvas.getContext('2d');
-        this.dataUrl = '';
-        this.localStream = null;
-        // console.log(this.video);
-        // Get access to the camera!
-        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            // Not adding `{ audio: true }` since we only want video now
-            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-                video.srcObject = stream;
-                video.play();
-            });
-        }
-      }
-
-      Snapshot.prototype.capture = function(v, c, s, r){
-
-          this.context.drawImage(this.video, 0, 0, 405, 300);
-          this.dataUrl = this.canvas.toDataURL();
-
-          $(v).fadeOut(100);
-          $(c).fadeIn(100);
-          $(s).hide();
-          $(r).show();
-      };
-
-      Snapshot.prototype.save = function(loc, elem, id){
-       
-        var data = this.dataUrl;
-        $.ajax({
-          type: "POST",
-          url: loc,
-          data: { 
-             imgBase64: data
-          }
-        }).done(function(o) {
-           // console.log(o);
-          show_profile_pic(elem, id);
-        });
-      };
-
-      Snapshot.prototype.close = function(elem) {
-
-        this.video.pause();
-        this.video.src = '';
-        this.video.srcObject.getTracks()[0].stop();
-        $(elem).modal('hide');
-
-      };
-
-      Snapshot.prototype.reset = function(v, c, s, r){
-
-          $(v).fadeIn(100);
-          $(c).fadeOut(100);
-          $(s).show();
-          $(r).hide();
-      };
-
-      window.Snapshot = Snapshot;
-    
     });
+
+    function configure(){
+      Webcam.set({
+        width: 320,
+        height: 240,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+      });
+      Webcam.attach( '#my_camera' );
+    }
+
+
+    function take_snapshot() {
+      // play sound effect
+      // shutter.play();
+
+      // take snapshot and get image data
+      Webcam.snap( function(data_uri) {
+        // display results in page
+        document.getElementById('results').innerHTML = 
+          '<img id="imageprev" src="'+data_uri+'"/>';
+        document.getElementById('patient-photo').src = data_uri;
+      } );
+
+      Webcam.reset();
+    }
+
+    function saveSnap(){
+
+      var patient_id = $('#patient-patient-number').html();
+      var url = '<?php echo base_url(); ?>patients/save_photo/' + patient_id;
+
+      // Get base64 value from <img id='imageprev'> source
+      var base64image =  document.getElementById("imageprev").src;
+
+       Webcam.upload( base64image, url, function(code, text) {
+         console.log(text);
+         //console.log(text);
+            });
+
+        var modal = $('#modal-take-photo');
+        modal.modal('hide');
+
+    }
 
     function show_laboratory(element, id) {
 
@@ -1075,13 +1054,23 @@
 
     function show_profile_pic(elem, patient_id) {
 
-      var url = '<?php echo base_url().'patients/show_profile_picture' ?>';
-      var posting = $.post(url, {patient_id: patient_id} );
+      var url = '<?php echo base_url().'patients/show_profile_picture'; ?>/' + patient_id;
+      if( patient_id > 0 ){
+           $.get(url)
+            .done(function(data) { 
+              
+              if( data > 0 ){
+                $(elem).attr('src', '<?php echo base_url('assets/uploads/patients'); ?>/' + patient_id + '/profile.jpg');
+              }else{
+                $(elem).attr('src', '<?php echo base_url('assets/img'); ?>/avatar.png');
+              }
+            }).fail(function(data) { 
+               $(elem).attr('src', '<?php echo base_url('assets/img'); ?>/avatar.png');
+            });
 
-      posting.done(function(response){
-        // console.log(response);
-         $(elem).attr('src', response);
-      });
+            return false;
+      }
+      $(elem).attr('src', '<?php echo base_url('assets/img'); ?>/avatar.png');
     }
 
     function format_date(date) {

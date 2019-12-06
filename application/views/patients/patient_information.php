@@ -1,3 +1,13 @@
+<style type="text/css">
+  
+  .callout.callout-info {
+    color: #2e2e2e!important;
+    background-color: #FFF!important;
+  }
+
+
+</style>
+
  <div class="row">
   
   <div class="col-sm-12">

@@ -169,9 +169,7 @@
               <thead>
                 <tr>
                   <th>Patient Number</th>
-                  <th>Last Name</th>
-                  <th>First Name</th>
-                  <th>Middle Name</th>
+                  <th>Patient Name</th>
                   <th>Gender</th>
                   <th>Contact Number</th>
                 </tr>
@@ -180,9 +178,7 @@
                 <?php foreach ($patient_info as $key => $value) : ?>
                 <tr>
                   <td><?= $value->patient_id; ?></td>
-                  <td><?= ucwords($value->lastname); ?></td>
-                  <td><?= ucwords($value->firstname); ?></td>
-                  <td><?= ucwords($value->middlename); ?></td>
+                  <td><?= ucwords($value->lastname.', '.$value->firstname.' '.$value->middlename[0].'. '.$value->suffix); ?></td>
                   <td><?= ucwords($value->gender); ?></td>
                   <td><?= $value->contact_number; ?></td>
                 </tr>

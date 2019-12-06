@@ -33,13 +33,13 @@
 	
 			<div class="form-group">
 		      	<label>Price* :</label>
-		      	<input type="number" class="form-control input-sm" name="price" required>
+		      	<input type="text" class="form-control input-sm" name="price" required>
 		    </div>
 		</div>
 
 		<div class="col-sm-12 text-right">
 			<button type="button" class="btn btn-default btn-sm" id="btn-clear-product">Clear</button>
-			<button type="submit" class="btn btn-success btn-sm">Save Changes</button>
+			<button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
 		</div>
 
 		<?= form_close();?>

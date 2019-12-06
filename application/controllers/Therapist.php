@@ -10,7 +10,7 @@ class Therapist extends MY_Controller
 
 	public function retrieve() {
 
-		$therapist = $this->therapist_model->get_all(['status' => 'active', 'type' => 'facialist']);
+		$therapist = $this->therapist_model->get_all(['status' => 'active', 'type' => 'facialist', 'branch_id' => $this->session->branch_id]);
 
 		$data = array();
 
@@ -24,7 +24,6 @@ class Therapist extends MY_Controller
 		}
 
 		echo json_encode($data);
-
 	}
 	
 	public function create() {
@@ -43,10 +42,6 @@ class Therapist extends MY_Controller
 		}else{
 			echo $this->therapist_model->update($data, [$this->therapist_model->pk => $this->input->post($this->therapist_model->pk)]);
 		}
-
-
-		// echo $this->therapist_model->insert($data);
-		
 	}
 
 }

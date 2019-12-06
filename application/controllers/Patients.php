@@ -18,7 +18,7 @@ class Patients extends MY_Controller
 		foreach ($patient_info as $key => $value) {
 			$row = [];
 			
-			$fullName = $value->firstname.' '.$value->middlename[0].'. '.$value->lastname.' '.$value->suffix;
+			$fullName = $value->lastname.', '.$value->firstname.' '.$value->middlename[0].'. '.$value->suffix;
 			$row[] = ucwords($fullName);
 
 			foreach ($value as $key2 => $value2) {
@@ -224,24 +224,41 @@ class Patients extends MY_Controller
 	// ----------------------------------------------------------------------
 	public function save_photo($patient_id){
 
-		$fileName = 'profile';
-		$rawFile = $this->input->post('imgBase64');
-		$img = str_replace('data:image/png;base64,', '', $rawFile);
-		$encoded = base64_decode($img);
-		$file = FCPATH . 'assets/uploads/patients/'.$patient_id.'/'.$fileName.'.jpg';
-		$success = file_put_contents($file, $encoded);
-		echo $success;
+		$old = 'assets/uploads/patients/'.$patient_id.'/profile.jpg';
+		if( file_exists($old) ){
+			unlink($old);
+		}
+
+		$this->load->library('upload');
+		// // var_export($_FILES);
+		$path = 'assets/uploads/patients/'.$patient_id;
+		// // echo $path;
+		$config['upload_path'] = $path; 
+      	$config['allowed_types'] = 'jpg|jpeg|png|gif';
+      	$config['max_size'] = '5000';
+      	$config['file_name'] = 'profile';
+
+      	$this->upload->initialize($config);
+		$this->upload->do_upload('webcam');
+		// $fileName = 'profile';
+		// $rawFile = $this->input->post('imgBase64');
+		// $img = str_replace('data:image/png;base64,', '', $rawFile);
+		// $encoded = base64_decode($img);
+		// $file = FCPATH . 'assets/uploads/patients/'.$patient_id.'/'.$fileName.'.jpg';
+		// $success = file_put_contents($file, $encoded);
+		// echo $success;
 	}
 	
-	public function show_profile_picture(){
-		$patient_id = $this->input->post('patient_id');
+	public function show_profile_picture($patient_id){
+
 		$path = 'assets/uploads/patients/'.$patient_id.'/profile.jpg';
 
 		if( file_exists($path) ){
-			echo base_url().$path;
+			echo 1;
 		}else{
-			echo base_url().'assets/img/avatar.png';
+			echo 0;
 		}
+
 	}
 	public function patient_uploads($patient_id, $id, $type, $key) {
 		$this->load->library('upload');

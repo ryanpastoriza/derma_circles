@@ -111,6 +111,47 @@
 	            <div class="box-body">
 	            	
 	            	<div class="row">
+						
+						<div class="col-sm-4">
+							<div class="form-group">
+			                  <label>Therapist</label>
+			                  <select class="form-control" name="">
+			                			<option value="">Select</option>
+			                		<?php foreach ($therapist as $key => $value) : ?>
+			                			<option value="<?= $value->therapist_id; ?>"><?= ucwords($value->name); ?></option>
+			                		<?php endforeach; ?>
+			                	</select>
+			                </div>
+						</div>
+
+						<div class="col-sm-4">
+							<div class="form-group">
+			                  <label>Patient</label>
+			                  <input type="text" id="patient-name" list="patient-list" class="form-control" placeholder="Patient Name" required>
+			                	<datalist id="patient-list">
+			                		<?php foreach ($patients as $key => $value) : ?>
+			                			<option value="<?= ucwords($value->firstname.' '.$value->middlename[0].'. '.$value->lastname.' '.$value->suffix); ?>" data-id="<?= $value->patient_id; ?>">
+			                						
+			                			</option>	
+			                		<?php endforeach; ?>
+			                		
+			                	</datalist>
+			                </div>
+						</div>
+
+						<div class="col-sm-4">
+							<div class="form-group">
+			                  <label>Date</label>
+			                  <div class="input-group">
+				                  <button type="button" class="btn btn-default pull-right" id="daterange-services-btn">
+				                    <span>
+				                      <i class="fa fa-calendar"></i> Date range picker
+				                    </span>
+				                    <i class="fa fa-caret-down"></i>
+				                  </button>
+				                </div>
+			                </div>
+						</div>
 
 	            		<div class="col-sm-12">
 	            			<div id="service-transactions"></div>
@@ -256,6 +297,15 @@
 
       	});
 
+      	$(document).on('click', '#btn-clear-service', function(e){
+      		e.preventDefault();
+
+      		var form = $('#frm-add-service');
+			$('#service-id').val('');
+			form[0].reset();
+
+      	});
+
       	$(document).on('click', '#clear-service-package', function(e){
       		e.preventDefault();
 
@@ -265,6 +315,37 @@
 	        $('#id-price').val('');
 
       	});
+
+
+	    var start = moment();
+    	var end = moment();
+
+    	cb(start, end);
+
+	    function cb(start, end) {
+	    	if(start.format('DD/MM/YYYY') == '01/01/1970') {
+	            $('#daterange-services-btn span').html('All time');
+	        }else {
+	            $('#daterange-services-btn span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+	        }
+	        console.log(start.format('YYYY-MM-DD'));
+	    }
+
+	    $('#daterange-services-btn').daterangepicker(
+	      {
+	        ranges   : {
+	          'All time': [moment('1970-01-01'), moment()],
+	          'Today'       : [moment(), moment()],
+	          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+	          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+	          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+	          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+	          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+	        },
+	        startDate: start,
+	        endDate  : end
+	      }, cb
+	    )
 
 	});
 

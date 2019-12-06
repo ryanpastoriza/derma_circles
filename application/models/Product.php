@@ -16,7 +16,7 @@ class Product extends My_Model
 
 	public function get_products() {
 
-			$this->db->select('product.product_id,
+		$this->db->select('product.product_id,
 								product.product_name,
 								product_category.category_id,
 								product_category.category_name,
@@ -25,11 +25,17 @@ class Product extends My_Model
 							');
 		$this->db->from('product');
 		$this->db->join('product_category', 'product.category = product_category.category_id', 'inner');
+		$this->db->where(['is_active' => 0, 'deleted' => 0]);
 		$query = $this->db->get();
 
 		return $query->result();
 
+	}
 
+	public function get_products_by_stocks() {
+
+		
+		
 	}
 
 }

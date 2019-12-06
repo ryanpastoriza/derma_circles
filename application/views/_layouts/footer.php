@@ -24,6 +24,7 @@
 <script src="<?php echo base_url('assets'); ?>/js/notify.js"></script>
 <script src="<?php echo base_url('assets'); ?>/js/custom.js"></script>
 <script src="<?php echo base_url('assets/plugins'); ?>/x-editable/bootstrap-editable.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/plugins'); ?>/webcamjs/webcam.min.js"></script>
 <script>
   $(document).ready(function () {
     $('.sidebar-menu').tree()
