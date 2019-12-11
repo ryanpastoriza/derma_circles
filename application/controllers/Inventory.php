@@ -152,11 +152,19 @@ class Inventory extends MY_Controller
 	public function stock_transfer() {
 
 		$data['products'] = $this->product->get_products();
-		// $data['stock_list'] = $this->stock->get_stock_list();
+		$data['branch'] = $this->branch->get_all();
 
 		$this->load->view('_layouts/header', ['title' => 'DermaCircles - Inventory']);
-		$this->load->view('inventory/stocks/stock_transfer', $data);
+		$this->load->view('inventory/stock_transfer/stock_transfer', $data);
 		$this->load->view('_layouts/footer');
+	}
+
+	public function transfer_to() {
+
+				
+
+
+
 	}
 
 }

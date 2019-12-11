@@ -98,6 +98,7 @@
         var patient_id        = $('#patient-list').find('option[value="' + name + '"]').attr('data-id');
         var transaction_date  = $('#dt-transaction-date').val();
 
+        // console.log(transaction_date);
         show_billing_information(patient_id, transaction_date);
 
       });

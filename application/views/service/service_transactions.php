@@ -2,7 +2,7 @@
 <?php
 
 	// echo '<pre>';
-	// var_export($transactions);
+	// var_export($filters);
 	// echo '</pre>';
 	$num = 1;
 ?>
@@ -40,15 +40,11 @@
 
 <script type="text/javascript">
 	
-	// $(function(){
+	$(function(){
 
-	// 	var oTable = $('#tbl-service-transactions').DataTable({
-	// 		ordering: false,
-	// 		info:     false,
-	// 	});
+		// var stTable = $('#tbl-service-transactions').DataTable();
 
-
-	// });
+	});
 
 
 </script>

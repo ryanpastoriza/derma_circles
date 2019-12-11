@@ -50,11 +50,16 @@ class Service extends MY_Controller
 	}
 
 	public function get_service_transactions() {
-		// $patient, $therapist, $currdate
-		
-		$currDate = date('Y-m-d');
 
-		$data['transactions'] = $this->service_transaction->get_service_transactions($currDate);
+		$data['filters'] = array(
+			'facialist_id' => $this->input->post('data')[0]['facialist_id'] ,
+			'patient_id' => $this->input->post('data')[0]['patient_id'] ,
+			'date_from' => $this->input->post('data')[0]['date_from'] ,
+			'date_to' => $this->input->post('data')[0]['date_to']
+		);
+
+		$data['transactions'] = $this->service_transaction->filter_service_transactions($data['filters']);
+
 		$this->load->view('service/service_transactions', $data);
 	}
 

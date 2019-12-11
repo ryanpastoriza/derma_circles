@@ -20,13 +20,21 @@
           Patient Name: <span id=""><?= ucwords($patient->firstname.' '.$patient->middlename[0].'. '.$patient->lastname.' '.$patient->suffix); ?></span>
         </div>
         <div class="col-sm-6">
-        <!--   Status: <span class="label bg-red" id="">unpaid</span> -->
+          Status: <span class="label bg-red" id="">unpaid</span>
         </div>
       </div>
    
       <div class="col-sm-12 spacer-sm">
         <div class="col-sm-6">
-          Billing Date: <?php echo date('F d, Y').' - '.date('g:i a');?>
+          Billing Date: <?php 
+
+            if( isset($check) && count($check) > 0 ){
+              echo date('F d, Y', strtotime($check[0]->date_created));
+            }
+
+            
+
+          ?>
         </div>
         <div class="col-sm-6">
           Mode of Payment: Cash
@@ -40,7 +48,7 @@
       </div>
      -->
 
-      <div class="col-sm-12 spacer-lg">
+  <!--     <div class="col-sm-12 spacer-lg">
         <div class="col-sm-4">
           <div class="form-group">
             <label for="">Particulars</label>
@@ -76,9 +84,9 @@
             <input type="text" class="form-control">
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div class="col-sm-12">
+      <div class="col-sm-12 spacer-lg">
         <div class="col-sm-12">
           <table class="table table-bordered table-condensed">
             <thead>

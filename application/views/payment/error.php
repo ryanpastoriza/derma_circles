@@ -2,8 +2,8 @@
 
   <div class="box-body">
       
-     <h1>Patient not found</h1>
-    
+     <h1>No Transaction</h1>
+    	
   </div>
   
 </div>

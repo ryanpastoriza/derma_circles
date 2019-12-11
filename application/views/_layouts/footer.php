@@ -14,6 +14,7 @@
 <script src="<?php echo base_url('assets/plugins'); ?>/adminlte/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url('assets/plugins'); ?>/adminlte/js/demo.js"></script>
+
 <!-- fullCalendar -->
 <script src="<?php echo base_url('assets/plugins'); ?>/moment/moment.js"></script>
 <script src="<?php echo base_url('assets/plugins'); ?>/fullcalendar/dist/fullcalendar.min.js"></script>

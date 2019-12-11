@@ -19,26 +19,44 @@ class Payment extends MY_Controller
 
 	public function billing_information($patient_id, $transaction_date) {
 
-		$check = $this->billing_service_transaction->check_billing($patient_id, $transaction_date);
+		$data['check'] = $this->billing_service_transaction->check_billing_by_date($patient_id, $transaction_date);
 
 		$data['patient'] = $this->patient_information->get(['patient_id' => $patient_id]);
 		$data['billing'] = array();
 
-		if( count($check) > 0 ){
-			foreach ($check as $key => $value) {
-				$data['billing'][] = $this->service_transaction->get_transaction_by_id($value->transaction_id);
-			}
-		}
-
 		// echo '<pre>';
-		// var_export($data['patient']);
+		// var_export($data['check']);
 		// echo '</pre>';
 
-		if( $data['patient'] ){
-			$this->load->view('payment/billing_information', $data);	
+		if( count($data['check']) > 0 ){
+
+			if( $data['check'][0]->status == 'paid' ){
+
+				foreach ($data['check'] as $key => $value) {
+					$data['billing'][] = $this->service_transaction->get_transaction_by_id($value->transaction_id);
+				}
+
+				$this->load->view('payment/billing_information_paid', $data);	
+
+			}else{
+				foreach ($data['check'] as $key => $value) {
+					$data['billing'][] = $this->service_transaction->get_transaction_by_id($value->transaction_id);
+				}
+
+				if( $data['patient'] ){
+					$this->load->view('payment/billing_information', $data);	
+				}else{
+					$this->load->view('payment/error', $data);	
+				}
+
+			}
 		}else{
+			
 			$this->load->view('payment/error', $data);	
+			
 		}
+
+		
 		
 	}
 

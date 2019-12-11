@@ -44,7 +44,7 @@
 			                	<input type="text" id="patient-name" list="patient-list" class="form-control" placeholder="Patient Name" required>
 			                	<datalist id="patient-list">
 			                		<?php foreach ($patients as $key => $value) : ?>
-			                			<option value="<?= ucwords($value->firstname.' '.$value->middlename[0].'. '.$value->lastname.' '.$value->suffix); ?>" data-id="<?= $value->patient_id; ?>">
+			                			<option value="<?= ucwords($value->lastname.', '.$value->firstname.' '.$value->middlename[0].'. '.$value->suffix); ?>" data-id="<?= $value->patient_id; ?>">
 			                						
 			                			</option>	
 			                		<?php endforeach; ?>
@@ -75,7 +75,7 @@
 
 							<div class="form-group">
 			                	
-			                	<label for="">Therapist:</label>
+			                	<label for="">Facialist:</label>
 			                	<select class="form-control" id="therapist" name="therapist_id" required>
 			                			<option value="">Select</option>
 			                		<?php foreach ($therapist as $key => $value) : ?>
@@ -114,8 +114,8 @@
 						
 						<div class="col-sm-4">
 							<div class="form-group">
-			                  <label>Therapist</label>
-			                  <select class="form-control" name="">
+			                  <label>Facialist</label>
+			                  <select class="form-control" name="" id="filter-facialist">
 			                			<option value="">Select</option>
 			                		<?php foreach ($therapist as $key => $value) : ?>
 			                			<option value="<?= $value->therapist_id; ?>"><?= ucwords($value->name); ?></option>
@@ -127,7 +127,7 @@
 						<div class="col-sm-4">
 							<div class="form-group">
 			                  <label>Patient</label>
-			                  <input type="text" id="patient-name" list="patient-list" class="form-control" placeholder="Patient Name" required>
+			                  <input type="text" id="filter-patient-name" list="patient-list" class="form-control" placeholder="Patient Name" required>
 			                	<datalist id="patient-list">
 			                		<?php foreach ($patients as $key => $value) : ?>
 			                			<option value="<?= ucwords($value->firstname.' '.$value->middlename[0].'. '.$value->lastname.' '.$value->suffix); ?>" data-id="<?= $value->patient_id; ?>">
@@ -230,17 +230,13 @@
 	
 	$(function(){
 
-		// var stTable = $('#tbl-service-transactions').DataTable({
-		// 	 ajax: { "url" : "<?php //echo base_url(); ?>patients/patient_list" },
-		// });
-		call_service_transactions();
+		// call_service_transactions(null, null, null);
 
 		$(document).on('click', '#select-package', function(e){
 			e.preventDefault();
 
 			var modal = $('#modal-select-package');
 			modal.modal('show');
-
 		});
 
 		var oTable = $('#tbl-select-package').DataTable();
@@ -260,7 +256,6 @@
 
 	        var modal = $('#modal-select-package');
 			modal.modal('hide');
-
       	});
 
       	$(document).on('submit', '#frm-add-service', function(e){
@@ -268,6 +263,8 @@
 
       		var name 		= $('#patient-name').val();
       		var patient_id 	= $('#patient-list').find('option[value="' + name + '"]').attr('data-id');
+
+      		console.log(patient_id);
 
       		var service_id  = $('#service-id').val();
 
@@ -281,7 +278,6 @@
       			return false;	
       		}
 
-
       		var form 		= $(this);
       		var data 		= form.serializeArray();
       		data.push({ name: 'patient_id', value : patient_id });
@@ -292,9 +288,8 @@
       					console.log(response);
       					$('#service-id').val('');
       					form[0].reset();
-      					call_service_transactions();
+      					call_service_transactions('','', start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
       				});
-
       	});
 
       	$(document).on('click', '#btn-clear-service', function(e){
@@ -303,7 +298,6 @@
       		var form = $('#frm-add-service');
 			$('#service-id').val('');
 			form[0].reset();
-
       	});
 
       	$(document).on('click', '#clear-service-package', function(e){
@@ -312,9 +306,45 @@
       		$('#service-id').val('');
 	        $('#id-package').val('');
 	        $('#id-service').val('');
-	        $('#id-price').val('');
-
+	        $('#id-price').val('');	
       	});
+
+      	var sTable = $('#tbl-service-transactions').DataTable();
+
+      	$(document).on('change', '#filter-patient-name', function () {
+
+
+		    var facialist_id = $('#filter-facialist').val();
+
+      		var name 		= this.value
+      		var patient_id;
+
+      		if( name == '' || name.length <= 0 ){
+      			patient_id = '';
+      		}else{
+      			patient_id 	= $('#patient-list').find('option[value="' + name + '"]').attr('data-id');
+      		}
+
+      		call_service_transactions(facialist_id, patient_id, start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+
+		   
+		});
+
+      	$(document).on('change', '#filter-facialist', function(){
+
+      		var facialist_id = $(this).val();
+
+      		var name 		= $('#filter-patient-name').val();
+      		var patient_id;
+
+      		if( name == '' || name.length <= 0 ){
+      			patient_id = '';
+      		}else{
+      			patient_id 	= $('#patient-list').find('option[value="' + name + '"]').attr('data-id');
+      		}
+
+      		call_service_transactions(facialist_id, patient_id, start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+      	});	
 
 
 	    var start = moment();
@@ -322,13 +352,28 @@
 
     	cb(start, end);
 
-	    function cb(start, end) {
-	    	if(start.format('DD/MM/YYYY') == '01/01/1970') {
+	    function cb(startDate, endDate) {
+	    	if(startDate.format('DD/MM/YYYY') == '01/01/1970') {
 	            $('#daterange-services-btn span').html('All time');
 	        }else {
-	            $('#daterange-services-btn span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+	            $('#daterange-services-btn span').html(startDate.format('MMM D, YYYY') + ' - ' + endDate.format('MMM D, YYYY'));
 	        }
-	        console.log(start.format('YYYY-MM-DD'));
+
+	        var facialist_id = $('#filter-facialist').val();
+
+      		var name 		= $('#filter-patient-name').val();
+      		var patient_id;
+
+      		if( name == '' || name.length <= 0 ){
+      			patient_id = '';
+      		}else{
+      			patient_id 	= $('#patient-list').find('option[value="' + name + '"]').attr('data-id');
+      		}
+
+      		start = startDate;
+      		end = endDate;
+
+	        call_service_transactions(facialist_id, patient_id, start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
 	    }
 
 	    $('#daterange-services-btn').daterangepicker(
@@ -350,13 +395,22 @@
 	});
 
 
-	function call_service_transactions() {
+	function call_service_transactions(facialist_id, patient_id, date_from, date_to) {
 
+		var data = [];
+
+		if( patient_id == undefined ){
+			patient_id = '';
+		}
+
+		data.push({ 'facialist_id' : facialist_id, 'patient_id' : patient_id, 'date_from' : date_from, 'date_to' : date_to });
+
+		// console.log(data);
 		$('#service-transactions').html('');
 		var url = '<?php echo base_url('service/get_service_transactions'); ?>'
-		var posting = $.post(url);
+		var posting = $.post(url, { data: data });
 			posting.done(function(response){
-				$('#service-transactions').html(response);		
+				$('#service-transactions').html(response);
 			});
 	}
 
